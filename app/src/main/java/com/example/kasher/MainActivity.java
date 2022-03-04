@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected String doInBackground(String... strings) {
-
 /*
             ArrayList<String> urls=new ArrayList<String>();
             try {
