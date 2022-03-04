@@ -102,6 +102,7 @@ public class FundsPage extends AppCompatActivity {
 
 
 
+
         pr.getActualFunds().observe(this, new Observer<List<FundsForList>>() {
             @Override
             public void onChanged(List<FundsForList> funds) {
