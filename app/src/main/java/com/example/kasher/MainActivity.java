@@ -48,14 +48,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-/*
-        DatabaseFiller.fillPrivileges(this);
-        DatabaseFiller.fillUsers(this);
-        DatabaseFiller.fillAccounts(this);
-*/
 
      //   MainActivity.this.deleteDatabase("kasherD");
-
 
 
 /*
@@ -114,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
 /*
             ArrayList<String> urls=new ArrayList<String>();
             try {
-
-
-
                 urlc = new URL("http://192.168.1.2/access.php");
                 HttpURLConnection conn = (HttpURLConnection) urlc.openConnection();
                 conn.setRequestMethod("POST");
