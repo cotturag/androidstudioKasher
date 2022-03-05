@@ -14,19 +14,20 @@ public class Funds {
     private int activity;
     private String inactivity;
     private String name;
-    private int pickedup;
-    private int parent;
+    private String otherOwner;
+    private int hookedTo;
 
     public Funds(){}
-    public Funds(String money,String owner,String type,int activity,String inactivity,String name,int pickedup,int parent){
+    public Funds(String money,String owner,String type,int activity,String inactivity,String name,String otherOwner,int hookedTo){
         this.money=money;
         this.owner=owner;
         this.type=type;
         this.activity=activity;
         this.inactivity=inactivity;
         this.name=name;
-        this.pickedup=pickedup;
-        this.parent=parent;
+        this.otherOwner = otherOwner;
+        this.hookedTo=hookedTo;
+
     }
 
     public void setId(int id){this.id=id;}
@@ -36,8 +37,9 @@ public class Funds {
     public void setActivity(int activity){this.activity=activity;}
     public void setInactivity(String inactivity){this.inactivity=inactivity;}
     public void setName(String name){this.name=name;}
-    public void setPickedup(int pickedup){this.pickedup=pickedup;}
-    public void setParent(int parent){this.parent=parent;}
+    public void setOtherOwner(String otherOwner){this.otherOwner = otherOwner;}
+    public void setHookedTo(int hookedTo){this.hookedTo=hookedTo;}
+
 
     public int getId(){return this.id;}
     public String getMoney(){return this.money;}
@@ -46,8 +48,8 @@ public class Funds {
     public int getActivity(){return this.activity;}
     public String getInactivity(){return this.inactivity;}
     public String getName(){return  this.name;}
-    public int getPickedup(){return this.pickedup;}
-    public int getParent(){return this.parent;}
+    public String getOtherOwner(){return this.otherOwner;}
+    public int getHookedTo(){return  this.hookedTo;}
 
 
 }

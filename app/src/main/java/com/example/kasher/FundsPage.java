@@ -33,21 +33,16 @@ public class FundsPage extends AppCompatActivity {
 
 
 
-/*
-        Funds fund1=new Funds("0","cotturag@gmail.com","1",1,"0","Otp",0,0);
-        Funds fund2=new Funds("0","cotturag@gmail.com","3",1,"0","OTP",1,0);
-        Funds fund3=new Funds("0","cotturag@gmail.com","2",1,"0","Unicredit",0,0);
-        Funds fund4=new Funds("0","cotturag@gmail.com","4",1,"0","UNICREDIT",1,3);
-        Funds fund5=new Funds("0","fuldugo@fuldugo.hu","5",1,"0","fizikai gyermekszámla",0,0);
-        Funds fund6=new Funds("0","fuldugo@fuldugo.hu","6",1,"0","virtuális gyermekszámla",1,5);
-        Funds fund7=new Funds("0","cotturag@gmail.com","A",1,"0","benzin",0,0);
-        Funds fund8=new Funds("0","cotturag@gmail.com","A",1,"0","rezsi",0,0);
-        Funds fund9=new Funds("0","cotturag@gmail.com","B",1,"0","közös rezsi",0,0);
-        Funds fund10=new Funds("0","kissmartina0821@gmail.com","1",1,"0","Otp",0,0);
-        Funds fund11=new Funds("0","kissmartina0821@gmail.com","3",1,"0","OTP",1,10);
-        Funds fund12=new Funds("0","kissmartina0821@gmail.com","4",1,"0","UNICREDIT",1,3);
-        Funds fund13=new Funds("0","kissmartina0821@gmail.com","A",1,"0","rezsi",0,0);
-        Funds fund14=new Funds("0","kissmartina0821@gmail.com","B",1,"0","közös rezsi",0,0);
+
+        Funds fund1=new Funds("0","cotturag@gmail.com","1",1,"0","Otp","",0);
+        Funds fund2=new Funds("0","cotturag@gmail.com","2",1,"0","Unicredit","cotturag@gmail.com",0);
+        Funds fund3=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","gyerekszámla","",0);
+        Funds fund4=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","másik gyerekszámla","cotturag@gmail.com",0);
+        Funds fund5=new Funds("0","cotturag@gmail.com","A",1,"0","benzin","",0);
+        Funds fund6=new Funds("0","cotturag@gmail.com","B",1,"0","közös áram","cotturag@gmail.com",0);
+        Funds fund7=new Funds("0","cotturag@gmail.com","B",1,"0","közös áram","kissmartina0821@gmail.com",6);
+        Funds fund8=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","csoki","kissmartina0821@gmail.com",0);
+        Funds fund9=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","csoki","cotturag@gmail.com",8);
 
         pr.createNew(fund1);
         pr.createNew(fund2);
@@ -58,21 +53,26 @@ public class FundsPage extends AppCompatActivity {
         pr.createNew(fund7);
         pr.createNew(fund8);
         pr.createNew(fund9);
+
+        /*Funds fund10=new Funds("0","kissmartina0821@gmail.com","1",1,"0","Otp",0,0);
+        Funds fund11=new Funds("0","kissmartina0821@gmail.com","3",1,"0","OTP",1,10);
+        Funds fund12=new Funds("0","kissmartina0821@gmail.com","4",1,"0","UNICREDIT",1,3);
+        Funds fund13=new Funds("0","kissmartina0821@gmail.com","A",1,"0","rezsi",0,0);
+        Funds fund14=new Funds("0","kissmartina0821@gmail.com","B",1,"0","közös rezsi",0,0);
+
         pr.createNew(fund10);
         pr.createNew(fund11);
         pr.createNew(fund12);
         pr.createNew(fund13);
         pr.createNew(fund14);
+*/
 
-
-        Privileges p1=new Privileges("1","fizikai privát számla","CDR","","");
-        Privileges p2=new Privileges("2","fizikai közös számla","CDR","","");
-        Privileges p3=new Privileges("3","virtuális privát számla","CDRGP","CDRGP","");
-        Privileges p4=new Privileges("4","virtuális közös számla","CDRGP","GP","");
-        Privileges p5=new Privileges("5","fizikai felügyelt számla","CDR","","");
-        Privileges p6=new Privileges("6","virtuális felügyelt számla","CDRGP","","G");
-        Privileges p7=new Privileges("A","privát kiadási kategória","CDRGP","CDRGP","G");
-        Privileges p8=new Privileges("B","közös kiadási kategória","CDRGP","GP","");
+        Privileges p1=new Privileges("1","privát számla","W","X","");
+        Privileges p2=new Privileges("2","közös számla","W","RX","");
+        Privileges p3=new Privileges("3","gyermek számla","W","R","X");
+        Privileges p4=new Privileges("A","privát kiadási kategória","W","X","");
+        Privileges p5=new Privileges("B","közös kiadási kategória","W","RX","");
+        Privileges p6=new Privileges("C","gyermek kiadási kategória","W","R","X");
 
         usersAndPrivilegesViewM.createNewPrivileges(p1);
         usersAndPrivilegesViewM.createNewPrivileges(p2);
@@ -80,8 +80,7 @@ public class FundsPage extends AppCompatActivity {
         usersAndPrivilegesViewM.createNewPrivileges(p4);
         usersAndPrivilegesViewM.createNewPrivileges(p5);
         usersAndPrivilegesViewM.createNewPrivileges(p6);
-        usersAndPrivilegesViewM.createNewPrivileges(p7);
-        usersAndPrivilegesViewM.createNewPrivileges(p8);
+
 
         Users u1 = new Users("cotturag@gmail.com","cotturag@gmail.com","Szuklics Gellért","A");
         Users u2 = new Users("kissmartina0821@gmail.com","cotturag@gmail.com","Kiss Martina","P");
@@ -90,10 +89,10 @@ public class FundsPage extends AppCompatActivity {
         usersAndPrivilegesViewM.createNewUsers(u1);
         usersAndPrivilegesViewM.createNewUsers(u2);
         usersAndPrivilegesViewM.createNewUsers(u3);
-*/
-      /*  Transactions trans= new Transactions(1,"1","1",1,1,1,"1",1);
+
+        Transactions trans= new Transactions(1,"1","1",1,1,1,"1",1);
         transactionsViewM.createNew(trans);
-*/
+
 
 
 
