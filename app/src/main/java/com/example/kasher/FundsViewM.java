@@ -5,17 +5,25 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FundsViewM extends AndroidViewModel {
     private FundsRepo repo;
-   // private static String loggedUser="fuldugo@fuldugo.hu";
-    private static String loggedUser="cotturag@gmail.com";
-    private String owner;
-    //private static String loggedUser="kissmartina0821@gmail.com";
 
+
+
+
+
+    private String owner;
+    private static String loggedUser;
+
+
+
+    public String getOwner() {return this.owner;}
+    public void setOwner(String owner) {this.owner = owner;}
     public static String getLoggedUser() {
         return loggedUser;
     }
@@ -26,7 +34,10 @@ public class FundsViewM extends AndroidViewModel {
     private LiveData<List<FundsForList>> actualFunds;
     public FundsViewM(@NonNull Application app){
         super(app);
-        this.owner=this.loggedUser;
+    }
+    public void setRepo(@NonNull Application app,String owner){
+        this.owner=owner;
+        loggedUser=this.owner;
         repo= new FundsRepo(app,this.owner);
         actualFunds= repo.getActualFunds();
     }
@@ -55,4 +66,6 @@ public class FundsViewM extends AndroidViewModel {
     public LiveData<List<FundsForList>> getActualFunds() {
         return this.actualFunds;
     }
+
+
 }

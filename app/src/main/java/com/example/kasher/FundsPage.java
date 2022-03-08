@@ -1,7 +1,7 @@
 package com.example.kasher;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,19 @@ import java.util.List;
 
 public class FundsPage extends AppCompatActivity {
     private RecyclerView fundsRec;
-    TextView fundsPageLabel;
+    //private String loggedUser="cotturag@gmail.com";
+    //private String loggedUser="kissmartina0821@gmail.com";
+    private String loggedUser="fuldugo@fuldugo.hu";
+    static TextView fundsPageLabel;
+    Button fetch;
+    String usr;
+    static FundsViewM pr;
+    public static void setFundsByPrivilege(String privileges){
+        //pr.setOnlyPrivateFundsQuery();
+        fundsPageLabel.setText(privileges);
+        if (privileges.equals("C")) pr.setOnlyPrivateFundsQuery();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +36,48 @@ public class FundsPage extends AppCompatActivity {
         fundsRec.setHasFixedSize(true);
         FundsListAdapter adapter = new FundsListAdapter();
         fundsRec.setAdapter(adapter);
+        fundsPageLabel=findViewById(R.id.fundspagelabel);
+        fetch=findViewById(R.id.fetch);
 
 
 
-        FundsViewM pr = new ViewModelProvider(this).get(FundsViewM.class);
-        UsersAndPrivilegesViewM usersAndPrivilegesViewM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
+
+
+
+        pr = new ViewModelProvider(this).get(FundsViewM.class);
+        pr.setRepo(getApplication(),loggedUser);
+
+        UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
+
+
+        uAndPVM.getPrivilegesByOwnerAndSetFunds(loggedUser);
+        /*while (uAndPVM.getPrivilegesByOwnerResult()==null){
+            fundsPageLabel.setText("dolgozik");
+        }
+        String privilege= uAndPVM.getPrivilegesByOwnerResult();
+        fundsPageLabel.setText(privilege);
+
+        fetch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String privilege= uAndPVM.getPrivilegesByOwnerResult();
+                fundsPageLabel.setText(privilege);
+            }
+        });
+*/
+
+      /*  fundsPageLabel.setText(uAndPVM.getPrivilegesByOwner(loggedUser));
+        fetch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fundsPageLabel.setText(uAndPVM.getPrivilegesByOwner(loggedUser));
+            }
+        });
+*/
+
+
+//        if (usersAndPrivilegesViewM.getPrivilegesByOwner(this.loggedUser).equals("C")) pr.setOnlyPrivateFundsQuery();
+
         TransactionsViewM transactionsViewM = new ViewModelProvider(this).get(TransactionsViewM.class);
 /*
 
@@ -89,7 +138,8 @@ public class FundsPage extends AppCompatActivity {
 
         
 
-        //pr.setOnlyPrivateFundsQuery();
+
+
         pr.getActualFunds().observe(this, new Observer<List<FundsForList>>() {
             @Override
             public void onChanged(List<FundsForList> funds) {

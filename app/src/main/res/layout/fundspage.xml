@@ -6,10 +6,23 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fundspagelabel"
+        android:text="fundspage"
+
+        ></TextView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fetch"
+        android:layout_marginTop="50dp"
+        ></Button>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fundsrec"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" android:layout_marginTop="100dp"/>
 
 
 </RelativeLayout>

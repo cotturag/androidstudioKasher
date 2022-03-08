@@ -12,6 +12,8 @@ import java.util.List;
 public interface UsersDao {
     @Query("SELECT * FROM users")
     LiveData<List<Users>> getAll();
+    @Query("SELECT * FROM users WHERE id=:owner")
+    public List<Users> getPrivilegeByOwner(String owner);
 
 
     @Insert

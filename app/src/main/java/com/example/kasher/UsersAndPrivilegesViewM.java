@@ -28,5 +28,18 @@ public class UsersAndPrivilegesViewM extends AndroidViewModel {
     }
     public LiveData<List<Users>> getUsers(){return this.users;}
 
+    public void getPrivilegesByOwnerAndSetFunds(String owner){
+        repo.getPrivilegeByOwner(owner);
+        //return repo.getPrivilegeByOwner(owner);
+    }
+    public String getPrivilegesByOwnerResult(){
+        return repo.getPrivilegeByOwnerResult();
+    }
+    /*
+    public List<Users> getPrivilegesByOwner(String owner){
+        return repo.getPrivilegeByOwner(owner);
+    }
 
+
+ */
 }
