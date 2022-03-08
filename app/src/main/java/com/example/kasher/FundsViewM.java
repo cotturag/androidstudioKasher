@@ -11,26 +11,27 @@ import java.util.List;
 
 public class FundsViewM extends AndroidViewModel {
     private FundsRepo repo;
+   // private static String loggedUser="fuldugo@fuldugo.hu";
+    private static String loggedUser="cotturag@gmail.com";
+    private String owner;
+    //private static String loggedUser="kissmartina0821@gmail.com";
+
+    public static String getLoggedUser() {
+        return loggedUser;
+    }
+    public void setLoggedUser(String user){
+        this.loggedUser=user;
+    }
 
     private LiveData<List<FundsForList>> actualFunds;
     public FundsViewM(@NonNull Application app){
         super(app);
-        List<String> owners = new ArrayList<String>();
-        owners.add("cotturag@gmail.com");
-        owners.add("kissmartina0821@gmail.com");
-        owners.add("fuldugo@fuldugo.hu");
-
-        List<String> types = new ArrayList<String>();
-        types.add("1");
-        types.add("2");
-        types.add("3");
-        types.add("4");
-        types.add("5");
-        types.add("6");
-        types.add("A");
-        types.add("B");
-        repo= new FundsRepo(app,owners,types);
+        this.owner=this.loggedUser;
+        repo= new FundsRepo(app,this.owner);
         actualFunds= repo.getActualFunds();
+    }
+    public void setOnlyPrivateFundsQuery(){
+        this.actualFunds= repo.getActualPrivateFundsOnly(this.owner);
     }
     public void createNew(Funds fund){
         repo.insert(fund);

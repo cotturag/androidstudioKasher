@@ -12,13 +12,16 @@ public class FundsRepo {
 
     private LiveData<List<FundsForList>> actualFunds;
 
-    public FundsRepo(Application app, List<String> owners, List<String> types){
+    public FundsRepo(Application app, String owner){
         AppDatabase db = AppDatabase.getInstance(app);
         dao=db.fundsDao();
-        actualFunds= dao.getAll(owners,types);
+        actualFunds= dao.getAll(owner);
     }
     public LiveData<List<FundsForList>> getActualFunds(){
         return this.actualFunds;
+    }
+    public LiveData<List<FundsForList>> getActualPrivateFundsOnly(String owner){
+        return dao.getPrivates(owner);
     }
 
     public void insert(Funds fund){

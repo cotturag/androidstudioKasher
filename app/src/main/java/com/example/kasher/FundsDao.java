@@ -1,7 +1,6 @@
 package com.example.kasher;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -16,12 +15,33 @@ public interface FundsDao {
     LiveData<List<Funds>> getAll(List<String> owners,List<String> types);
   */
 
-    @Query("SELECT id,money,owner,funds.type,activity,inactivity,funds.name,pickedup,funds.parent," +
+    String querySelectFrom ="" +
+            "SELECT id,money,owner,otherowner,funds.type,activity,inactivity,funds.name," +
             "privileges.type AS typeInPrivileges," +
-            "privileges.name AS nameInPrivileges" +
-            " FROM funds,privileges" +
-            " WHERE owner IN (:owners) AND funds.type IN (:types) AND funds.type=privileges.type")
-    LiveData<List<FundsForList>> getAll(List<String> owners,List<String> types);
+            "privileges.name AS nameInPrivileges," +
+            "hookedTo " +
+            "FROM funds,privileges ";
+    String queryPrivateFunds="WHERE owner= :owner" +
+            " AND (funds.type='1' OR funds.type='A')" +
+            " AND funds.type=privileges.type";
+    String unionAll=" UNION ALL ";
+    String queryPublicFunds="WHERE hookedTo=0" +
+            " AND (funds.type='2'" +
+            " OR funds.type='3'" +
+            " OR funds.type='B'" +
+            " OR funds.type='C')" +
+            " AND funds.type=privileges.type";
+    @Query(querySelectFrom +
+            queryPrivateFunds +
+            unionAll+
+            querySelectFrom +
+            queryPublicFunds)
+    LiveData<List<FundsForList>> getAll(String owner);
+
+    @Query(querySelectFrom+queryPrivateFunds)
+    LiveData<List<FundsForList>> getPrivates(String owner);
+
+
 
 
 

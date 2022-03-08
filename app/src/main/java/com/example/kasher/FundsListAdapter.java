@@ -54,26 +54,20 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         holder.hidden.setText(String.valueOf(fund.getId()));
         holder.money.setText(fund.getMoney());
         holder.hidden.setVisibility(View.INVISIBLE);
-        if (fund.getPickedup()==1) holder.pick.setText("leadás");
-        if (fund.getPickedup()==0) holder.pick.setText("felvétel");
-        if (fund.getType().equals("1")
-                ||fund.getType().equals("2")
-                ||fund.getType().equals("5")
-                ||fund.getType().equals("A")
-                ||fund.getType().equals("B")) {
-            holder.pick.setVisibility(View.INVISIBLE);
-        }
-        else {
-            holder.pick.setVisibility(View.VISIBLE);
-        }
-        if ((fund.getType().equals("1"))
-                ||(fund.getType().equals("2"))
-                ||(fund.getType().equals("5"))){
-            holder.createVirtual.setVisibility(View.VISIBLE);
-        }
-        else {
-            holder.createVirtual.setVisibility(View.INVISIBLE);
-        }
+        holder.owner.setText(fund.getOwner());
+        holder.otherOwner.setText(fund.getOtherOwner());
+
+
+
+        String loggedUser=FundsViewM.getLoggedUser();
+        if (fund.getType().equals("1")||fund.getType().equals("A")) holder.pick.setVisibility(View.INVISIBLE);
+        else holder.pick.setVisibility(View.VISIBLE);
+
+
+        holder.pick.setText("felvétel a sajátok közé");
+        if (fund.getOtherOwner().equals(loggedUser)) holder.pick.setText("leadás a sajátokból");
+
+        //else holder.pick.setVisibility(View.INVISIBLE);
 
 
 
@@ -84,21 +78,28 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView name;
-        public TextView type;
         public TextView hidden;
         public TextView money;
+        public TextView type;
+        public TextView name;
+        public TextView owner;
+        public TextView otherOwner;
+
         public Button pick;
         public Button createVirtual;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            name = itemView.findViewById(R.id.name);
-            type = itemView.findViewById(R.id.type);
             hidden=itemView.findViewById(R.id.hidden);
-            pick= itemView.findViewById(R.id.pick);
-            createVirtual=itemView.findViewById(R.id.createvirtual);
             money=itemView.findViewById(R.id.money);
+            type = itemView.findViewById(R.id.type);
+            name = itemView.findViewById(R.id.name);
+            owner=itemView.findViewById(R.id.owner);
+            otherOwner=itemView.findViewById(R.id.otherowner);
+
+            pick= itemView.findViewById(R.id.pick);
+
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

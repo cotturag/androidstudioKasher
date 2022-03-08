@@ -49,27 +49,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-     //   MainActivity.this.deleteDatabase("kasherD");
+      //  MainActivity.this.deleteDatabase("kasherD");
 
 
-/*
-        fundsRec = findViewById(R.id.fundmainrec);
-        fundsRec.setLayoutManager(new LinearLayoutManager(this));
-        fundsRec.setHasFixedSize(true);
-        FundsListAdapter adapter = new FundsListAdapter();
-        fundsRec.setAdapter(adapter);
-
-        FundsViewM fundsViewM = new ViewModelProvider(this).get(FundsViewM.class);
-
-        fundsViewM.getActualFunds().observe(this, new Observer<List<Funds>>() {
-            @Override
-            public void onChanged(List<Funds> funds) {
-                adapter.submitList(funds);
-            }
-        });
-
-
-*/
         listvre=findViewById(R.id.szamlak);
         listvre.setOnClickListener(new View.OnClickListener() {
             @Override
