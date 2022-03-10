@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class UsersAndPrivilegesViewM extends AndroidViewModel {
     private UsersAndPrivilegesRepo repo;
@@ -28,18 +29,8 @@ public class UsersAndPrivilegesViewM extends AndroidViewModel {
     }
     public LiveData<List<Users>> getUsers(){return this.users;}
 
-    public void getPrivilegesByOwnerAndSetFunds(String owner){
-        repo.getPrivilegeByOwner(owner);
-        //return repo.getPrivilegeByOwner(owner);
-    }
-    public String getPrivilegesByOwnerResult(){
-        return repo.getPrivilegeByOwnerResult();
-    }
-    /*
-    public List<Users> getPrivilegesByOwner(String owner){
+    public Users getPrivilegesByOwner(String owner) throws ExecutionException, InterruptedException {
         return repo.getPrivilegeByOwner(owner);
     }
 
-
- */
 }

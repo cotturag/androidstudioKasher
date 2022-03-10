@@ -3,8 +3,11 @@ package com.example.kasher;
 import androidx.lifecycle.LiveData;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 
@@ -47,12 +50,14 @@ public interface FundsDao {
 
 
 
-    @Insert
-    void insert(Funds fund);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public ListenableFuture<Long> insert(Funds fund);
+
     @Update
-    void update(Funds fund);
+    public ListenableFuture<Integer> update(Funds fund);
+
     @Delete
-    void delete(Funds fund);
+    public ListenableFuture<Integer> delete(Funds fund);
 
 
 

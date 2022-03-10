@@ -6,13 +6,14 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class UsersAndPrivilegesRepo {
     private PrivilegesDao privilegesDao;
     private UsersDao usersDao;
     private LiveData<List<Privileges>> privileges;
     private LiveData<List<Users>> users;
-    private static String privilegeByOwner;
+
 
 
     UsersAndPrivilegesRepo(Application app) {
@@ -23,27 +24,14 @@ public class UsersAndPrivilegesRepo {
         users=usersDao.getAll();
     }
 
-    public static void setPrivilegeByOwner(String privilege){
-        privilegeByOwner=privilege;
+    public Users getPrivilegeByOwner(String owner) throws ExecutionException, InterruptedException {
+        return usersDao.getPrivilegeByOwner(owner).get();
     }
 
     public LiveData<List<Privileges>> getPrivileges(){return this.privileges;}
     public LiveData<List<Users>> getUsers(){return this.users;}
-    public void getPrivilegeByOwner(String owner){
-        queryPrivilegeByOwner(owner);
-       // return privilegeByOwner;
-    }
-    public String getPrivilegeByOwnerResult(){
-        return privilegeByOwner;
-    }
-    /*public List<Users> getPrivilegeByOwner(String owner){
-        return usersDao.getPrivilegeByOwner(owner);
-    }
 
 
-     */
-
-    public void queryPrivilegeByOwner(String owner){new GetPrivilegeByOwnerFromUsersAsyncTask(usersDao).execute(owner);}
     public void insertToPrivileges(Privileges privileges){new InsertToPrivilegesAsyncTask(privilegesDao).execute(privileges);}
     public void insertToUsers(Users users){new InsertToUsersAsyncTask(usersDao).execute(users);}
 
@@ -65,7 +53,7 @@ public class UsersAndPrivilegesRepo {
             return null;
         }
     }
-    private static class GetPrivilegeByOwnerFromUsersAsyncTask extends AsyncTask<String,Void,String> {
+   /* private static class GetPrivilegeByOwnerFromUsersAsyncTask extends AsyncTask<String,Void,String> {
         private UsersDao dao;
         public GetPrivilegeByOwnerFromUsersAsyncTask(UsersDao dao){this.dao=dao;}
         @Override
@@ -82,6 +70,6 @@ public class UsersAndPrivilegesRepo {
 
         }
     }
-
+*/
 
 }

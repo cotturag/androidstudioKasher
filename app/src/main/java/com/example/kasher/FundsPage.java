@@ -11,21 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class FundsPage extends AppCompatActivity {
     private RecyclerView fundsRec;
-    //private String loggedUser="cotturag@gmail.com";
+  //  private String loggedUser="cotturag@gmail.com";
     //private String loggedUser="kissmartina0821@gmail.com";
     private String loggedUser="fuldugo@fuldugo.hu";
     static TextView fundsPageLabel;
     Button fetch;
     String usr;
     static FundsViewM pr;
-    public static void setFundsByPrivilege(String privileges){
-        //pr.setOnlyPrivateFundsQuery();
-        fundsPageLabel.setText(privileges);
-        if (privileges.equals("C")) pr.setOnlyPrivateFundsQuery();
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,40 +40,26 @@ public class FundsPage extends AppCompatActivity {
 
 
 
-
-        pr = new ViewModelProvider(this).get(FundsViewM.class);
-        pr.setRepo(getApplication(),loggedUser);
-
-        UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
-
-
-        uAndPVM.getPrivilegesByOwnerAndSetFunds(loggedUser);
-        /*while (uAndPVM.getPrivilegesByOwnerResult()==null){
-            fundsPageLabel.setText("dolgozik");
+        //UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
+        /*
+        String privilege= null;
+        try {
+            privilege = uAndPVM.getPrivilegesByOwner(loggedUser).getPrivilege();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        String privilege= uAndPVM.getPrivilegesByOwnerResult();
-        fundsPageLabel.setText(privilege);
 
-        fetch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String privilege= uAndPVM.getPrivilegesByOwnerResult();
-                fundsPageLabel.setText(privilege);
-            }
-        });
-*/
+         */
+        //pr = new ViewModelProvider(this).get(FundsViewM.class);
 
-      /*  fundsPageLabel.setText(uAndPVM.getPrivilegesByOwner(loggedUser));
-        fetch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fundsPageLabel.setText(uAndPVM.getPrivilegesByOwner(loggedUser));
-            }
-        });
-*/
+       // pr.setRepo(getApplication(),loggedUser,privilege);
+
+       // fundsPageLabel.setText(privilege);
 
 
-//        if (usersAndPrivilegesViewM.getPrivilegesByOwner(this.loggedUser).equals("C")) pr.setOnlyPrivateFundsQuery();
+
 
         TransactionsViewM transactionsViewM = new ViewModelProvider(this).get(TransactionsViewM.class);
 /*

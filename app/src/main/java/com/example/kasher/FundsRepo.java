@@ -12,10 +12,11 @@ public class FundsRepo {
 
     private LiveData<List<FundsForList>> actualFunds;
 
-    public FundsRepo(Application app, String owner){
+    public FundsRepo(Application app, String owner,String privilege){
         AppDatabase db = AppDatabase.getInstance(app);
         dao=db.fundsDao();
-        actualFunds= dao.getAll(owner);
+        if (privilege.equals("C")) actualFunds= dao.getPrivates(owner);
+        else actualFunds= dao.getAll(owner);
     }
     public LiveData<List<FundsForList>> getActualFunds(){
         return this.actualFunds;
@@ -25,11 +26,11 @@ public class FundsRepo {
     }
 
     public void insert(Funds fund){
-        new InsertAsyncTask(dao).execute(fund);
+        dao.insert(fund);
     }
-    public void update(Funds fund) {new UpdateAsyncTask(dao).execute(fund);}
+    public void update(Funds fund) {dao.update(fund);}
 
-
+/*
     private static class InsertAsyncTask extends AsyncTask<Funds,Void,Void>{
         private FundsDao dao;
         public InsertAsyncTask(FundsDao dao){this.dao=dao;}
@@ -39,6 +40,9 @@ public class FundsRepo {
         return null;
         }
     }
+
+ */
+    /*
     private static class UpdateAsyncTask extends AsyncTask<Funds,Void,Void>{
         private FundsDao dao;
         public UpdateAsyncTask(FundsDao dao){this.dao=dao;}
@@ -48,6 +52,6 @@ public class FundsRepo {
             return null;
         }
     }
-
+*/
 
 }
