@@ -21,6 +21,7 @@ public class FundsRepo {
     public LiveData<List<FundsForList>> getActualFunds(){
         return this.actualFunds;
     }
+
     public LiveData<List<FundsForList>> getActualPrivateFundsOnly(String owner){
         return dao.getPrivates(owner);
     }
@@ -28,7 +29,12 @@ public class FundsRepo {
     public void insert(Funds fund){
         dao.insert(fund);
     }
-    public void update(Funds fund) {dao.update(fund);}
+    public void update(Funds fund) {
+        dao.update(fund);
+    }
+    public void delete(Funds fund){
+        dao.delete(fund);
+    }
 
 /*
     private static class InsertAsyncTask extends AsyncTask<Funds,Void,Void>{

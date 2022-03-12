@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class FundsViewM extends AndroidViewModel {
     private FundsRepo repo;
@@ -18,7 +17,7 @@ public class FundsViewM extends AndroidViewModel {
 
 
 
-   // private String owner;
+    private String owner;
     private static String loggedUser;
 
 
@@ -33,36 +32,51 @@ public class FundsViewM extends AndroidViewModel {
     }
 
     private LiveData<List<FundsForList>> actualFunds;
-    public FundsViewM(@NonNull Application app) {
+    public FundsViewM(@NonNull Application app,List<String> owner) {
         super(app);
-        /*
-        this.owner=owner;
-        loggedUser=this.owner;*/
-        repo= new FundsRepo(app,"cotturag@gmail.com","A");
-        actualFunds= repo.getActualFunds();
+        this.owner=owner.get(0);
+        loggedUser=this.owner;
+        repo= new FundsRepo(app,this.owner,owner.get(1));
         actualFunds=repo.getActualFunds();
     }
 
-    public void setRepo(@NonNull Application app,String owner,String privilege) {
-        loggedUser=owner;
-        repo= new FundsRepo(app,owner,privilege);
+    public void delete(FundsForList fund){
+        repo.delete(fund);
     }
-
-
-    /*
-    public void setOnlyPrivateFundsQuery(){
-        this.actualFunds= repo.getActualPrivateFundsOnly(this.owner);
-    }
-    */
-
     public void createNew(Funds fund){
         repo.insert(fund);
     }
-    public void setMoney(Funds fund,String money){
+    public void pickUpFund(Funds fund){
+        if (fund.getOtherOwner().equals("")){
+            Funds newFund=fund;
+            newFund.setOtherOwner(owner);
+            repo.update(newFund);
+        }
+        else {
+            Funds newFund=fund;
+            newFund.setOtherOwner(owner);
+            newFund.setHookedTo(fund.getId());
+            newFund.setId(0);
+            repo.insert(newFund);
+        }
+    }
+    public void pickDown(Funds fund){
+        if (fund.getHookedTo()==0){
+            fund.setOtherOwner("");
+            repo.update(fund);
+        }
+        else {
+            repo.delete(fund);
+        }
+
+        //  newFund
+    }
+
+    public void setMoney(FundsForList fund,String money){
          fund.setMoney(money);
          repo.update(fund);
     }
-    public void plusMoney(Funds fund,String money){
+    public void plusMoney(FundsForList fund,String money){
         int oldMoney=Integer.valueOf(fund.getMoney());
         int newMoney=oldMoney+Integer.valueOf(money);
         fund.setMoney(String.valueOf(newMoney));
@@ -81,4 +95,20 @@ public class FundsViewM extends AndroidViewModel {
     }
 
 
+    public static class FundsViewMFactory implements ViewModelProvider.Factory {
+        private Application mApplication;
+        private List<String> mParam;
+
+        public FundsViewMFactory(Application application, List<String> param) {
+            mApplication = application;
+            mParam = param;
+        }
+
+
+        @Override
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            return (T) new FundsViewM(mApplication, mParam);
+        }
+
+    }
 }

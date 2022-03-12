@@ -16,6 +16,7 @@ import java.util.List;
 
 public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.ViewHolder> {
     private OnItemClickListener listener;
+    private OnButtonClickListener buttonClickListener;
 
     FundsListAdapter(){
         super(DIFF);
@@ -111,16 +112,28 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                 }
             });
 
+            pick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos=getAdapterPosition();
+                    buttonClickListener.onButtonClick(getItem(pos));
+                }
+            });
+
 
         }
     }
     public interface OnItemClickListener {
         void onItemClick(FundsForList fund);
     }
+    public interface OnButtonClickListener {
+        void onButtonClick(FundsForList fund);
+    }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+    public void setButtonClickListener(OnButtonClickListener buttonClickListener) {this.buttonClickListener=buttonClickListener;}
 }
 
 

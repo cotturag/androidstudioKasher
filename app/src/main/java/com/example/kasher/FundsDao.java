@@ -14,9 +14,7 @@ import java.util.List;
 @androidx.room.Dao
 public interface FundsDao {
 
-    /*@Query("SELECT * FROM funds WHERE owner IN (:owners) AND type IN (:types)")
-    LiveData<List<Funds>> getAll(List<String> owners,List<String> types);
-  */
+
 
     String querySelectFrom ="" +
             "SELECT id,money,owner,otherowner,funds.type,activity,inactivity,funds.name," +
@@ -24,25 +22,33 @@ public interface FundsDao {
             "privileges.name AS nameInPrivileges," +
             "hookedTo " +
             "FROM funds,privileges ";
-    String queryPrivateFunds="WHERE owner= :owner" +
+    String queryMyPrivateFunds ="WHERE owner= :owner" +
             " AND (funds.type='1' OR funds.type='A')" +
             " AND funds.type=privileges.type";
+    String queryMySharedFunds ="WHERE otherOwner= :owner " +
+            "AND hookedTo>0 " +
+            "AND funds.type=privileges.type";
     String unionAll=" UNION ALL ";
     String queryPublicFunds="WHERE hookedTo=0" +
             " AND (funds.type='2'" +
             " OR funds.type='3'" +
             " OR funds.type='B'" +
-            " OR funds.type='C')" +
+            " OR funds.type='C') " +
+            "AND (SELECT COUNT(*) FROM funds "+queryMySharedFunds+")=0" +
             " AND funds.type=privileges.type";
     @Query(querySelectFrom +
-            queryPrivateFunds +
+            queryMyPrivateFunds +
+            unionAll+
+            querySelectFrom+
+            queryMySharedFunds+
             unionAll+
             querySelectFrom +
             queryPublicFunds)
     LiveData<List<FundsForList>> getAll(String owner);
 
-    @Query(querySelectFrom+queryPrivateFunds)
+    @Query(querySelectFrom+ queryMyPrivateFunds)
     LiveData<List<FundsForList>> getPrivates(String owner);
+
 
 
 

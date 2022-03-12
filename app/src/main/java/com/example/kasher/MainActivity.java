@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      //  MainActivity.this.deleteDatabase("kasherD");
+     //  MainActivity.this.deleteDatabase("kasherD");
 
 
         listvre=findViewById(R.id.szamlak);
