@@ -13,33 +13,7 @@
         android:text="fundspage"
 
         ></TextView>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/g"
-        android:text="Gellért"
-        android:layout_marginTop="50dp"
 
-        ></Button>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/m"
-        android:text="Martina"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="100dp"
-        ></Button>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/f"
-        android:text="füldugó"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="210dp"
-        >
-
-
-    </Button>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fundsrec"
         android:layout_width="match_parent"

@@ -40,31 +40,7 @@ public class FundsPage extends AppCompatActivity {
         FundsListAdapter adapter = new FundsListAdapter();
         fundsRec.setAdapter(adapter);
         fundsPageLabel=findViewById(R.id.fundspagelabel);
-        g=findViewById(R.id.g);
-        m=findViewById(R.id.m);
-        f=findViewById(R.id.f);
 
-        g.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loggedUser="cotturag@gmail.com";
-                fundsPageLabel.setText(loggedUser);
-            }
-        });
-        m.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loggedUser="kissmartina0821@gmail.com";
-                fundsPageLabel.setText(loggedUser);
-            }
-        });
-        f.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loggedUser="fuldugo@fuldugo.hu";
-                fundsPageLabel.setText(loggedUser);
-            }
-        });
 
         UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
         try {
