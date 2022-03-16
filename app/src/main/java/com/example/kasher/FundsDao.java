@@ -49,6 +49,9 @@ public interface FundsDao {
     @Query(querySelectFrom+ queryMyPrivateFunds)
     LiveData<List<FundsForList>> getPrivates(String owner);
 
+    @Query("SELECT COUNT(*) FROM funds")
+    ListenableFuture<Integer> checkIfTableEmpty();
+
 
 
 

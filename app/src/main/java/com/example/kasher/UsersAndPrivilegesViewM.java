@@ -32,5 +32,11 @@ public class UsersAndPrivilegesViewM extends AndroidViewModel {
     public Users getPrivilegesByOwner(String owner) throws ExecutionException, InterruptedException {
         return repo.getPrivilegeByOwner(owner);
     }
+    public boolean checkIfUsersTableEmpty() throws ExecutionException, InterruptedException {
+        return repo.checkIfUsersTableEmpty();
+    }
+    public boolean checkIfPrivilegesTableEmpty() throws ExecutionException, InterruptedException {
+        return repo.checkIfPrivilegesTableEmpty();
+    }
 
 }

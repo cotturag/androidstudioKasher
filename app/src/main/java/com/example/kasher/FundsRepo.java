@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class FundsRepo {
     private FundsDao dao;
@@ -26,6 +27,9 @@ public class FundsRepo {
 
     public LiveData<List<FundsForList>> getActualPrivateFundsOnly(String owner){
         return dao.getPrivates(owner);
+    }
+    public boolean checkIfTableEmpty() throws ExecutionException, InterruptedException {
+        return dao.checkIfTableEmpty().get()==0;
     }
 
 

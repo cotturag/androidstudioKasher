@@ -17,11 +17,8 @@ public interface UsersDao {
     LiveData<List<Users>> getAll();
     @Query("SELECT * FROM users WHERE id=:owner")
     ListenableFuture<Users> getPrivilegeByOwner(String owner);
-
-
-
-
-
+    @Query("SELECT COUNT(*) FROM users")
+    ListenableFuture<Integer> checkIfTableEmpty();
     @Insert
-    public void insert(Users user);
+    ListenableFuture<Long> insert(Users user);
 }

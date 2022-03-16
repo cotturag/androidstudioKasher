@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class FundsViewM extends AndroidViewModel {
     private FundsRepo repo;
@@ -99,6 +100,9 @@ public class FundsViewM extends AndroidViewModel {
      */
     public LiveData<List<FundsForList>> getActualFunds() {
         return this.actualFunds;
+    }
+    public boolean checkIfTableEmpty() throws ExecutionException, InterruptedException {
+        return repo.checkIfTableEmpty();
     }
 
 
