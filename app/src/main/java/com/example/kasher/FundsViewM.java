@@ -61,7 +61,8 @@ public class FundsViewM extends AndroidViewModel {
             newFund.setHookedTo(fund.getId());
             newFund.setId(0);
 
-            repo.insert(fund);
+            //return
+                    repo.insert(fund);
         }
         return lFut;
     }

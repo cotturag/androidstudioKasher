@@ -66,7 +66,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         if (fund.getType().equals("1")||fund.getType().equals("A")) {
             holder.pick.setVisibility(View.INVISIBLE);
             if (fund.getType().equals("1")){
-                holder.fund.setBackgroundColor(0xff000faa);
+                holder.fund.setCardBackgroundColor(0xff000faa);
                 holder.name.setTextColor(0xffffffff);
                 holder.type.setTextColor(0xffffffff);
                 holder.money.setTextColor(0xffffffff);
@@ -94,12 +94,16 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
             else {
                 if (fund.getOtherOwner().equals("")||(!fund.getOtherOwner().equals("")&&fund.getHookedTo()==0)){
                     holder.pick.setText("felvétel a sajátok közé");
-                    holder.fund.setBackgroundColor(0xffff0000);
+                    holder.fund.setCardBackgroundColor(0xffff0000);
                     holder.name.setTextColor(0xffffffff);
                     holder.type.setTextColor(0xffffffff);
                     holder.money.setTextColor(0xffffffff);
                     holder.owner.setTextColor(0xffffffff);
                     holder.otherOwner.setTextColor(0xffffffff);
+
+
+
+
                 }
             }
 

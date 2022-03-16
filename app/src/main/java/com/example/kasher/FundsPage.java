@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +40,7 @@ public class FundsPage extends AppCompatActivity {
         fundsRec=findViewById(R.id.fundsrec);
         fundsRec.setLayoutManager(new LinearLayoutManager(this));
         fundsRec.setHasFixedSize(true);
+        fundsRec.setItemAnimator(new DefaultItemAnimator());
         FundsListAdapter adapter = new FundsListAdapter();
         fundsRec.setAdapter(adapter);
         fundsPageLabel=findViewById(R.id.fundspagelabel);
@@ -194,7 +196,7 @@ public class FundsPage extends AppCompatActivity {
 
                 if (fund.getOtherOwner().equals(loggedUser)){
                     ListenableFuture<Integer> pickDownFuture=pr.pickDown(fund);
-                    try {
+                  /*  try {
                         Integer res=pickDownFuture.get();
                       //  adapter.notifyDataSetChanged();
                     } catch (ExecutionException e) {
@@ -202,12 +204,12 @@ public class FundsPage extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
+*/
                 }
                 else {
                     if (fund.getOtherOwner().equals("")||(!fund.getOtherOwner().equals("")&&fund.getHookedTo()==0)){
                         ListenableFuture<Integer> pickUpFuture = pr.pickUpFund(fund);
-                        try {
+                       /* try {
                             Integer res=pickUpFuture.get();
                            // adapter.notifyDataSetChanged();
                         } catch (ExecutionException e) {
@@ -215,11 +217,11 @@ public class FundsPage extends AppCompatActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-
+*/
                     }
                 }
                 //adapter.onBindViewHolder();
-              //  adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
               //  adapter.notifyAll();
 
 
