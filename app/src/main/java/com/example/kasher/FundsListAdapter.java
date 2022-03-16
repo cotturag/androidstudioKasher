@@ -1,13 +1,17 @@
 package com.example.kasher;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,15 +33,15 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
 
         @Override
         public boolean areContentsTheSame(@NonNull FundsForList oldItem, @NonNull FundsForList newItem) {
-//TODO itt az összeset beállítani
-            /*
-            return (oldItem.getOwner().equals(newItem.getOwner())&&oldItem.getType().equals(newItem.getType())&&
-                    oldItem.getActivity()==newItem.getActivity()&&oldItem.getInactivity().equals(newItem.getInactivity())&&
-                    oldItem.getName().equals(newItem.getName())&&oldItem.getPickedup()==newItem.getPickedup()&&
-                    oldItem.getParent()==newItem.getParent());
-*/
 
-            return (oldItem.getOwner().equals(newItem.getOwner()));
+
+            return (oldItem.getMoney().equals(newItem.getMoney())&&oldItem.getOwner().equals(newItem.getOwner())&&oldItem.getType().equals(newItem.getType())&&
+                    oldItem.getActivity()==newItem.getActivity()&&oldItem.getInactivity().equals(newItem.getInactivity())&&
+                    oldItem.getName().equals(newItem.getName())&&oldItem.getOtherOwner().equals(newItem.getOtherOwner())&&
+                    oldItem.getHookedTo()==newItem.getHookedTo());
+
+
+            //return (oldItem.getOwner().equals(newItem.getOwner()));
         }
     };
     @NonNull
@@ -58,17 +62,55 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         holder.owner.setText(fund.getOwner());
         holder.otherOwner.setText(fund.getOtherOwner());
 
-
-
         String loggedUser=FundsViewM.getLoggedUser();
-        if (fund.getType().equals("1")||fund.getType().equals("A")) holder.pick.setVisibility(View.INVISIBLE);
-        else holder.pick.setVisibility(View.VISIBLE);
+        if (fund.getType().equals("1")||fund.getType().equals("A")) {
+            holder.pick.setVisibility(View.INVISIBLE);
+            if (fund.getType().equals("1")){
+                holder.fund.setBackgroundColor(0xff000faa);
+                holder.name.setTextColor(0xffffffff);
+                holder.type.setTextColor(0xffffffff);
+                holder.money.setTextColor(0xffffffff);
+                holder.owner.setTextColor(0xffffffff);
+                holder.otherOwner.setTextColor(0xffffffff);
+
+                //TODO ezeket összekéne fogni
+            }
+            if (fund.getType().equals("A")){
+                holder.fund.setCardBackgroundColor(0xff0faaff);
+            }
+
+        }
+        else {
+            holder.pick.setVisibility(View.VISIBLE);
+            if (fund.getOtherOwner().equals(loggedUser)){
+                holder.pick.setText("leadás a sajátokból");
+                holder.fund.setCardBackgroundColor(0xff008000);
+                holder.name.setTextColor(0xffffffff);
+                holder.type.setTextColor(0xffffffff);
+                holder.money.setTextColor(0xffffffff);
+                holder.owner.setTextColor(0xffffffff);
+                holder.otherOwner.setTextColor(0xffffffff);
+            }
+            else {
+                if (fund.getOtherOwner().equals("")||(!fund.getOtherOwner().equals("")&&fund.getHookedTo()==0)){
+                    holder.pick.setText("felvétel a sajátok közé");
+                    holder.fund.setBackgroundColor(0xffff0000);
+                    holder.name.setTextColor(0xffffffff);
+                    holder.type.setTextColor(0xffffffff);
+                    holder.money.setTextColor(0xffffffff);
+                    holder.owner.setTextColor(0xffffffff);
+                    holder.otherOwner.setTextColor(0xffffffff);
+                }
+            }
+
+        }
 
 
-        holder.pick.setText("felvétel a sajátok közé");
-        if (fund.getOtherOwner().equals(loggedUser)) holder.pick.setText("leadás a sajátokból");
 
-        //else holder.pick.setVisibility(View.INVISIBLE);
+
+
+
+
 
 
 
@@ -85,6 +127,8 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         public TextView name;
         public TextView owner;
         public TextView otherOwner;
+        public CardView fund;
+        public LinearLayout fundstexts;
 
         public Button pick;
         public Button createVirtual;
@@ -99,6 +143,11 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
             otherOwner=itemView.findViewById(R.id.otherowner);
 
             pick= itemView.findViewById(R.id.pick);
+
+            fund=itemView.findViewById(R.id.fund);
+            fundstexts=itemView.findViewById(R.id.fundstexts);
+
+
 
 
 

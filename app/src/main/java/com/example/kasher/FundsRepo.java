@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.List;
 
 public class FundsRepo {
@@ -26,14 +28,13 @@ public class FundsRepo {
         return dao.getPrivates(owner);
     }
 
-    public void insert(Funds fund){
-        dao.insert(fund);
+
+    public ListenableFuture<Long> insert(Funds fund){
+        return dao.insert(fund);
     }
-    public void update(Funds fund) {
-        dao.update(fund);
-    }
-    public void delete(Funds fund){
-        dao.delete(fund);
+    public ListenableFuture<Integer> update(Funds fund) { return dao.update(fund);}
+    public ListenableFuture<Integer> delete(Funds fund){
+        return dao.delete(fund);
     }
 
 /*

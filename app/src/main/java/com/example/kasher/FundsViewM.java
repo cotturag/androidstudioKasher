@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.List;
 
 public class FundsViewM extends AndroidViewModel {
@@ -46,30 +48,34 @@ public class FundsViewM extends AndroidViewModel {
     public void createNew(Funds fund){
         repo.insert(fund);
     }
-    public void pickUpFund(Funds fund){
+    public ListenableFuture<Integer> pickUpFund(Funds fund){
+        ListenableFuture<Integer> lFut=null;
         if (fund.getOtherOwner().equals("")){
             Funds newFund=fund;
             newFund.setOtherOwner(owner);
-            repo.update(newFund);
+            lFut= repo.update(newFund);
         }
         else {
             Funds newFund=fund;
             newFund.setOtherOwner(owner);
             newFund.setHookedTo(fund.getId());
             newFund.setId(0);
-            repo.insert(newFund);
+
+            repo.insert(fund);
         }
+        return lFut;
     }
-    public void pickDown(Funds fund){
+    public ListenableFuture<Integer> pickDown(Funds fund){
+        ListenableFuture<Integer> lFut=null;
         if (fund.getHookedTo()==0){
             fund.setOtherOwner("");
-            repo.update(fund);
+            lFut=repo.update(fund);
         }
         else {
-            repo.delete(fund);
+            lFut=repo.delete(fund);
         }
+        return lFut;
 
-        //  newFund
     }
 
     public void setMoney(FundsForList fund,String money){

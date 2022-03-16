@@ -5,14 +5,18 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:elevation="8dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    android:id="@+id/fund"
+    >
 
     <LinearLayout
-        android:id="@+id/idLLCourse"
+        android:id="@+id/fundstexts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+
+        >
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"

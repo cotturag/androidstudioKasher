@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -49,8 +51,9 @@ public class FundsPage extends AppCompatActivity {
         g.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loggedUser="cotturag@gmail.com";
-                fundsPageLabel.setText(loggedUser);
+               // loggedUser="cotturag@gmail.com";
+                //fundsPageLabel.setText(loggedUser);
+                adapter.notifyDataSetChanged();
             }
         });
         m.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +172,7 @@ public class FundsPage extends AppCompatActivity {
             @Override
             public void onChanged(List<FundsForList> funds) {
                 adapter.submitList(funds);
+
             }
         });
 
@@ -187,14 +191,36 @@ public class FundsPage extends AppCompatActivity {
             public void onButtonClick(FundsForList fund) {
                 //fundsPageLabel.setText(fund.getId());
 
+
                 if (fund.getOtherOwner().equals(loggedUser)){
-                    pr.pickDown(fund);
+                    ListenableFuture<Integer> pickDownFuture=pr.pickDown(fund);
+                    try {
+                        Integer res=pickDownFuture.get();
+                      //  adapter.notifyDataSetChanged();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 else {
                     if (fund.getOtherOwner().equals("")||(!fund.getOtherOwner().equals("")&&fund.getHookedTo()==0)){
-                        pr.pickUpFund(fund);
+                        ListenableFuture<Integer> pickUpFuture = pr.pickUpFund(fund);
+                        try {
+                            Integer res=pickUpFuture.get();
+                           // adapter.notifyDataSetChanged();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
+                //adapter.onBindViewHolder();
+              //  adapter.notifyDataSetChanged();
+              //  adapter.notifyAll();
 
 
 
