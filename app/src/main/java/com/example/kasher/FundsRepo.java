@@ -133,6 +133,7 @@ public class FundsRepo {
                 szovege=e.toString();
             }
             return jsonObject;
+
         }
 
         @Override
