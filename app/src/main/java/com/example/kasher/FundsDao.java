@@ -13,9 +13,6 @@ import java.util.List;
 
 @androidx.room.Dao
 public interface FundsDao {
-
-
-
     String querySelectFrom ="" +
             "SELECT id,money,owner,otherowner,funds.type,activity,inactivity,funds.name," +
             "privileges.type AS typeInPrivileges," +
@@ -49,6 +46,12 @@ public interface FundsDao {
     @Query(querySelectFrom+ queryMyPrivateFunds)
     LiveData<List<FundsForList>> getPrivates(String owner);
 
+    @Query("SELECT funds.id,users.family AS familyinusers,money,owner,otherOwner,type,activity,inactivity,funds.name,hookedTo FROM funds,users WHERE funds.owner=users.id AND funds.id=:fundId")
+    ListenableFuture<FundsForRemote> getFromUsersIdExtendsFamily(int fundId);
+
+    /*@Query("SELECT funds.id,users.family AS familyInUsers,money,owner,otherOwner,type,activity,inactivity,funds.name,hookedTo FROM funds,users WHERE funds.owner=users.id AND funds.owner=:fundOwner ")
+    ListenableFuture<FundsForRemote> getFundFromUsersByOwnerExtendsFamily(String fundOwner);
+*/
     @Query("SELECT COUNT(*) FROM funds")
     ListenableFuture<Integer> checkIfTableEmpty();
 

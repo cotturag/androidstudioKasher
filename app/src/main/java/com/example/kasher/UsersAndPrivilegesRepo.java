@@ -1,11 +1,8 @@
 package com.example.kasher;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -23,8 +20,11 @@ public class UsersAndPrivilegesRepo {
         usersDao =db.usersDao();
         users=usersDao.getAll();
     }
-    public Users getPrivilegeByOwner(String owner) throws ExecutionException, InterruptedException {
-        return usersDao.getPrivilegeByOwner(owner).get();
+    public Users getUserPrivilegeByOwnerInUser(String owner) throws ExecutionException, InterruptedException {
+        return usersDao.getPrivilegeByOwnerInLFUser(owner).get();
+    }
+    public Users getFamilyByOwnerFromUsersInUser(String owner) throws ExecutionException, InterruptedException {
+        return usersDao.getFamilyByOwnerInLFUser(owner).get();
     }
     public boolean checkIfUsersTableEmpty() throws ExecutionException, InterruptedException {
         return usersDao.checkIfTableEmpty().get()==0;

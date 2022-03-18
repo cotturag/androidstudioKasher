@@ -30,7 +30,10 @@ public class UsersAndPrivilegesViewM extends AndroidViewModel {
     public LiveData<List<Users>> getUsers(){return this.users;}
 
     public Users getPrivilegesByOwner(String owner) throws ExecutionException, InterruptedException {
-        return repo.getPrivilegeByOwner(owner);
+        return repo.getUserPrivilegeByOwnerInUser(owner);
+    }
+    public String getFamilyByOwnerFromUsersInString(String owner) throws ExecutionException, InterruptedException {
+        return repo.getFamilyByOwnerFromUsersInUser(owner).getFamily();
     }
     public boolean checkIfUsersTableEmpty() throws ExecutionException, InterruptedException {
         return repo.checkIfUsersTableEmpty();

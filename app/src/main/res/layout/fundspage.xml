@@ -13,6 +13,14 @@
         android:text="fundspage"
 
         ></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fundspagelabeltwo"
+        android:text="fundspage"
+        android:layout_marginLeft="150dp"
+
+        ></TextView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fundsrec"

@@ -1,5 +1,6 @@
 package com.example.kasher;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -14,7 +15,9 @@ public class Funds {
     private int activity;
     private String inactivity;
     private String name;
+    @ColumnInfo(name = "otherowner")
     private String otherOwner;
+    @ColumnInfo(name = "hookedto")
     private int hookedTo;
 
     public Funds(){}

@@ -21,13 +21,11 @@ import java.util.concurrent.ExecutionException;
 public class FundsPage extends AppCompatActivity {
     private RecyclerView fundsRec;
     private String loggedUser="cotturag@gmail.com";
-   // private String loggedUser="kissmartina0821@gmail.com";
+  //  private String loggedUser="kissmartina0821@gmail.com";
    // private String loggedUser="fuldugo@fuldugo.hu";
     static TextView fundsPageLabel;
-    Button g;
-    Button m;
-    Button f;
     static FundsViewM pr;
+    static TextView fundsPageLabelTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,7 @@ public class FundsPage extends AppCompatActivity {
         FundsListAdapter adapter = new FundsListAdapter();
         fundsRec.setAdapter(adapter);
         fundsPageLabel=findViewById(R.id.fundspagelabel);
+        fundsPageLabelTwo=findViewById(R.id.fundspagelabeltwo);
 
 
         UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
@@ -115,17 +114,32 @@ public class FundsPage extends AppCompatActivity {
         adapter.setOnItemClickListener(new FundsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(FundsForList fund) {
+                /*try {
+                    pr.insertRemote(fund,loggedUser);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                 */
             }
         });
         adapter.setButtonClickListener(new FundsListAdapter.OnButtonClickListener() {
             @Override
             public void onButtonClick(FundsForList fund) {
                 if (fund.getOtherOwner().equals(loggedUser)){
-                    ListenableFuture<Integer> pickDownFuture=pr.pickDown(fund);
+                    try {
+                        String family= uAndPVM.getFamilyByOwnerFromUsersInString(loggedUser);
+                        pr.pickDown(fund,family);
+                    } catch (ExecutionException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
                 }
                 else {
                     if (fund.getOtherOwner().equals("")||(!fund.getOtherOwner().equals("")&&fund.getHookedTo()==0)){
-                        ListenableFuture<Integer> pickUpFuture = pr.pickUpFund(fund);
+                        try {
+                            String family= uAndPVM.getFamilyByOwnerFromUsersInString(loggedUser);
+                            pr.pickUpFund(fund,family);
+                        } catch (ExecutionException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
                     }
                 }
                 adapter.notifyDataSetChanged();

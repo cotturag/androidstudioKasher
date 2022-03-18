@@ -34,6 +34,7 @@ public class FundsViewM extends AndroidViewModel {
         this.loggedUser=user;
     }
 
+
     private LiveData<List<FundsForList>> actualFunds;
     public FundsViewM(@NonNull Application app,List<String> owner) {
         super(app);
@@ -49,35 +50,42 @@ public class FundsViewM extends AndroidViewModel {
     public void createNew(Funds fund){
         repo.insert(fund);
     }
-    public ListenableFuture<Integer> pickUpFund(Funds fund){
-        ListenableFuture<Integer> lFut=null;
+
+
+
+    public void pickUpFund(FundsForList fund,String family) throws ExecutionException, InterruptedException {
         if (fund.getOtherOwner().equals("")){
-            Funds newFund=fund;
-            newFund.setOtherOwner(owner);
-            lFut= repo.update(newFund);
+            fund.setOtherOwner(owner);
+            repo.update(fund);
+            repo.updateRemote(fund);
         }
         else {
-            Funds newFund=fund;
-            newFund.setOtherOwner(owner);
-            newFund.setHookedTo(fund.getId());
-            newFund.setId(0);
+            fund.setOtherOwner(owner);
+            fund.setHookedTo(fund.getId());
+            fund.setId(0);
 
-            //return
-                    repo.insert(fund);
+
+            Long location=repo.insert(fund).get().longValue();
+           // FundsPage.fundsPageLabelTwo.setText(String.valueOf(valami));
+
+
+            //TODO azér ez így fura, rendesen kéne kasztolni
+            String stringLocation=String.valueOf(location);
+            int intLocation=Integer.valueOf(stringLocation);
+            fund.setId(intLocation);
+            repo.insertRemote(fund,family);
         }
-        return lFut;
     }
-    public ListenableFuture<Integer> pickDown(Funds fund){
-        ListenableFuture<Integer> lFut=null;
+    public void pickDown(Funds fund,String family) throws ExecutionException, InterruptedException {
         if (fund.getHookedTo()==0){
             fund.setOtherOwner("");
-            lFut=repo.update(fund);
+            repo.update(fund);
+            repo.updateRemote(fund);
         }
         else {
-            lFut=repo.delete(fund);
+            repo.delete(fund);
+            repo.deleteRemote(fund,family);
         }
-        return lFut;
-
     }
 
     public void setMoney(FundsForList fund,String money){

@@ -19,8 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONObject;
 
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -36,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
     static TextView szoveg;
     SQLiteDatabase db;
     Button listvre;
+    Button button;
 
-    RecyclerView fundsRec;
+
 
 
     public static void ir(String sz){
@@ -48,10 +53,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        szoveg=findViewById(R.id.szoveg);
      //  MainActivity.this.deleteDatabase("kasherD");
-
-
         listvre=findViewById(R.id.szamlak);
         listvre.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,9 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Button button=findViewById(R.id.asyncTask);
-        szoveg=findViewById(R.id.szoveg);
-
+        button=findViewById(R.id.asyncTask);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,31 +74,21 @@ public class MainActivity extends AppCompatActivity {
                 asyncTask.execute();
             }
         });
-
-
     }
 
     private class AsyncTaskExample extends AsyncTask<String, String, String> {
-
-
+        String szovege;
         @Override
-        protected void onPreExecute() {
-
-        }
+        protected void onPreExecute() {}
         @Override
         protected String doInBackground(String... strings) {
-/*
             ArrayList<String> urls=new ArrayList<String>();
             try {
                 urlc = new URL("http://192.168.1.2/access.php");
                 HttpURLConnection conn = (HttpURLConnection) urlc.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type","application/json; utf-8");
-
-
                 conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
-
-
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setReadTimeout(15000);
@@ -105,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
                 conn.connect();
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("name","jozsi");
-                    jsonObject.put("nam","tamás");
+                    jsonObject.put("method","update");
+                    jsonObject.put("id","1");
+                    jsonObject.put("family","cotturag@gmail.com");
+                    jsonObject.put("money",0);
                 }catch (Exception e){
 
                 }
@@ -116,32 +109,26 @@ public class MainActivity extends AppCompatActivity {
                 os.close();
 
 
-
-
                 int responseCode = conn.getResponseCode();
                 if (responseCode==HttpURLConnection.HTTP_OK){
                     szovege="ok";
                 }
+                else szovege="nemok";
 
                 conn.disconnect();
-               // conn.connect();
-               // BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-               // szovege=in.readLine();
-
-
             } catch (IOException e) {
                 e.printStackTrace();
+                szovege=e.toString();
             }
-
- */
-            return null;
+            return szovege;
         }
         @Override
         protected void onPostExecute(String szove) {
             super.onPostExecute(szove);
-
-
+            //ir(szove);
         }
+
+        /*
         private String getPostDataString(JSONObject values) throws Exception{
             StringBuilder res = new StringBuilder();
             boolean first=true;
@@ -161,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
             }
         return res.toString();
         }
+
+       */
     }
 
 }

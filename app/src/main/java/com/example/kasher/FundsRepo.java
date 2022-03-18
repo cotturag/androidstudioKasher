@@ -7,6 +7,13 @@ import androidx.lifecycle.LiveData;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
+import org.json.JSONObject;
+
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -33,36 +40,137 @@ public class FundsRepo {
     }
 
 
-    public ListenableFuture<Long> insert(Funds fund){
-        return dao.insert(fund);
-    }
-    public ListenableFuture<Integer> update(Funds fund) { return dao.update(fund);}
-    public ListenableFuture<Integer> delete(Funds fund){
-        return dao.delete(fund);
-    }
+    public ListenableFuture<Long> insert(Funds fund){return dao.insert(fund);}
+    public void update(Funds fund) {dao.update(fund);}
+    public void delete(Funds fund){dao.delete(fund);}
 
-/*
-    private static class InsertAsyncTask extends AsyncTask<Funds,Void,Void>{
-        private FundsDao dao;
-        public InsertAsyncTask(FundsDao dao){this.dao=dao;}
+    public void insertRemote(Funds fund,String family) throws ExecutionException, InterruptedException {
+
+
+        String operateType="insert";
+
+        //String family=dao.getFundFromUsersByOwnerExtendsFamily(owner).get().getFamilyInUsers();
+
+        FundsForRemote fundsForRemote=new FundsForRemote(family);
+        fundsForRemote.setId(fund.getId());
+        fundsForRemote.setMoney(fund.getMoney());
+        fundsForRemote.setOwner(fund.getOwner());
+        fundsForRemote.setType(fund.getType());
+        fundsForRemote.setActivity(fund.getActivity());
+        fundsForRemote.setInactivity(fund.getInactivity());
+        fundsForRemote.setName(fund.getName());
+        fundsForRemote.setOtherOwner(fund.getOtherOwner());
+        fundsForRemote.setHookedTo(fund.getHookedTo());
+
+        new RemoteAsyncTask(operateType).execute(fundsForRemote);
+        //TODO itt jó lenne lemásolni az objektumot
+    }
+    public void updateRemote(Funds fund) throws ExecutionException, InterruptedException {
+        String operateType="update";
+        FundsForRemote fundsForRemote=dao.getFromUsersIdExtendsFamily(fund.getId()).get();
+        fundsForRemote.setOtherOwner(fund.getOtherOwner());
+        new RemoteAsyncTask(operateType).execute(fundsForRemote);
+        //FundsPage.fundsPageLabelTwo.setText(fundsForRemote.getOtherOwner());
+    }
+    public void deleteRemote(Funds fund,String family) throws ExecutionException, InterruptedException {
+        String operateType="delete";
+        //FundsForRemote fundsForRemote=dao.getFromUsersIdExtendsFamily(fund.getId()).get();
+        FundsForRemote fundsForRemote = new FundsForRemote(family);
+
+        //fundsForRemote.setOtherOwner(fund.getOtherOwner());
+        fundsForRemote.setId(fund.getId());
+        fundsForRemote.setMoney(fund.getMoney());
+        fundsForRemote.setOwner(fund.getOwner());
+        fundsForRemote.setType(fund.getType());
+        fundsForRemote.setActivity(fund.getActivity());
+        fundsForRemote.setInactivity(fund.getInactivity());
+        fundsForRemote.setName(fund.getName());
+        fundsForRemote.setOtherOwner(fund.getOtherOwner());
+        fundsForRemote.setHookedTo(fund.getHookedTo());
+        new RemoteAsyncTask(operateType).execute(fundsForRemote);
+    }
+    private class RemoteAsyncTask extends AsyncTask<FundsForRemote, String, String> {
+        String szovege;
+        HttpURLConnection connection;
+        String operateType;
+        public RemoteAsyncTask(String operateType){
+            this.operateType=operateType;
+        }
+
+        private HttpURLConnection connectToServer(String url){
+            HttpURLConnection conn=null;
+            try{
+                URL urlc = null;
+                urlc = new URL(url);
+                conn = (HttpURLConnection) urlc.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type","application/json; utf-8");
+                conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setReadTimeout(15000);
+                conn.setConnectTimeout(15000);
+                conn.connect();
+            }
+            catch (Exception e){szovege=e.toString();}
+            return conn;
+        }
+        private JSONObject jsonObjectBuilder(FundsForRemote fund){
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("method",operateType);
+                jsonObject.put("id",fund.getId());
+                jsonObject.put("family",fund.getFamily());
+                jsonObject.put("money",fund.getMoney());
+                jsonObject.put("owner",fund.getOwner());
+                jsonObject.put("type",fund.getType());
+                jsonObject.put("activity",fund.getActivity());
+                jsonObject.put("inactivity",fund.getInactivity());
+                jsonObject.put("name",fund.getName());
+                jsonObject.put("otherowner",fund.getOtherOwner());
+                jsonObject.put("hookedto",fund.getHookedTo());
+            }catch (Exception e){
+                szovege=e.toString();
+            }
+            return jsonObject;
+        }
+
         @Override
-        protected Void doInBackground(Funds... fund){
-                dao.insert(fund[0]);
-        return null;
+        protected void onPreExecute() {}
+        @Override
+        protected String doInBackground(FundsForRemote... funds) {
+          //  ArrayList<String> urls=new ArrayList<String>();
+            try {
+                connection=connectToServer("http://192.168.1.2/access.php");
+
+                JSONObject jsonObject= jsonObjectBuilder(funds[0]);
+
+                BufferedOutputStream os = new BufferedOutputStream(connection.getOutputStream());
+                os.write(jsonObject.toString().getBytes(StandardCharsets.UTF_8));
+                os.flush();
+                os.close();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode==HttpURLConnection.HTTP_OK){
+                    szovege="ok";
+                }
+                else szovege="nemok";
+
+                connection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+                szovege=e.toString();
+            }
+            return szovege;
+        }
+        @Override
+        protected void onPostExecute(String szove) {
+            super.onPostExecute(szove);
+
+
+            FundsPage.fundsPageLabel.setText(szove);
+
+
         }
     }
-
- */
-    /*
-    private static class UpdateAsyncTask extends AsyncTask<Funds,Void,Void>{
-        private FundsDao dao;
-        public UpdateAsyncTask(FundsDao dao){this.dao=dao;}
-        @Override
-        protected Void doInBackground(Funds... fund){
-            dao.update(fund[0]);
-            return null;
-        }
-    }
-*/
-
 }
