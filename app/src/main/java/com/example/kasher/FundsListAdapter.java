@@ -135,6 +135,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
 
 
 
+
                 }
             }
 
