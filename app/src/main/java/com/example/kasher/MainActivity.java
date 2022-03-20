@@ -7,14 +7,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONObject;
 
@@ -33,125 +40,39 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     URL urlc = null;
-    InputStream is = null;
-
-    static TextView szoveg;
-    SQLiteDatabase db;
-    Button listvre;
-    Button button;
-
-
-
-
-    public static void ir(String sz){
-        szoveg.setText(sz);
-    }
+    DrawerLayout main;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        szoveg=findViewById(R.id.szoveg);
-     //  MainActivity.this.deleteDatabase("kasherD");
-        listvre=findViewById(R.id.szamlak);
-        listvre.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.main);
+
+        //  MainActivity.this.deleteDatabase("kasherD");
+
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        main = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle abdt = new ActionBarDrawerToggle(this, main, toolbar, R.string.open, R.string.close);
+        abdt.syncState();
+        NavigationView navw = findViewById(R.id.nav);
+
+        navw.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Intent accountSettings = new Intent(MainActivity.this, FundsPage.class);
-                startActivity(accountSettings);
-            }
-        });
-
-
-
-        button=findViewById(R.id.asyncTask);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AsyncTaskExample asyncTask=new AsyncTaskExample();
-                asyncTask.execute();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.funds: {
+                        Intent funds = new Intent(MainActivity.this, FundsPage.class);
+                        startActivity(funds);
+                    }
+                    break;
+                }
+                return false;
             }
         });
     }
-
-    private class AsyncTaskExample extends AsyncTask<String, String, String> {
-        String szovege;
-        @Override
-        protected void onPreExecute() {}
-        @Override
-        protected String doInBackground(String... strings) {
-            ArrayList<String> urls=new ArrayList<String>();
-            try {
-                urlc = new URL("http://192.168.1.2/access.php");
-                HttpURLConnection conn = (HttpURLConnection) urlc.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type","application/json; utf-8");
-                conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.connect();
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("method","update");
-                    jsonObject.put("id","1");
-                    jsonObject.put("family","cotturag@gmail.com");
-                    jsonObject.put("money",0);
-                }catch (Exception e){
-
-                }
-                BufferedOutputStream os = new BufferedOutputStream(conn.getOutputStream());
-                os.write(jsonObject.toString().getBytes(StandardCharsets.UTF_8));
-                os.flush();
-                os.close();
-
-
-                int responseCode = conn.getResponseCode();
-                if (responseCode==HttpURLConnection.HTTP_OK){
-                    szovege="ok";
-                }
-                else szovege="nemok";
-
-                conn.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
-                szovege=e.toString();
-            }
-            return szovege;
-        }
-        @Override
-        protected void onPostExecute(String szove) {
-            super.onPostExecute(szove);
-            //ir(szove);
-        }
-
-        /*
-        private String getPostDataString(JSONObject values) throws Exception{
-            StringBuilder res = new StringBuilder();
-            boolean first=true;
-            Iterator<String> itr = values.keys();
-            while (itr.hasNext()){
-                String key=itr.next();
-                Object value = values.get(key);
-
-                if (first) first=false;
-                else res.append("&");
-
-                res.append(URLEncoder.encode(key,"UTF-8"));
-                res.append("=");
-                res.append(URLEncoder.encode(value.toString(),"UTF-8"));
-
-
-            }
-        return res.toString();
-        }
-
-       */
-    }
-
 }
 
 

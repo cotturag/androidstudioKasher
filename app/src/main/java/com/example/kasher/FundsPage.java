@@ -46,18 +46,18 @@ public class FundsPage extends AppCompatActivity {
             if (uAndPVM.checkIfUsersTableEmpty()){
                 Users u1 = new Users("cotturag@gmail.com","cotturag@gmail.com","Szuklics Gellért","A");
                 Users u2 = new Users("kissmartina0821@gmail.com","cotturag@gmail.com","Kiss Martina","P");
-                Users u3 = new Users("fuldugo@fuldugo.hu","cotturag@gmail.com","füldugó","C");
+                Users u3 = new Users("fuldugo@fuldugo.hu","cotturag@gmail.com","Füldugó","C");
                 uAndPVM.createNewUsers(u1);
                 uAndPVM.createNewUsers(u2);
                 uAndPVM.createNewUsers(u3);
             }
             if (uAndPVM.checkIfPrivilegesTableEmpty()){
-                Privileges p1=new Privileges("1","privát számla","W","X","");
-                Privileges p2=new Privileges("2","közös számla","W","RX","");
-                Privileges p3=new Privileges("3","gyermek számla","W","R","X");
-                Privileges p4=new Privileges("A","privát kiadási kategória","W","X","");
-                Privileges p5=new Privileges("B","közös kiadási kategória","W","RX","");
-                Privileges p6=new Privileges("C","gyermek kiadási kategória","W","R","X");
+                Privileges p1=new Privileges("1","Privát számla","W","X","");
+                Privileges p2=new Privileges("2","Közös számla","W","RX","");
+                Privileges p3=new Privileges("3","Felügyelt számla","W","R","X");
+                Privileges p4=new Privileges("A","Privát kiadás","W","X","");
+                Privileges p5=new Privileges("B","Közös kiadás","W","RX","");
+                Privileges p6=new Privileges("C","Felügyelt kiadás","W","R","X");
                 uAndPVM.createNewPrivileges(p1);
                 uAndPVM.createNewPrivileges(p2);
                 uAndPVM.createNewPrivileges(p3);
@@ -81,13 +81,13 @@ public class FundsPage extends AppCompatActivity {
             if (pr.checkIfTableEmpty()){
                 Funds fund1=new Funds("0","cotturag@gmail.com","1",1,"0","Otp","",0);
                 Funds fund2=new Funds("0","cotturag@gmail.com","2",1,"0","Unicredit","cotturag@gmail.com",0);
-                Funds fund3=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","gyerekszámla","",0);
-                Funds fund4=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","másik gyerekszámla","cotturag@gmail.com",0);
-                Funds fund5=new Funds("0","cotturag@gmail.com","A",1,"0","benzin","",0);
-                Funds fund6=new Funds("0","cotturag@gmail.com","B",1,"0","közös áram","cotturag@gmail.com",0);
-                Funds fund7=new Funds("0","cotturag@gmail.com","B",1,"0","közös áram","kissmartina0821@gmail.com",6);
-                Funds fund8=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","csoki","kissmartina0821@gmail.com",0);
-                Funds fund9=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","csoki","cotturag@gmail.com",8);
+                Funds fund3=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","Gyerekszámla","",0);
+                Funds fund4=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","Másik gyerekszámla","cotturag@gmail.com",0);
+                Funds fund5=new Funds("0","cotturag@gmail.com","A",1,"0","Benzin","",0);
+                Funds fund6=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","cotturag@gmail.com",0);
+                Funds fund7=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","kissmartina0821@gmail.com",6);
+                Funds fund8=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","Csoki","kissmartina0821@gmail.com",0);
+                Funds fund9=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","Csoki","cotturag@gmail.com",8);
                 pr.createNew(fund1);
                 pr.createNew(fund2);
                 pr.createNew(fund3);

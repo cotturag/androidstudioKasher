@@ -56,11 +56,9 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         FundsForList fund = getFundAt(position);
         holder.name.setText(fund.getName());
         holder.type.setText(String.valueOf(fund.getNameInPrivileges()));
-        holder.hidden.setText(String.valueOf(fund.getId()));
         holder.money.setText(fund.getMoney());
-        holder.hidden.setVisibility(View.INVISIBLE);
-        holder.owner.setText(fund.getOwner());
-        holder.otherOwner.setText(fund.getOtherOwner());
+
+        if (fund.getType().equals("C")||fund.getType().equals("3")) holder.owner.setText(fund.getOwnerinusers());
 
         String loggedUser=FundsViewM.getLoggedUser();
         if (fund.getType().equals("1")||fund.getType().equals("A")) {
@@ -71,12 +69,17 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                 holder.type.setTextColor(0xffffffff);
                 holder.money.setTextColor(0xffffffff);
                 holder.owner.setTextColor(0xffffffff);
-                holder.otherOwner.setTextColor(0xffffffff);
+
 
                 //TODO ezeket összekéne fogni
             }
             if (fund.getType().equals("A")){
-                holder.fund.setCardBackgroundColor(0xff0faaff);
+                holder.fund.setCardBackgroundColor(0xff000faa);
+                holder.name.setTextColor(0xffffffff);
+                holder.type.setTextColor(0xffffffff);
+                holder.money.setTextColor(0xffffffff);
+                holder.owner.setTextColor(0xffffffff);
+
             }
 
         }
@@ -84,12 +87,39 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
             holder.pick.setVisibility(View.VISIBLE);
             if (fund.getOtherOwner().equals(loggedUser)){
                 holder.pick.setText("leadás a sajátokból");
-                holder.fund.setCardBackgroundColor(0xff008000);
-                holder.name.setTextColor(0xffffffff);
-                holder.type.setTextColor(0xffffffff);
-                holder.money.setTextColor(0xffffffff);
-                holder.owner.setTextColor(0xffffffff);
-                holder.otherOwner.setTextColor(0xffffffff);
+                if (fund.getType().equals("2")) {
+                    holder.name.setTextColor(0xffffffff);
+                    holder.type.setTextColor(0xffffffff);
+                    holder.money.setTextColor(0xffffffff);
+                    holder.owner.setTextColor(0xffffffff);
+                    holder.fund.setCardBackgroundColor(0xff008000);
+                }
+                if (fund.getType().equals("B")) {
+                    holder.name.setTextColor(0xff000000);
+                    holder.type.setTextColor(0xff000000);
+                    holder.money.setTextColor(0xff000000);
+                    holder.owner.setTextColor(0xff000000);
+                    holder.fund.setCardBackgroundColor(0xff008000);
+
+                }
+
+                if (fund.getType().equals("3")) {
+                    holder.fund.setCardBackgroundColor(0xffFFFFCC);
+                    holder.name.setTextColor(0xff000000);
+                    holder.type.setTextColor(0xff000000);
+                    holder.money.setTextColor(0xff000000);
+                    holder.owner.setTextColor(0xff000000);
+                    holder.fund.setCardBackgroundColor(0xffFFCC66);
+                }
+
+                if (fund.getType().equals("C")) {
+                    holder.fund.setCardBackgroundColor(0xffFFFFCC);
+                    holder.name.setTextColor(0xff000000);
+                    holder.type.setTextColor(0xff000000);
+                    holder.money.setTextColor(0xff000000);
+                    holder.owner.setTextColor(0xff000000);
+                    holder.fund.setCardBackgroundColor(0xffFFCC66);
+                }
             }
             else {
                 if (fund.getOtherOwner().equals("")||(!fund.getOtherOwner().equals("")&&fund.getHookedTo()==0)){
@@ -99,7 +129,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                     holder.type.setTextColor(0xffffffff);
                     holder.money.setTextColor(0xffffffff);
                     holder.owner.setTextColor(0xffffffff);
-                    holder.otherOwner.setTextColor(0xffffffff);
+
 
 
 
@@ -139,12 +169,12 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            hidden=itemView.findViewById(R.id.hidden);
+
             money=itemView.findViewById(R.id.money);
             type = itemView.findViewById(R.id.type);
             name = itemView.findViewById(R.id.name);
             owner=itemView.findViewById(R.id.owner);
-            otherOwner=itemView.findViewById(R.id.otherowner);
+
 
             pick= itemView.findViewById(R.id.pick);
 

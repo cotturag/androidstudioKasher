@@ -14,25 +14,30 @@ import java.util.List;
 @androidx.room.Dao
 public interface FundsDao {
     String querySelectFrom ="" +
-            "SELECT id,money,owner,otherowner,funds.type,activity,inactivity,funds.name," +
+            "SELECT funds.id,funds.money,funds.owner,funds.otherowner,funds.type,funds.activity,funds.inactivity,funds.name," +
             "privileges.type AS typeInPrivileges," +
             "privileges.name AS nameInPrivileges," +
-            "hookedTo " +
-            "FROM funds,privileges ";
-    String queryMyPrivateFunds ="WHERE owner= :owner" +
-            " AND (funds.type='1' OR funds.type='A')" +
-            " AND funds.type=privileges.type";
-    String queryMySharedFunds ="WHERE otherOwner= :owner " +
+            "users.name AS ownerinusers," +
+            "funds.hookedTo " +
+            "FROM funds,privileges,users";
+    String queryMyPrivateFunds =" WHERE owner= :owner " +
+            "AND (funds.type='1' OR funds.type='A') " +
+            "AND funds.type=privileges.type " +
+            "AND funds.owner=users.id";
+    String queryMySharedFunds =" WHERE otherOwner= :owner " +
             "AND hookedTo>0 " +
-            "AND funds.type=privileges.type";
+            "AND funds.type=privileges.type " +
+            "AND funds.owner=users.id";
     String unionAll=" UNION ALL ";
-    String queryPublicFunds="WHERE hookedTo=0" +
+    String queryPublicFunds=" WHERE hookedTo=0" +
             " AND (funds.type='2'" +
             " OR funds.type='3'" +
             " OR funds.type='B'" +
-            " OR funds.type='C') " +
-            "AND (SELECT COUNT(*) FROM funds "+queryMySharedFunds+")=0" +
-            " AND funds.type=privileges.type";
+            " OR funds.type='C')" +
+            " AND (SELECT COUNT(*) FROM funds "+queryMySharedFunds+")=0" +
+            " AND funds.type=privileges.type" +
+            " AND funds.owner=users.id";
+    String orderBy=" ORDER BY funds.type ASC";
     @Query(querySelectFrom +
             queryMyPrivateFunds +
             unionAll+
@@ -40,7 +45,7 @@ public interface FundsDao {
             queryMySharedFunds+
             unionAll+
             querySelectFrom +
-            queryPublicFunds)
+            queryPublicFunds+orderBy)
     LiveData<List<FundsForList>> getAll(String owner);
 
     @Query(querySelectFrom+ queryMyPrivateFunds)

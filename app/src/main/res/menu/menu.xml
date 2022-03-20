@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/funds"
+        android:title="Számlák és kiadási kategóriák"
+        android:orderInCategory="1"
+        >
+    </item>
+
+    <item
+        android:id="@+id/ketto"
+        android:title="2"
+        android:orderInCategory="2"
+        >
+    </item>
+    <item
+        android:id="@+id/harom"
+        android:title="3"
+        android:orderInCategory="3"
+        >
+    </item>
+    <item
+        android:id="@+id/negy"
+        android:title="4"
+        android:orderInCategory="4"
+        >
+    </item>
+</menu>
