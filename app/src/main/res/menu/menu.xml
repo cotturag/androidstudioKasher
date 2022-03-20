@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/funds"
-        android:title="Számlák és kiadási kategóriák"
+        android:title="Számlák és kiadások"
         android:orderInCategory="1"
         >
     </item>

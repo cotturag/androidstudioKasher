@@ -68,6 +68,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                 holder.name.setTextColor(0xffffffff);
                 holder.type.setTextColor(0xffffffff);
                 holder.money.setTextColor(0xffffffff);
+                holder.moneylabel.setTextColor(0xffffffff);
                 holder.owner.setTextColor(0xffffffff);
 
 
@@ -78,6 +79,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                 holder.name.setTextColor(0xffffffff);
                 holder.type.setTextColor(0xffffffff);
                 holder.money.setTextColor(0xffffffff);
+                holder.moneylabel.setTextColor(0xffffffff);
                 holder.owner.setTextColor(0xffffffff);
 
             }
@@ -91,6 +93,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                     holder.name.setTextColor(0xffffffff);
                     holder.type.setTextColor(0xffffffff);
                     holder.money.setTextColor(0xffffffff);
+                    holder.moneylabel.setTextColor(0xffffffff);
                     holder.owner.setTextColor(0xffffffff);
                     holder.fund.setCardBackgroundColor(0xff008000);
                 }
@@ -98,6 +101,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                     holder.name.setTextColor(0xff000000);
                     holder.type.setTextColor(0xff000000);
                     holder.money.setTextColor(0xff000000);
+                    holder.moneylabel.setTextColor(0xff000000);
                     holder.owner.setTextColor(0xff000000);
                     holder.fund.setCardBackgroundColor(0xff008000);
 
@@ -108,6 +112,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                     holder.name.setTextColor(0xff000000);
                     holder.type.setTextColor(0xff000000);
                     holder.money.setTextColor(0xff000000);
+                    holder.moneylabel.setTextColor(0xff000000);
                     holder.owner.setTextColor(0xff000000);
                     holder.fund.setCardBackgroundColor(0xffFFCC66);
                 }
@@ -117,6 +122,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                     holder.name.setTextColor(0xff000000);
                     holder.type.setTextColor(0xff000000);
                     holder.money.setTextColor(0xff000000);
+                    holder.moneylabel.setTextColor(0xff000000);
                     holder.owner.setTextColor(0xff000000);
                     holder.fund.setCardBackgroundColor(0xffFFCC66);
                 }
@@ -128,6 +134,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                     holder.name.setTextColor(0xffffffff);
                     holder.type.setTextColor(0xffffffff);
                     holder.money.setTextColor(0xffffffff);
+                    holder.moneylabel.setTextColor(0xffffffff);
                     holder.owner.setTextColor(0xffffffff);
 
 
@@ -166,6 +173,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         public TextView otherOwner;
         public CardView fund;
         public LinearLayout fundstexts;
+        public TextView moneylabel;
 
         public Button pick;
         public Button createVirtual;
@@ -174,6 +182,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
             super(itemView);
 
             money=itemView.findViewById(R.id.money);
+            moneylabel=itemView.findViewById(R.id.moneylabel);
             type = itemView.findViewById(R.id.type);
             name = itemView.findViewById(R.id.name);
             owner=itemView.findViewById(R.id.owner);
@@ -182,7 +191,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
             pick= itemView.findViewById(R.id.pick);
 
             fund=itemView.findViewById(R.id.fund);
-            fundstexts=itemView.findViewById(R.id.fundstexts);
+          //  fundstexts=itemView.findViewById(R.id.fundstexts);
 
 
 
