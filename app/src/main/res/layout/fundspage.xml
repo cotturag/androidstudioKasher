@@ -4,8 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
 
+
+    >
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,11 +24,14 @@
         android:layout_marginLeft="150dp"
 
         ></TextView>
-
+-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fundsrec"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:layout_marginTop="100dp"/>
+        android:layout_height="match_parent"
+        android:background="#ece4db"
+
+        />
 
 
 </RelativeLayout>

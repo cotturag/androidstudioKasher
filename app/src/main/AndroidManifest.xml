@@ -28,6 +28,7 @@
         </activity>
 
         <activity android:name=".FundsPage"></activity>
+        <activity android:name=".Actions"></activity>
 
     </application>
 

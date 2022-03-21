@@ -33,8 +33,6 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
 
         @Override
         public boolean areContentsTheSame(@NonNull FundsForList oldItem, @NonNull FundsForList newItem) {
-
-
             return (oldItem.getMoney().equals(newItem.getMoney())&&oldItem.getOwner().equals(newItem.getOwner())&&oldItem.getType().equals(newItem.getType())&&
                     oldItem.getActivity()==newItem.getActivity()&&oldItem.getInactivity().equals(newItem.getInactivity())&&
                     oldItem.getName().equals(newItem.getName())&&oldItem.getOtherOwner().equals(newItem.getOtherOwner())&&
@@ -56,14 +54,23 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         FundsForList fund = getFundAt(position);
         holder.name.setText(fund.getName());
         holder.type.setText(String.valueOf(fund.getNameInPrivileges()));
-        holder.money.setText(fund.getMoney());
+        //ha számla
+       /*
+        if (fund.getType().equals("1")||fund.getType().equals("2")||fund.getType().equals("3")){
+            holder.money.setText(fund.getMoney());
+            holder.moneylabel.setText("Ft");
+        }
+*/
 
         if (fund.getType().equals("C")||fund.getType().equals("3")) holder.owner.setText(fund.getOwnerinusers());
 
         String loggedUser=FundsViewM.getLoggedUser();
         if (fund.getType().equals("1")||fund.getType().equals("A")) {
             holder.pick.setVisibility(View.INVISIBLE);
+            //ha privát számla
             if (fund.getType().equals("1")){
+                holder.money.setText(fund.getMoney());
+                holder.moneylabel.setText("Ft");
                 holder.fund.setCardBackgroundColor(0xff000faa);
                 holder.name.setTextColor(0xffffffff);
                 holder.type.setTextColor(0xffffffff);
@@ -74,12 +81,11 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
 
                 //TODO ezeket összekéne fogni
             }
+            //ha privát kölcségkategória
             if (fund.getType().equals("A")){
                 holder.fund.setCardBackgroundColor(0xff000faa);
                 holder.name.setTextColor(0xffffffff);
                 holder.type.setTextColor(0xffffffff);
-                holder.money.setTextColor(0xffffffff);
-                holder.moneylabel.setTextColor(0xffffffff);
                 holder.owner.setTextColor(0xffffffff);
 
             }
@@ -87,9 +93,13 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         }
         else {
             holder.pick.setVisibility(View.VISIBLE);
+            //ha fel van véve
             if (fund.getOtherOwner().equals(loggedUser)){
                 holder.pick.setText("leadás a sajátokból");
+                //ha közös számla
                 if (fund.getType().equals("2")) {
+                    holder.money.setText(fund.getMoney());
+                    holder.moneylabel.setText("Ft");
                     holder.name.setTextColor(0xffffffff);
                     holder.type.setTextColor(0xffffffff);
                     holder.money.setTextColor(0xffffffff);
@@ -97,18 +107,19 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                     holder.owner.setTextColor(0xffffffff);
                     holder.fund.setCardBackgroundColor(0xff008000);
                 }
+                //ha közös kölcségkategória
                 if (fund.getType().equals("B")) {
-                    holder.name.setTextColor(0xff000000);
-                    holder.type.setTextColor(0xff000000);
-                    holder.money.setTextColor(0xff000000);
-                    holder.moneylabel.setTextColor(0xff000000);
-                    holder.owner.setTextColor(0xff000000);
+                    holder.name.setTextColor(0xffffffff);
+                    holder.type.setTextColor(0xffffffff);
+                    holder.owner.setTextColor(0xffffffff);
                     holder.fund.setCardBackgroundColor(0xff008000);
 
                 }
-
+                //ha gyermek számla
                 if (fund.getType().equals("3")) {
-                    holder.fund.setCardBackgroundColor(0xffFFFFCC);
+                    holder.money.setText(fund.getMoney());
+                    holder.moneylabel.setText("Ft");
+                   // holder.fund.setCardBackgroundColor(0xffFFFFCC);
                     holder.name.setTextColor(0xff000000);
                     holder.type.setTextColor(0xff000000);
                     holder.money.setTextColor(0xff000000);
@@ -116,27 +127,62 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                     holder.owner.setTextColor(0xff000000);
                     holder.fund.setCardBackgroundColor(0xffFFCC66);
                 }
-
+                //ha gyermek kölcségkategória
                 if (fund.getType().equals("C")) {
-                    holder.fund.setCardBackgroundColor(0xffFFFFCC);
+                   // holder.fund.setCardBackgroundColor(0xffFFFFCC);
                     holder.name.setTextColor(0xff000000);
                     holder.type.setTextColor(0xff000000);
-                    holder.money.setTextColor(0xff000000);
-                    holder.moneylabel.setTextColor(0xff000000);
                     holder.owner.setTextColor(0xff000000);
                     holder.fund.setCardBackgroundColor(0xffFFCC66);
                 }
             }
             else {
+                //ha le van adva
                 if (fund.getOtherOwner().equals("")||(!fund.getOtherOwner().equals("")&&fund.getHookedTo()==0)){
                     holder.pick.setText("felvétel a sajátok közé");
-                    holder.fund.setCardBackgroundColor(0xffff0000);
-                    holder.name.setTextColor(0xffffffff);
-                    holder.type.setTextColor(0xffffffff);
-                    holder.money.setTextColor(0xffffffff);
-                    holder.moneylabel.setTextColor(0xffffffff);
-                    holder.owner.setTextColor(0xffffffff);
+                    //ha közös száml
+                    if (fund.getType().equals("2")) {
+                        holder.money.setText("A számla nincs használatban");
+                        holder.moneylabel.setText("");
+                        holder.name.setTextColor(0xffffffff);
+                        holder.type.setTextColor(0xffffffff);
+                        holder.money.setTextColor(0xffe63946);
+                       // holder.moneylabel.setTextColor(0xffffffff);
+                        holder.owner.setTextColor(0xffffffff);
+                        holder.fund.setCardBackgroundColor(0xff008000);
+                    }
+                    //ha közös kölcségkategória
+                    if (fund.getType().equals("B")) {
+                        holder.money.setText("A költségkategória nincs használatban");
+                        holder.name.setTextColor(0xffffffff);
+                        holder.type.setTextColor(0xffffffff);
+                        holder.owner.setTextColor(0xffffffff);
+                        holder.fund.setCardBackgroundColor(0xff008000);
+                      //  holder.money.setTextColor(0xffee9b00);
 
+
+                    }
+                    //ha gyermek számla
+                    if (fund.getType().equals("3")) {
+                        holder.money.setText("A számla nincs felügyeletre felvéve");
+                        holder.fund.setCardBackgroundColor(0xffFFFFCC);
+                        holder.name.setTextColor(0xff000000);
+                        holder.type.setTextColor(0xff000000);
+                        holder.money.setTextColor(0xffe63946);
+                        holder.moneylabel.setTextColor(0xffe63946);
+                        holder.owner.setTextColor(0xff000000);
+                        holder.fund.setCardBackgroundColor(0xffFFCC66);
+                    }
+                    //ha gyermek kölcségkategória
+                    if (fund.getType().equals("C")) {
+                        holder.money.setText("A költségkategória nincs felügyeletre felvéve");
+                        holder.fund.setCardBackgroundColor(0xffFFFFCC);
+                        holder.name.setTextColor(0xff000000);
+                        holder.type.setTextColor(0xff000000);
+                        holder.owner.setTextColor(0xff000000);
+                        holder.fund.setCardBackgroundColor(0xffFFCC66);
+                        holder.moneylabel.setTextColor(0xffe63946);
+                    }
 
 
 

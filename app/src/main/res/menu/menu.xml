@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/funds"
-        android:title="Számlák és kiadások"
+        android:title="Számlák és kölcségkategóriák"
         android:orderInCategory="1"
         >
     </item>
 
     <item
-        android:id="@+id/ketto"
-        android:title="2"
+        android:id="@+id/actions"
+        android:title="Rögzítés"
         android:orderInCategory="2"
         >
     </item>

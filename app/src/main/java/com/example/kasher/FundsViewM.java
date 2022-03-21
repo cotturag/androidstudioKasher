@@ -57,7 +57,7 @@ public class FundsViewM extends AndroidViewModel {
         if (fund.getOtherOwner().equals("")){
             fund.setOtherOwner(owner);
             repo.update(fund);
-            repo.updateRemote(fund);
+           // repo.updateRemote(fund);
         }
         else {
             fund.setOtherOwner(owner);
@@ -73,18 +73,18 @@ public class FundsViewM extends AndroidViewModel {
             String stringLocation=String.valueOf(location);
             int intLocation=Integer.valueOf(stringLocation);
             fund.setId(intLocation);
-            repo.insertRemote(fund,family);
+          //  repo.insertRemote(fund,family);
         }
     }
     public void pickDown(Funds fund,String family) throws ExecutionException, InterruptedException {
         if (fund.getHookedTo()==0){
             fund.setOtherOwner("");
             repo.update(fund);
-            repo.updateRemote(fund);
+          //  repo.updateRemote(fund);
         }
         else {
             repo.delete(fund);
-            repo.deleteRemote(fund,family);
+           // repo.deleteRemote(fund,family);
         }
     }
 

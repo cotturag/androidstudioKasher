@@ -48,6 +48,7 @@ dependencies {
 
     // To use CallbackToFutureAdapter
     implementation "androidx.concurrent:concurrent-futures:1.1.0"
+    implementation "androidx.fragment:fragment:1.4.1"
 
 
 

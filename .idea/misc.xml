@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/actions.xml" value="0.4041666666666667" />
         <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/fragment_page.xml" value="0.2635416666666667" />
         <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/fundspage.xml" value="0.14907407407407408" />
-        <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/fundsview.xml" value="0.33" />
+        <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/fundsview.xml" value="0.1" />
         <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/listv.xml" value="0.24814814814814815" />
         <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/main.xml" value="0.3375" />
+        <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/mainfundspage.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/navheader.xml" value="0.3375" />
         <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/row.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/cottu/AndroidStudioProjects/Kasher/app/src/main/res/layout/toolbar.xml" value="0.3375" />

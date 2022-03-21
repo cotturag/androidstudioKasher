@@ -37,8 +37,8 @@ public class FundsPage extends AppCompatActivity {
         fundsRec.setItemAnimator(new DefaultItemAnimator());
         FundsListAdapter adapter = new FundsListAdapter();
         fundsRec.setAdapter(adapter);
-        fundsPageLabel=findViewById(R.id.fundspagelabel);
-        fundsPageLabelTwo=findViewById(R.id.fundspagelabeltwo);
+    //    fundsPageLabel=findViewById(R.id.fundspagelabel);
+      //  fundsPageLabelTwo=findViewById(R.id.fundspagelabeltwo);
 
 
         UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
@@ -54,10 +54,10 @@ public class FundsPage extends AppCompatActivity {
             if (uAndPVM.checkIfPrivilegesTableEmpty()){
                 Privileges p1=new Privileges("1","Privát számla","W","X","");
                 Privileges p2=new Privileges("2","Közös számla","W","RX","");
-                Privileges p3=new Privileges("3","Felügyelt számla","W","R","X");
-                Privileges p4=new Privileges("A","Privát kiadás","W","X","");
-                Privileges p5=new Privileges("B","Közös kiadás","W","RX","");
-                Privileges p6=new Privileges("C","Felügyelt kiadás","W","R","X");
+                Privileges p3=new Privileges("3","Gyermek számla","W","R","X");
+                Privileges p4=new Privileges("A","Privát költéskategória","W","X","");
+                Privileges p5=new Privileges("B","Közös költéskategória","W","RX","");
+                Privileges p6=new Privileges("C","Gyermek költéskategória","W","R","X");
                 uAndPVM.createNewPrivileges(p1);
                 uAndPVM.createNewPrivileges(p2);
                 uAndPVM.createNewPrivileges(p3);
@@ -81,8 +81,8 @@ public class FundsPage extends AppCompatActivity {
             if (pr.checkIfTableEmpty()){
                 Funds fund1=new Funds("0","cotturag@gmail.com","1",1,"0","Otp","",0);
                 Funds fund2=new Funds("0","cotturag@gmail.com","2",1,"0","Unicredit","cotturag@gmail.com",0);
-                Funds fund3=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","Gyerekszámla","",0);
-                Funds fund4=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","Másik gyerekszámla","cotturag@gmail.com",0);
+                Funds fund3=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","Otp junior","",0);
+                Funds fund4=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","Otp junior","cotturag@gmail.com",0);
                 Funds fund5=new Funds("0","cotturag@gmail.com","A",1,"0","Benzin","",0);
                 Funds fund6=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","cotturag@gmail.com",0);
                 Funds fund7=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","kissmartina0821@gmail.com",6);
