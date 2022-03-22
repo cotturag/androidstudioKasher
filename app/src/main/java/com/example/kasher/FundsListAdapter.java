@@ -62,16 +62,17 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
         }
 */
 
-        if (fund.getType().equals("C")||fund.getType().equals("3")) holder.owner.setText(fund.getOwnerinusers());
+        if (fund.getType().equals("C")||fund.getType().equals("3")) holder.owner.setText("("+fund.getOwnerinusers()+")");
+                else holder.owner.setText("");
 
         String loggedUser=FundsViewM.getLoggedUser();
         if (fund.getType().equals("1")||fund.getType().equals("A")) {
             holder.pick.setVisibility(View.INVISIBLE);
             //ha privát számla
             if (fund.getType().equals("1")){
+                holder.fund.setCardBackgroundColor(0xff000faa);
                 holder.money.setText(fund.getMoney());
                 holder.moneylabel.setText("Ft");
-                holder.fund.setCardBackgroundColor(0xff000faa);
                 holder.name.setTextColor(0xffffffff);
                 holder.type.setTextColor(0xffffffff);
                 holder.money.setTextColor(0xffffffff);
@@ -81,8 +82,10 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
 
                 //TODO ezeket összekéne fogni
             }
-            //ha privát kölcségkategória
+            //ha privát költségkategória
             if (fund.getType().equals("A")){
+                holder.money.setText("");
+                holder.moneylabel.setText("");
                 holder.fund.setCardBackgroundColor(0xff000faa);
                 holder.name.setTextColor(0xffffffff);
                 holder.type.setTextColor(0xffffffff);
@@ -95,93 +98,112 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
             holder.pick.setVisibility(View.VISIBLE);
             //ha fel van véve
             if (fund.getOtherOwner().equals(loggedUser)){
-                holder.pick.setText("leadás a sajátokból");
+
                 //ha közös számla
                 if (fund.getType().equals("2")) {
+                    holder.pick.setText("Számla használatának kikapcsolása");
                     holder.money.setText(fund.getMoney());
+                    holder.moneylabel.setText("Ft");
+                    holder.fund.setCardBackgroundColor(0xff008000);
+                    holder.money.setTextColor(0xffffffff);
+                    holder.moneylabel.setTextColor(0xffffffff);
                     holder.moneylabel.setText("Ft");
                     holder.name.setTextColor(0xffffffff);
                     holder.type.setTextColor(0xffffffff);
-                    holder.money.setTextColor(0xffffffff);
-                    holder.moneylabel.setTextColor(0xffffffff);
                     holder.owner.setTextColor(0xffffffff);
-                    holder.fund.setCardBackgroundColor(0xff008000);
+
                 }
-                //ha közös kölcségkategória
+                //ha közös költségkategória
                 if (fund.getType().equals("B")) {
+                    holder.pick.setText("Költségkategória használatának kikapcsolása");
+                    holder.money.setText("");
+                    holder.moneylabel.setText("");
+                    holder.fund.setCardBackgroundColor(0xff008000);
                     holder.name.setTextColor(0xffffffff);
                     holder.type.setTextColor(0xffffffff);
                     holder.owner.setTextColor(0xffffffff);
-                    holder.fund.setCardBackgroundColor(0xff008000);
+
 
                 }
                 //ha gyermek számla
                 if (fund.getType().equals("3")) {
+                    holder.pick.setText("Számla felügyeletének kikapcsolása");
                     holder.money.setText(fund.getMoney());
                     holder.moneylabel.setText("Ft");
-                   // holder.fund.setCardBackgroundColor(0xffFFFFCC);
-                    holder.name.setTextColor(0xff000000);
-                    holder.type.setTextColor(0xff000000);
+                    holder.fund.setCardBackgroundColor(0xffFFCC66);
                     holder.money.setTextColor(0xff000000);
                     holder.moneylabel.setTextColor(0xff000000);
-                    holder.owner.setTextColor(0xff000000);
-                    holder.fund.setCardBackgroundColor(0xffFFCC66);
-                }
-                //ha gyermek kölcségkategória
-                if (fund.getType().equals("C")) {
-                   // holder.fund.setCardBackgroundColor(0xffFFFFCC);
                     holder.name.setTextColor(0xff000000);
                     holder.type.setTextColor(0xff000000);
                     holder.owner.setTextColor(0xff000000);
+
+                }
+                //ha gyermek költségkategória
+                if (fund.getType().equals("C")) {
+                    holder.pick.setText("Költségkategória felügyeletének kikapcsolása");
+                    holder.money.setText("");
+                    holder.moneylabel.setText("");
                     holder.fund.setCardBackgroundColor(0xffFFCC66);
+                    holder.name.setTextColor(0xff000000);
+                    holder.type.setTextColor(0xff000000);
+                    holder.owner.setTextColor(0xff000000);
+
                 }
             }
             else {
                 //ha le van adva
                 if (fund.getOtherOwner().equals("")||(!fund.getOtherOwner().equals("")&&fund.getHookedTo()==0)){
-                    holder.pick.setText("felvétel a sajátok közé");
+
                     //ha közös száml
                     if (fund.getType().equals("2")) {
-                        holder.money.setText("A számla nincs használatban");
+                        holder.pick.setText("Számla használatának bekapcsolása");
+                        holder.money.setText("A számla nincs használatra bekapcsolva");
                         holder.moneylabel.setText("");
+                        holder.fund.setCardBackgroundColor(0xff008000);
+                        holder.money.setTextColor(0xffee9b00);
                         holder.name.setTextColor(0xffffffff);
                         holder.type.setTextColor(0xffffffff);
-                        holder.money.setTextColor(0xffe63946);
-                       // holder.moneylabel.setTextColor(0xffffffff);
                         holder.owner.setTextColor(0xffffffff);
-                        holder.fund.setCardBackgroundColor(0xff008000);
+
                     }
-                    //ha közös kölcségkategória
+                    //ha közös költségkategória
                     if (fund.getType().equals("B")) {
-                        holder.money.setText("A költségkategória nincs használatban");
+                        holder.pick.setText("Költségkategória használatának bekapcsolása");
+                        holder.money.setText("A költségkategória nincs használatra bekapcsolva");
+                        holder.moneylabel.setText("");
+                        holder.fund.setCardBackgroundColor(0xff008000);
+                        holder.money.setTextColor(0xffee9b00);
                         holder.name.setTextColor(0xffffffff);
                         holder.type.setTextColor(0xffffffff);
                         holder.owner.setTextColor(0xffffffff);
-                        holder.fund.setCardBackgroundColor(0xff008000);
-                      //  holder.money.setTextColor(0xffee9b00);
+
+
 
 
                     }
                     //ha gyermek számla
                     if (fund.getType().equals("3")) {
-                        holder.money.setText("A számla nincs felügyeletre felvéve");
+                        holder.pick.setText("A számla felügyeletének bekapcsolása");
+                        holder.money.setText("A számla nincs felügyeletre bekapcsolva");
+                        holder.moneylabel.setText("");
                         holder.fund.setCardBackgroundColor(0xffFFFFCC);
+                        holder.money.setTextColor(0xffe63946);
                         holder.name.setTextColor(0xff000000);
                         holder.type.setTextColor(0xff000000);
-                        holder.money.setTextColor(0xffe63946);
-                        holder.moneylabel.setTextColor(0xffe63946);
                         holder.owner.setTextColor(0xff000000);
                         holder.fund.setCardBackgroundColor(0xffFFCC66);
                     }
-                    //ha gyermek kölcségkategória
+                    //ha gyermek költségkategória
                     if (fund.getType().equals("C")) {
-                        holder.money.setText("A költségkategória nincs felügyeletre felvéve");
+                        holder.pick.setText("A költségkategória felügyeletének kikapcsolása");
+                        holder.money.setText("A költségkategória nincs felügyeletre bekapcsolva");
+                        holder.moneylabel.setText("");
                         holder.fund.setCardBackgroundColor(0xffFFFFCC);
+                        holder.money.setTextColor(0xffe63946);
                         holder.name.setTextColor(0xff000000);
                         holder.type.setTextColor(0xff000000);
                         holder.owner.setTextColor(0xff000000);
                         holder.fund.setCardBackgroundColor(0xffFFCC66);
-                        holder.moneylabel.setTextColor(0xffe63946);
                     }
 
 
