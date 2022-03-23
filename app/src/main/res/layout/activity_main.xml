@@ -1,12 +1,13 @@
 <?xml version = "1.0" encoding = "utf-8"?>
-<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
-    xmlns:tools = "http://schemas.android.com/tools"
-    android:id = "@+id/rootview"
-    android:layout_width = "match_parent"
-    android:layout_height = "match_parent"
-    android:orientation = "vertical"
-    android:gravity = "center_horizontal"
-    tools:context = ".MainActivity"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".MainActivity"
 
     >
     <com.google.android.material.appbar.AppBarLayout
@@ -22,6 +23,74 @@
 
     </include>
 </com.google.android.material.appbar.AppBarLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/navheader"
+        android:layout_weight="1"
+        >
+
+
+        <ImageButton
+            android:id="@+id/imageButtonLeft"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonCenter"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:srcCompat="@drawable/m8photo"
+            android:src="@drawable/m8photo"
+            android:layout_margin="1dp"
+
+            />
+
+        <ImageButton
+            android:id="@+id/imageButtonCenter"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonRight"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonLeft"
+            tools:srcCompat="@drawable/m11photo"
+            android:src="@drawable/m11photo"
+            android:layout_margin="1dp"
+
+            />
+
+        <ImageButton
+            android:id="@+id/imageButtonRight"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonCenter"
+            tools:srcCompat="@drawable/m8photo"
+            android:src="@drawable/m8photo"
+            android:layout_margin="1dp"
+
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="imageButtonLeft,imageButtonCenter,imageButtonRight" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.fragment.app.FragmentContainerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/actionFragmentView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        />
 
 
 

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,11 +44,72 @@ public class MainActivity extends AppCompatActivity {
     URL urlc = null;
     DrawerLayout main;
     Toolbar toolbar;
+    ImageButton imageButtonLeft;
+    ImageButton imageButtonCenter;
+    ImageButton imageButtonRight;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        imageButtonLeft=findViewById(R.id.imageButtonLeft);
+        imageButtonLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (savedInstanceState == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("actionCode",1);
+
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.actionFragmentView, Actions.class,bundle)
+                            .commit();
+                }
+            }
+        });
+
+        imageButtonCenter=findViewById(R.id.imageButtonCenter);
+        imageButtonCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (savedInstanceState == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("actionCode",2);
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
+                            .commit();
+                }
+            }
+        });
+
+        imageButtonRight=findViewById(R.id.imageButtonRight);
+        imageButtonRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (savedInstanceState == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("actionCode",3);
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.actionFragmentView, Actions.class,bundle)
+                            .commit();
+                }
+            }
+        });
+        Bundle bundle = new Bundle();
+        bundle.putInt("actionCode",1);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
+                    .commit();
+        }
+
+
+
 
         //  MainActivity.this.deleteDatabase("kasherD");
 
@@ -69,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                     case R.id.actions: {
-                        Intent actions = new Intent(MainActivity.this, Actions.class);
-                        startActivity(actions);
+                        Intent actionsPage = new Intent(MainActivity.this, ActionsPage.class);
+                        startActivity(actionsPage);
                     }
                     break;
                 }

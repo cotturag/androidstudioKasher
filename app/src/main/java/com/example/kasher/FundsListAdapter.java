@@ -233,18 +233,13 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView hidden;
         public TextView money;
         public TextView type;
         public TextView name;
         public TextView owner;
-        public TextView otherOwner;
         public CardView fund;
-        public LinearLayout fundstexts;
         public TextView moneylabel;
-
         public Button pick;
-        public Button createVirtual;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -254,16 +249,8 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
             type = itemView.findViewById(R.id.type);
             name = itemView.findViewById(R.id.name);
             owner=itemView.findViewById(R.id.owner);
-
-
             pick= itemView.findViewById(R.id.pick);
-
             fund=itemView.findViewById(R.id.fund);
-          //  fundstexts=itemView.findViewById(R.id.fundstexts);
-
-
-
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
