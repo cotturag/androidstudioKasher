@@ -1,46 +1,31 @@
 package com.example.kasher;
 
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.ViewModelProvider;
 
 
 import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONObject;
 
-
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     URL urlc = null;
@@ -49,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     ImageButton imageButtonLeft;
     ImageButton imageButtonCenter;
     ImageButton imageButtonRight;
-    String loggeduser="cotturag@gmail.com";
+    String loggedUser ="cotturag@gmail.com";
     SharedPreferences pref;
+    static FundsViewM pr;
 
 
     @Override
@@ -58,7 +44,70 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+
+
         pref=this.getSharedPreferences("action", Context.MODE_PRIVATE);
+
+       //  MainActivity.this.deleteDatabase("kasherD");
+        UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
+        try {
+            if (uAndPVM.checkIfUsersTableEmpty()){
+                Users u1 = new Users("cotturag@gmail.com","cotturag@gmail.com","Szuklics Gellért","A");
+                Users u2 = new Users("kissmartina0821@gmail.com","cotturag@gmail.com","Kiss Martina","P");
+                Users u3 = new Users("fuldugo@fuldugo.hu","cotturag@gmail.com","Füldugó","C");
+                uAndPVM.createNewUsers(u1);
+                uAndPVM.createNewUsers(u2);
+                uAndPVM.createNewUsers(u3);
+            }
+            if (uAndPVM.checkIfPrivilegesTableEmpty()){
+                Privileges p1=new Privileges("1","Privát számla","W","X","");
+                Privileges p2=new Privileges("2","Közös számla","W","RX","");
+                Privileges p3=new Privileges("3","Gyermek számla","W","R","X");
+                Privileges p4=new Privileges("A","Privát költéskategória","W","X","");
+                Privileges p5=new Privileges("B","Közös költéskategória","W","RX","");
+                Privileges p6=new Privileges("C","Gyermek költéskategória","W","R","X");
+                uAndPVM.createNewPrivileges(p1);
+                uAndPVM.createNewPrivileges(p2);
+                uAndPVM.createNewPrivileges(p3);
+                uAndPVM.createNewPrivileges(p4);
+                uAndPVM.createNewPrivileges(p5);
+                uAndPVM.createNewPrivileges(p6);
+            }
+        } catch (ExecutionException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
+
+        String privilege= "";
+        try {
+            Users privO=uAndPVM.getPrivilegesByOwner(loggedUser);
+            privilege = privO.getPrivilege();
+        } catch (ExecutionException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
+        List<String> s = new ArrayList<String>();
+        s.add(loggedUser);
+        s.add(privilege);
+
+        pr = new ViewModelProvider(this,new FundsViewM.FundsViewMFactory(this.getApplication(),s)).get(FundsViewM.class);
+        try {
+            if (pr.checkIfTableEmpty()){
+                Funds fund1=new Funds("0","cotturag@gmail.com","1",1,"0","Otp","",0);
+                Funds fund2=new Funds("0","cotturag@gmail.com","2",1,"0","Unicredit","cotturag@gmail.com",0);
+                Funds fund3=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","Otp junior","",0);
+                Funds fund4=new Funds("0","fuldugo@fuldugo.hu","3",1,"0","Otp junior","cotturag@gmail.com",0);
+                Funds fund5=new Funds("0","cotturag@gmail.com","A",1,"0","Benzin","",0);
+                Funds fund6=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","cotturag@gmail.com",0);
+                Funds fund7=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","kissmartina0821@gmail.com",6);
+                Funds fund8=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","Csoki","kissmartina0821@gmail.com",0);
+                Funds fund9=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","Csoki","cotturag@gmail.com",8);
+                pr.createNew(fund1);
+                pr.createNew(fund2);
+                pr.createNew(fund3);
+                pr.createNew(fund4);
+                pr.createNew(fund5);
+                pr.createNew(fund6);
+                pr.createNew(fund7);
+                pr.createNew(fund8);
+                pr.createNew(fund9);
+            }
+        } catch (ExecutionException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
+
 
         imageButtonLeft=findViewById(R.id.imageButtonLeft);
         imageButtonLeft.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 if (savedInstanceState == null) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("actionCode",1);
-                    bundle.putString("loggedUser",loggeduser);
+                    bundle.putString("loggedUser", loggedUser);
 
 
                     getSupportFragmentManager().beginTransaction()
@@ -85,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 if (savedInstanceState == null) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("actionCode",2);
-                    bundle.putString("loggedUser",loggeduser);
+                    bundle.putString("loggedUser", loggedUser);
                     getSupportFragmentManager().beginTransaction()
                             .setReorderingAllowed(true)
                             .replace(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
@@ -101,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 if (savedInstanceState == null) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("actionCode",3);
-                    bundle.putString("loggedUser",loggeduser);
+                    bundle.putString("loggedUser", loggedUser);
                     getSupportFragmentManager().beginTransaction()
                             .setReorderingAllowed(true)
                             .replace(R.id.actionFragmentView, Actions.class,bundle)
@@ -111,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         });
         Bundle bundle = new Bundle();
         bundle.putInt("actionCode",1);
-        bundle.putString("loggedUser",loggeduser);
+        bundle.putString("loggedUser", loggedUser);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
@@ -122,7 +171,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //  MainActivity.this.deleteDatabase("kasherD");
+
+
 
         toolbar = findViewById(R.id.toolbar);
 
