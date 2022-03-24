@@ -2,7 +2,9 @@ package com.example.kasher;
 
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,12 +49,16 @@ public class MainActivity extends AppCompatActivity {
     ImageButton imageButtonLeft;
     ImageButton imageButtonCenter;
     ImageButton imageButtonRight;
+    String loggeduser="cotturag@gmail.com";
+    SharedPreferences pref;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        pref=this.getSharedPreferences("action", Context.MODE_PRIVATE);
 
         imageButtonLeft=findViewById(R.id.imageButtonLeft);
         imageButtonLeft.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
                 if (savedInstanceState == null) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("actionCode",1);
+                    bundle.putString("loggedUser",loggeduser);
+
 
                     getSupportFragmentManager().beginTransaction()
                             .setReorderingAllowed(true)
@@ -77,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 if (savedInstanceState == null) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("actionCode",2);
+                    bundle.putString("loggedUser",loggeduser);
                     getSupportFragmentManager().beginTransaction()
                             .setReorderingAllowed(true)
                             .replace(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
@@ -92,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 if (savedInstanceState == null) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("actionCode",3);
+                    bundle.putString("loggedUser",loggeduser);
                     getSupportFragmentManager().beginTransaction()
                             .setReorderingAllowed(true)
                             .replace(R.id.actionFragmentView, Actions.class,bundle)
@@ -101,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         });
         Bundle bundle = new Bundle();
         bundle.putInt("actionCode",1);
+        bundle.putString("loggedUser",loggeduser);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)

@@ -35,7 +35,7 @@ public class ActionsFundsListAdapter extends ListAdapter<FundsForList,ActionsFun
     @Override
     public ActionsFundsListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fundsview, parent, false);
+                .inflate(R.layout.actionfundsview, parent, false);
         return new ActionsFundsListAdapter.ViewHolder(item);
     }
     @Override

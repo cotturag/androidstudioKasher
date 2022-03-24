@@ -21,16 +21,26 @@ public class FundsRepo {
     private FundsDao dao;
 
     private LiveData<List<FundsForList>> actualFunds;
+    private LiveData<List<FundsForList>> accounts;
+    private LiveData<List<FundsForList>> costCategories;
 
     public FundsRepo(Application app, String owner,String privilege){
         AppDatabase db = AppDatabase.getInstance(app);
         dao=db.fundsDao();
         if (privilege.equals("C")) actualFunds= dao.getPrivates(owner);
         else actualFunds= dao.getAll(owner);
+        accounts=dao.getAccounts(owner);
+        costCategories=dao.getCostCategories(owner);
+
     }
     public LiveData<List<FundsForList>> getActualFunds(){
         return this.actualFunds;
     }
+    public LiveData<List<FundsForList>> getAccounts(){return this.accounts;}
+    public LiveData<List<FundsForList>> getCostCategories(){return this.costCategories;}
+
+
+
 
     public LiveData<List<FundsForList>> getActualPrivateFundsOnly(String owner){
         return dao.getPrivates(owner);

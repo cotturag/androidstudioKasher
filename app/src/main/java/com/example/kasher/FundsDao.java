@@ -20,10 +20,10 @@ public interface FundsDao {
             "users.name AS ownerinusers," +
             "funds.hookedTo " +
             "FROM funds,privileges,users";
-    String queryMyPrivateFunds =" WHERE owner= :owner " +
+    String queryMyPrivateFunds=" WHERE owner= :owner " +
             "AND (funds.type='1' OR funds.type='A') " +
             "AND funds.type=privileges.type " +
-            "AND funds.owner=users.id";
+            "AND funds.owner=users.id ";
     String queryMySharedFunds =" WHERE otherOwner= :owner " +
             "AND hookedTo>0 " +
             "AND funds.type=privileges.type " +
@@ -38,6 +38,7 @@ public interface FundsDao {
             " AND funds.type=privileges.type" +
             " AND funds.owner=users.id";
     String orderBy=" ORDER BY funds.type ASC";
+
     @Query(querySelectFrom +
             queryMyPrivateFunds +
             unionAll+
@@ -50,6 +51,82 @@ public interface FundsDao {
 
     @Query(querySelectFrom+ queryMyPrivateFunds)
     LiveData<List<FundsForList>> getPrivates(String owner);
+
+    /*
+    String where=" WHERE owner= :owner ";
+    String tableConnections="AND funds.type=privileges.type AND funds.owner=users.id ";
+
+
+     */
+    String queryMyPrivateAccounts = " " +
+            "WHERE owner= :owner " +
+            "AND (funds.type='1') " +
+            "AND funds.type=privileges.type " +
+            "AND funds.owner=users.id  ";
+    String queryMySharedAccounts=" " +
+            "WHERE otherOwner= :owner " +
+            "AND hookedTo>0  " +
+            "AND (funds.type='2') " +
+            "AND funds.type=privileges.type " +
+            "AND funds.owner=users.id";
+    String queryMyPublicAccounts=" " +
+            "WHERE hookedTo=0 " +
+            "AND otherOwner= :owner " +
+            "AND" +
+            " (funds.type='2') " +
+            "AND (SELECT COUNT(*) FROM funds "+queryMySharedAccounts+")=0 " +
+            "AND funds.type=privileges.type " +
+            "AND funds.owner=users.id ";
+    @Query(querySelectFrom+
+            queryMyPrivateAccounts+
+            unionAll+
+            querySelectFrom+
+            queryMySharedAccounts+
+            unionAll+
+            querySelectFrom+
+            queryMyPublicAccounts+
+            orderBy)
+    LiveData<List<FundsForList>> getAccounts(String owner);
+
+    String queryMyPrivateCostCategorys= " " +
+            "WHERE owner= :owner " +
+            "AND (funds.type='A') " +
+            "AND funds.type=privileges.type " +
+            "AND funds.owner=users.id  ";
+    String queryMySharedCostCategories=" " +
+            "WHERE otherOwner= :owner " +
+            "AND hookedTo>0  " +
+            "AND (funds.type='B') " +
+            "AND funds.type=privileges.type " +
+            "AND funds.owner=users.id";
+    String queryMyPublicCostCategories=" " +
+            "WHERE hookedTo=0 " +
+            "AND otherOwner= :owner " +
+            "AND" +
+            " (funds.type='B') " +
+            "AND (SELECT COUNT(*) FROM funds "+queryMySharedCostCategories+")=0 " +
+            "AND funds.type=privileges.type " +
+            "AND funds.owner=users.id ";
+    @Query(querySelectFrom+
+            queryMyPrivateCostCategorys+
+            unionAll+
+            querySelectFrom+
+            queryMySharedCostCategories+
+            unionAll+
+            querySelectFrom+
+            queryMyPublicCostCategories+
+            orderBy)
+    LiveData<List<FundsForList>> getCostCategories(String owner);
+
+    /*
+    String queryMyPrivateCostCategorys= " WHERE owner= :owner AND (funds.type='A') AND funds.type=privileges.type AND funds.owner=users.id  ";
+    String queryMySharedCostCategory=" ";
+    String queryMyPublicCostCategory=" ";
+    @Query(querySelectFrom+where+queryMyPrivateCostCategorys+tableConnections)
+    LiveData<List<FundsForList>> getCostCategories(String owner);
+
+*/
+
 
     @Query("SELECT funds.id,users.family AS familyinusers,money,owner,otherOwner,type,activity,inactivity,funds.name,hookedTo FROM funds,users WHERE funds.owner=users.id AND funds.id=:fundId")
     ListenableFuture<FundsForRemote> getFromUsersIdExtendsFamily(int fundId);

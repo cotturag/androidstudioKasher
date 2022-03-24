@@ -8,25 +8,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.common.util.concurrent.ListenableFuture;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class FundsViewM extends AndroidViewModel {
     private FundsRepo repo;
-
-
-
-
-
     private String owner;
     private static String loggedUser;
 
-
-
-    //public String getOwner() {return this.owner;}
-    //public void setOwner(String owner) {this.owner = owner;}
     public static String getLoggedUser() {
         return loggedUser;
     }
@@ -34,14 +23,18 @@ public class FundsViewM extends AndroidViewModel {
         this.loggedUser=user;
     }
 
-
     private LiveData<List<FundsForList>> actualFunds;
+    private LiveData<List<FundsForList>> accounts;
+    private LiveData<List<FundsForList>> costCategories;
+
     public FundsViewM(@NonNull Application app,List<String> owner) {
         super(app);
         this.owner=owner.get(0);
         loggedUser=this.owner;
         repo= new FundsRepo(app,this.owner,owner.get(1));
         actualFunds=repo.getActualFunds();
+        accounts =repo.getAccounts();
+        costCategories=repo.getCostCategories();
     }
 
     public void delete(FundsForList fund){
@@ -50,8 +43,6 @@ public class FundsViewM extends AndroidViewModel {
     public void createNew(Funds fund){
         repo.insert(fund);
     }
-
-
 
     public void pickUpFund(FundsForList fund,String family) throws ExecutionException, InterruptedException {
         if (fund.getOtherOwner().equals("")){
@@ -64,10 +55,7 @@ public class FundsViewM extends AndroidViewModel {
             fund.setHookedTo(fund.getId());
             fund.setId(0);
 
-
             Long location=repo.insert(fund).get().longValue();
-           // FundsPage.fundsPageLabelTwo.setText(String.valueOf(valami));
-
 
             //TODO azér ez így fura, rendesen kéne kasztolni
             String stringLocation=String.valueOf(location);
@@ -106,12 +94,15 @@ public class FundsViewM extends AndroidViewModel {
     }
 
      */
-    public LiveData<List<FundsForList>> getActualFunds() {
-        return this.actualFunds;
-    }
     public boolean checkIfTableEmpty() throws ExecutionException, InterruptedException {
         return repo.checkIfTableEmpty();
     }
+
+    public LiveData<List<FundsForList>> getActualFunds() {
+        return this.actualFunds;
+    }
+    public LiveData<List<FundsForList>> getAccounts(){return this.accounts;}
+    public LiveData<List<FundsForList>> getCostCategories(){return this.costCategories;}
 
 
     public static class FundsViewMFactory implements ViewModelProvider.Factory {

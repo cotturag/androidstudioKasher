@@ -1,5 +1,6 @@
 package com.example.kasher;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import javax.annotation.Nullable;
 public class Actions extends Fragment {
         ActionFragmentStateAdapter actionFragmentStateAdapter;
         ViewPager2 viewPager;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -36,6 +39,7 @@ public class Actions extends Fragment {
             viewPager.setAdapter(actionFragmentStateAdapter);
             TabLayout tabLayout = view.findViewById(R.id.actionstab);
             int actionCode=requireArguments().getInt("actionCode");
+
 
 
             List<String> nameList =new ArrayList<String>();
@@ -61,6 +65,14 @@ public class Actions extends Fragment {
 
     public class ActionFragmentStateAdapter extends FragmentStateAdapter {
         private int numberOfColumns;
+        private String loggedUser;
+
+
+
+
+
+        public String getLoggedUser() {return loggedUser;}
+        public void setLoggedUser(String loggedUser) {this.loggedUser = loggedUser;}
 
         public int getNumberOfColumns() {return numberOfColumns;}
         public void setNumberOfColumns(int numberOfColumns) {this.numberOfColumns = numberOfColumns;}
@@ -69,14 +81,21 @@ public class Actions extends Fragment {
             super(fragment);
             int actionCode=fragment.requireArguments().getInt("actionCode");
             if (actionCode==2) setNumberOfColumns(3); else setNumberOfColumns(4);
+
+            setLoggedUser(fragment.requireArguments().getString("loggedUser"));
+
+
+
         }
         @NonNull
         @Override
         public Fragment createFragment(int position) {
             Fragment fragment = new ActionFragment();
             Bundle args = new Bundle();
+
             args.putInt(ActionFragment.ARG_OBJECT, position + 1);
             args.putInt(ActionFragment.NUMBER_OF_COLUMNS,this.numberOfColumns);
+            args.putString(ActionFragment.LOGGED_USER,getLoggedUser());
             fragment.setArguments(args);
             return fragment;
         }
