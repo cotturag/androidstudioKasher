@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -70,6 +71,7 @@ public class FundsPage extends AppCompatActivity {
         adapter.setOnItemClickListener(new FundsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(FundsForList fund) {
+
                 /*try {
                     pr.insertRemote(fund,loggedUser);
                 } catch (ExecutionException e) {

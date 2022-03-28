@@ -1,5 +1,6 @@
 package com.example.kasher;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -40,8 +41,6 @@ public class Actions extends Fragment {
             TabLayout tabLayout = view.findViewById(R.id.actionstab);
             int actionCode=requireArguments().getInt("actionCode");
 
-
-
             List<String> nameList =new ArrayList<String>();
             if (actionCode==1||actionCode==3){
                 nameList.add("Dátum");
@@ -59,16 +58,11 @@ public class Actions extends Fragment {
                     (tab, position) -> tab.setText(nameList.get(position))
             ).attach();
 
-
         }
-
 
     public class ActionFragmentStateAdapter extends FragmentStateAdapter {
         private int numberOfColumns;
         private String loggedUser;
-
-
-
 
 
         public String getLoggedUser() {return loggedUser;}
@@ -84,18 +78,17 @@ public class Actions extends Fragment {
 
             setLoggedUser(fragment.requireArguments().getString("loggedUser"));
 
-
-
         }
         @NonNull
         @Override
         public Fragment createFragment(int position) {
             Fragment fragment = new ActionFragment();
             Bundle args = new Bundle();
-
+            SharedPreferences preferences = getContext().getSharedPreferences("action", Context.MODE_PRIVATE);
             args.putInt(ActionFragment.ARG_OBJECT, position + 1);
             args.putInt(ActionFragment.NUMBER_OF_COLUMNS,this.numberOfColumns);
             args.putString(ActionFragment.LOGGED_USER,getLoggedUser());
+
             fragment.setArguments(args);
             return fragment;
         }
