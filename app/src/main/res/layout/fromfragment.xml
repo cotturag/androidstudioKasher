@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/f2"
-        ></Button>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ize"
-        android:text="valami"
-        ></TextView>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fundsrecactionfrom"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ece4db"
+        android:layout_height="10dp"
+        android:layout_weight="2"
+        android:background="#b5e48c"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fromToResult"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
 
-        />
+            ></TextView>
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/action"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#ece4db"
+            android:layout_weight="8"
 
-
-
-
-
+    />
 </LinearLayout>

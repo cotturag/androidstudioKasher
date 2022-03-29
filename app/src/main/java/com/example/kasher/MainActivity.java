@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -114,15 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (savedInstanceState == null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("actionCode",1);
-                    bundle.putString("loggedUser", loggedUser);
-
-
-                    getSupportFragmentManager().beginTransaction()
-                            .setReorderingAllowed(true)
-                            .replace(R.id.actionFragmentView, Actions.class,bundle)
-                            .commit();
+                    cost();
                 }
             }
         });
@@ -132,13 +126,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (savedInstanceState == null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("actionCode",2);
-                    bundle.putString("loggedUser", loggedUser);
-                    getSupportFragmentManager().beginTransaction()
-                            .setReorderingAllowed(true)
-                            .replace(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
-                            .commit();
+                    income();
                 }
             }
         });
@@ -148,27 +136,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (savedInstanceState == null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("actionCode",3);
-                    bundle.putString("loggedUser", loggedUser);
-                    getSupportFragmentManager().beginTransaction()
-                            .setReorderingAllowed(true)
-                            .replace(R.id.actionFragmentView, Actions.class,bundle)
-                            .commit();
+                   movement();
                 }
             }
         });
-        Bundle bundle = new Bundle();
-        bundle.putInt("actionCode",1);
-        bundle.putString("loggedUser", loggedUser);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
-                    .commit();
-        }
+        cost();
+
+        Button store = findViewById(R.id.store);
+        store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String res;
+                res=pref.getString("calendar","")+" " +
+                        ""+pref.getString("from","")+" " +
+                        ""+pref.getString("money","")+" " +
+                        pref.getString("to","");
+
+                Toast toast = Toast.makeText(getApplication(),res,Toast.LENGTH_LONG);
+                toast.show();
+                int actionCode=pref.getInt("actionCode",1);
+                SharedPreferences.Editor preferences = pref.edit();
+                preferences.clear();
+                preferences.apply();
+                switch (actionCode){
+                    case 1:cost();break;
+                    case 2:income();break;
+                    case 3:movement();break;
+                }
 
 
+            }
+        });
 
 
 
@@ -200,6 +198,44 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    void cost(){
+        SharedPreferences.Editor actionCode = pref.edit();
+        actionCode.putInt("actionCode",1);
+        actionCode.apply();
+        Bundle bundle = new Bundle();
+        bundle.putInt("actionCode",1);
+        bundle.putString("loggedUser", loggedUser);
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.actionFragmentView, Actions.class,bundle)
+                .commit();
+    }
+
+
+    void income(){
+        SharedPreferences.Editor actionCode = pref.edit();
+        actionCode.putInt("actionCode",2);
+        actionCode.apply();
+        Bundle bundle = new Bundle();
+        bundle.putInt("actionCode",2);
+        bundle.putString("loggedUser", loggedUser);
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
+                .commit();
+    }
+    void movement(){
+        SharedPreferences.Editor actionCode = pref.edit();
+        actionCode.putInt("actionCode",3);
+        actionCode.apply();
+        Bundle bundle = new Bundle();
+        bundle.putInt("actionCode",3);
+        bundle.putString("loggedUser", loggedUser);
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.actionFragmentView, Actions.class,bundle)
+                .commit();
     }
 }
 

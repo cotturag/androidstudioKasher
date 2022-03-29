@@ -25,7 +25,6 @@ public class Actions extends Fragment {
         ActionFragmentStateAdapter actionFragmentStateAdapter;
         ViewPager2 viewPager;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -63,21 +62,21 @@ public class Actions extends Fragment {
     public class ActionFragmentStateAdapter extends FragmentStateAdapter {
         private int numberOfColumns;
         private String loggedUser;
+        private int actionCode;
 
-
-        public String getLoggedUser() {return loggedUser;}
-        public void setLoggedUser(String loggedUser) {this.loggedUser = loggedUser;}
-
-        public int getNumberOfColumns() {return numberOfColumns;}
         public void setNumberOfColumns(int numberOfColumns) {this.numberOfColumns = numberOfColumns;}
+        public void setLoggedUser(String loggedUser) {this.loggedUser = loggedUser;}
+        public void setActionCode(int actionCode) {this.actionCode = actionCode;}
+        public int getNumberOfColumns() {return numberOfColumns;}
+        public String getLoggedUser() {return loggedUser;}
+        public int getActionCode() {return actionCode;}
 
         public ActionFragmentStateAdapter(Fragment fragment) {
             super(fragment);
             int actionCode=fragment.requireArguments().getInt("actionCode");
             if (actionCode==2) setNumberOfColumns(3); else setNumberOfColumns(4);
-
+            setActionCode(fragment.requireArguments().getInt("actionCode"));
             setLoggedUser(fragment.requireArguments().getString("loggedUser"));
-
         }
         @NonNull
         @Override
@@ -88,11 +87,11 @@ public class Actions extends Fragment {
             args.putInt(ActionFragment.ARG_OBJECT, position + 1);
             args.putInt(ActionFragment.NUMBER_OF_COLUMNS,this.numberOfColumns);
             args.putString(ActionFragment.LOGGED_USER,getLoggedUser());
-
+            args.putInt(ActionFragment.ACTION_CODE,getActionCode());
             fragment.setArguments(args);
+
             return fragment;
         }
-
         @Override
         public int getItemCount() {
             return getNumberOfColumns();
