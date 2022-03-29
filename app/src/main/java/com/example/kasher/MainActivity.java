@@ -167,6 +167,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        Button syn=findViewById(R.id.syn);
+        syn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pr.syncFundsToServer();
+            }
+        });
 
 
 

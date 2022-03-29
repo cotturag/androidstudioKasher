@@ -94,6 +94,10 @@ public class FundsViewM extends AndroidViewModel {
     }
 
      */
+
+    public void syncFundsToServer(){
+        repo.synchronizeToServer("deletefunds");
+    }
     public boolean checkIfTableEmpty() throws ExecutionException, InterruptedException {
         return repo.checkIfTableEmpty();
     }
@@ -103,6 +107,7 @@ public class FundsViewM extends AndroidViewModel {
     }
     public LiveData<List<FundsForList>> getAccounts(){return this.accounts;}
     public LiveData<List<FundsForList>> getCostCategories(){return this.costCategories;}
+
 
 
     public static class FundsViewMFactory implements ViewModelProvider.Factory {
