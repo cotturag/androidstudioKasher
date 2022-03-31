@@ -4,7 +4,11 @@ package com.example.kasher;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -96,7 +100,7 @@ public class ActionFragment extends Fragment {
             case 1:{
                 switch (args.getInt(ARG_OBJECT)) {
                     case 1:calendar(pr,view);break;
-                    case 2:account(pr,view);break;
+                    case 2:account(pr,view,"sourcemode");break;
                     case 3:money(pr,view);break;
                     case 4:costCategory(pr,view);break;
                 }
@@ -105,60 +109,95 @@ public class ActionFragment extends Fragment {
                 switch (args.getInt(ARG_OBJECT)) {
                     case 1:calendar(pr,view);break;
                     case 2:money(pr,view);break;
-                    case 3:account(pr,view);break;
+                    case 3:account(pr,view,"destinationmode");break;
                 }
             }break;
             case 3:{
                 switch (args.getInt(ARG_OBJECT)) {
                     case 1:calendar(pr,view);break;
-                    case 2:account(pr,view);break;
+                    case 2:account(pr,view,"sourcemode");break;
                     case 3:money(pr,view);break;
-                    case 4:account(pr,view);break;
+                    case 4:account(pr,view,"destinationmode");break;
                 }
             }break;
         }
     }
     void calendar(FundsViewM pr,View view){
         SharedPreferences pref=this.getActivity().getSharedPreferences("action", Context.MODE_PRIVATE);
-        TextView date;
-        date=view.findViewById(R.id.calendarDate);
+        TextView date=view.findViewById(R.id.calendarDate);
+        TextView calendarResult=view.findViewById(R.id.calendarResult);
 
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date currentTime=Calendar.getInstance().getTime();
         String myDate=sdf.format(currentTime);
 
-        TextView calendarResult=view.findViewById(R.id.calendarResult);
         date.setText(myDate);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 calendarResult.setText(date.getText());
                 SharedPreferences.Editor calendar = pref.edit();
-                calendar.putString("calendar",date.getText().toString());
+                calendar.putString("calendar",calendarResult.getText().toString());
                 calendar.apply();
             }
         });
     }
     void money(FundsViewM pr,View view){
         SharedPreferences pref=this.getActivity().getSharedPreferences("action", Context.MODE_PRIVATE);
-        TextView monResult;
-        EditText moneyx;
-        moneyx=view.findViewById(R.id.moneyfield);
-        Button moneyfieldbutton=view.findViewById(R.id.moneyfieldbutton);
-        monResult=view.findViewById(R.id.monResult);
-        moneyfieldbutton.setOnClickListener(new View.OnClickListener() {
+        TextView monResult=view.findViewById(R.id.monResult);
+        TextView detailsResult=view.findViewById(R.id.detailsResult);
+        EditText moneyx=view.findViewById(R.id.moneyfield);
+        EditText details=view.findViewById(R.id.detailsfield);
+
+        moneyx.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                monResult.setText(String.valueOf(moneyx.getText()));
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                moneyx.setText("");
+                return false;
+            }
+        });
+       details.setOnTouchListener(new View.OnTouchListener() {
+           @Override
+           public boolean onTouch(View view, MotionEvent motionEvent) {
+               details.setText("");
+               return false;
+           }
+       });
+
+
+        moneyx.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                monResult.setText(moneyx.getText());
                 SharedPreferences.Editor money = pref.edit();
                 money.putString("money",moneyx.getText().toString());
                 money.apply();
-
             }
         });
+        details.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                detailsResult.setText(details.getText());
+                SharedPreferences.Editor money = pref.edit();
+                money.putString("details",detailsResult.getText().toString());
+                money.apply();
+            }
+        });
+
+
     }
-    void account(FundsViewM pr,View view){
+    void account(FundsViewM pr,View view,String mode){
         SharedPreferences pref=this.getActivity().getSharedPreferences("action", Context.MODE_PRIVATE);
+        TextView fromToResult =view.findViewById(R.id.fromToResult);
+        TextView hiddenIdResult=view.findViewById(R.id.hiddenIdResultt);
         RecyclerView fundsRec;
         ActionsFundsListAdapter adapter;
         adapter = new ActionsFundsListAdapter();
@@ -167,17 +206,15 @@ public class ActionFragment extends Fragment {
         fundsRec.setHasFixedSize(true);
         fundsRec.setItemAnimator(new DefaultItemAnimator());
         fundsRec.setAdapter(adapter);
-        TextView fromToResult;
-        fromToResult =view.findViewById(R.id.fromToResult);
 
         adapter.setOnItemClickListener(new ActionsFundsListAdapter.MyOnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String frtId=String.valueOf(pr.getAccounts().getValue().get(position).getId());
-                String frtName=String.valueOf(pr.getAccounts().getValue().get(position).getName());
-                fromToResult.setText(frtName);
+                hiddenIdResult.setText(String.valueOf(pr.getAccounts().getValue().get(position).getId()));
+                fromToResult.setText(String.valueOf(pr.getAccounts().getValue().get(position).getName()));
                 SharedPreferences.Editor from = pref.edit();
-                from.putString("from",frtId);
+                if (mode.equals("sourcemode")) from.putString("fromsourcemode",hiddenIdResult.getText().toString());
+                if (mode.equals("destinationmode")) from.putString("fromdestinationmode",hiddenIdResult.getText().toString());
                 from.apply();
             }
         });
@@ -191,6 +228,8 @@ public class ActionFragment extends Fragment {
     }
     void costCategory(FundsViewM pr,View view){
         SharedPreferences pref=this.getActivity().getSharedPreferences("action", Context.MODE_PRIVATE);
+        TextView fromToResult =view.findViewById(R.id.fromToResult);
+        TextView hiddenIdResult=view.findViewById(R.id.hiddenIdResultt);
         RecyclerView fundsRec;
         ActionsFundsListAdapter adapter;
         adapter = new ActionsFundsListAdapter();
@@ -199,17 +238,16 @@ public class ActionFragment extends Fragment {
         fundsRec.setHasFixedSize(true);
         fundsRec.setItemAnimator(new DefaultItemAnimator());
         fundsRec.setAdapter(adapter);
-        TextView fromToResult;
-        fromToResult =view.findViewById(R.id.fromToResult);
+
 
         adapter.setOnItemClickListener(new ActionsFundsListAdapter.MyOnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String frtId=String.valueOf(pr.getCostCategories().getValue().get(position).getId());
-                String frtName=String.valueOf(pr.getCostCategories().getValue().get(position).getName());
-                fromToResult.setText(frtName);
+                hiddenIdResult.setText(String.valueOf(pr.getCostCategories().getValue().get(position).getId()));
+                fromToResult.setText(String.valueOf(pr.getCostCategories().getValue().get(position).getName()));
+
                 SharedPreferences.Editor to = pref.edit();
-                to.putString("to",frtId);
+                to.putString("to",hiddenIdResult.getText().toString());
                 to.apply();
             }
         });

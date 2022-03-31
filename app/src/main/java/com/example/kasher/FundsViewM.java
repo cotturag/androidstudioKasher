@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -40,8 +42,8 @@ public class FundsViewM extends AndroidViewModel {
     public void delete(FundsForList fund){
         repo.delete(fund);
     }
-    public void createNew(Funds fund){
-        repo.insert(fund);
+    public ListenableFuture<Long> createNew(Funds fund){
+        return repo.insert(fund);
     }
 
     public void pickUpFund(FundsForList fund,String family) throws ExecutionException, InterruptedException {
@@ -95,8 +97,8 @@ public class FundsViewM extends AndroidViewModel {
 
      */
 
-    public void syncFundsToServer(){
-        repo.synchronizeToServer("deletefunds");
+    public void syncFundsToServer(String family) throws ExecutionException, InterruptedException {
+        repo.synchronizeToServer("deletefunds",family);
     }
     public boolean checkIfTableEmpty() throws ExecutionException, InterruptedException {
         return repo.checkIfTableEmpty();

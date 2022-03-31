@@ -16,18 +16,14 @@ public class TransactionsRepo {
         transactions=dao.getAll();
 
     }
-    public LiveData<List<Transactions>> getTransaction(){return this.transactions;}
-    public void insert(Transactions transactions){new InsertAsyncTask(dao).execute(transactions);
+    //public LiveData<List<Transactions>> getTransaction(){return this.transactions;}
+    public void insert(Transactions transaction){
+        dao.insert(transaction);
+    }
+    public void insertRemote(){
+
     }
 
-    private static class InsertAsyncTask extends AsyncTask<Transactions,Void,Void> {
-        private TransactionsDao dao;
-        public InsertAsyncTask(TransactionsDao dao){this.dao=dao;}
-        @Override
-        protected Void doInBackground(Transactions... transactions){
-            dao.insert(transactions[0]);
-            return null;
-        }
-    }
+
 
 }

@@ -2,6 +2,7 @@ package com.example.kasher;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -25,8 +26,12 @@ public class FundsRepo {
     private LiveData<List<FundsForList>> actualFunds;
     private LiveData<List<FundsForList>> accounts;
     private LiveData<List<FundsForList>> costCategories;
-    private LiveData<List<Funds>> all;
-    private LiveData<Integer> countItems;
+    private ListenableFuture<List<Funds>> all;
+
+
+    boolean onLocalNetwork=true;
+    String localNetwork="192.168.1.2";
+    String remoteNetwork="cotturag.ddns.net";
 
     public FundsRepo(Application app, String owner,String privilege){
         AppDatabase db = AppDatabase.getInstance(app);
@@ -36,7 +41,8 @@ public class FundsRepo {
         accounts=dao.getAccounts(owner);
         costCategories=dao.getCostCategories(owner);
         all=dao.getAll();
-        countItems=dao.countItems();
+
+
 
     }
     public LiveData<List<FundsForList>> getActualFunds(){
@@ -44,8 +50,8 @@ public class FundsRepo {
     }
     public LiveData<List<FundsForList>> getAccounts(){return this.accounts;}
     public LiveData<List<FundsForList>> getCostCategories(){return this.costCategories;}
-    public LiveData<List<Funds>> getAll(){return this.all;}
-    public LiveData<Integer> getCountItems(){return this.getCountItems();}
+    public ListenableFuture<List<Funds>> getAll(){return this.all;}
+
 
 
 
@@ -108,15 +114,15 @@ public class FundsRepo {
         fundsForRemote.setHookedTo(fund.getHookedTo());
         new RemoteObjectSenderAsyncTask(operateType).execute(fundsForRemote);
     }
-    public void synchronizeToServer(String what){
-         new RemoteMessageSenderAsyncTask().execute(what);
-        //copyAllFundToServer();
+    public void synchronizeToServer(String what,String family) throws ExecutionException, InterruptedException {
+         new RemoteMessageSenderAsyncTask().execute(what,family);
+         copyAllFundToServer(family);
     }
-    void copyAllFundToServer(){
-        int count = this.getCountItems().getValue().intValue();//TODO jóez így?
-        for (int i=0;i<=count-1;i++){
-            insert(this.getAll().getValue().get(i));
-        }
+    void copyAllFundToServer(String family) throws ExecutionException, InterruptedException {
+
+       for (Funds fund:this.getAll().get()){
+           insertRemote(fund,family);
+       }
 
     }
     private class RemoteObjectSenderAsyncTask extends AsyncTask<FundsForRemote, String, String> {
@@ -173,7 +179,8 @@ public class FundsRepo {
         protected String doInBackground(FundsForRemote... funds) {
           //  ArrayList<String> urls=new ArrayList<String>();
             try {
-                connection=connectToServer("http://192.168.1.2/access.php");
+                if (onLocalNetwork) connection=connectToServer("http://192.168.1.2/access.php");
+                if (!onLocalNetwork) connection=connectToServer("http://cotturag.ddns.net/access.php");
 
                 JSONObject jsonObject= jsonObjectBuilder(funds[0]);
 
@@ -200,7 +207,7 @@ public class FundsRepo {
             super.onPostExecute(szove);
 
 
-            FundsPage.fundsPageLabel.setText(szove);
+//            FundsPage.fundsPageLabel.setText(szove);
 
 
 
@@ -227,20 +234,22 @@ public class FundsRepo {
             catch (Exception e){szovege=e.toString();}
             return conn;
         }
-        private JSONObject jsonMessageBuilder(String message) throws JSONException {
+        private JSONObject jsonMessageBuilder(String operate,String arg1) throws JSONException {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("message",message);
+            jsonObject.put("operate",operate);
+            jsonObject.put("arg1",arg1);
             return jsonObject;
         }
         @Override
         protected void onPreExecute() {}
         @Override
-        protected String doInBackground(String...strings) {
+        protected String doInBackground(String... strings) {
             //  ArrayList<String> urls=new ArrayList<String>();
             try {
-                connection=connectToServer("http://192.168.1.2/access.php");
+                if (onLocalNetwork) connection=connectToServer("192.168.1.2/acces.php");
+                if (!onLocalNetwork) connection=connectToServer("http://cotturag.ddns.net/access.php");
 
-                JSONObject jsonObject= jsonMessageBuilder(strings[0]);
+                JSONObject jsonObject= jsonMessageBuilder(strings[0],strings[1]);
 
                 BufferedOutputStream os = new BufferedOutputStream(connection.getOutputStream());
                 os.write(jsonObject.toString().getBytes(StandardCharsets.UTF_8));

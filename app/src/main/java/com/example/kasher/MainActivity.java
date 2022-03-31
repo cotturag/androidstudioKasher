@@ -11,6 +11,8 @@ import android.view.View;
 
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +20,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.google.android.material.navigation.NavigationView;
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     String loggedUser ="cotturag@gmail.com";
     SharedPreferences pref;
     static FundsViewM pr;
+    boolean syncRemote=false;
 
 
     @Override
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         pref=this.getSharedPreferences("action", Context.MODE_PRIVATE);
 
-       //  MainActivity.this.deleteDatabase("kasherD");
+        // MainActivity.this.deleteDatabase("kasherD");
         UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
         try {
             if (uAndPVM.checkIfUsersTableEmpty()){
@@ -98,15 +103,27 @@ public class MainActivity extends AppCompatActivity {
                 Funds fund7=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","kissmartina0821@gmail.com",6);
                 Funds fund8=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","Csoki","kissmartina0821@gmail.com",0);
                 Funds fund9=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","Csoki","cotturag@gmail.com",8);
-                pr.createNew(fund1);
-                pr.createNew(fund2);
-                pr.createNew(fund3);
-                pr.createNew(fund4);
-                pr.createNew(fund5);
-                pr.createNew(fund6);
-                pr.createNew(fund7);
-                pr.createNew(fund8);
-                pr.createNew(fund9);
+                pr.createNew(fund1).get();
+                pr.createNew(fund2).get();
+                pr.createNew(fund3).get();
+                pr.createNew(fund4).get();
+                pr.createNew(fund5).get();
+                pr.createNew(fund6).get();
+                pr.createNew(fund7).get();
+                pr.createNew(fund8).get();
+                pr.createNew(fund9).get();
+                if (syncRemote){
+                    String family=null;
+                    try {
+                        family=uAndPVM.getFamilyByOwnerFromUsersInString(loggedUser);
+                        pr.syncFundsToServer(family);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
         } catch (ExecutionException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
 
@@ -146,34 +163,68 @@ public class MainActivity extends AppCompatActivity {
         store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String res;
-                res=pref.getString("calendar","")+" " +
-                        ""+pref.getString("from","")+" " +
-                        ""+pref.getString("money","")+" " +
-                        pref.getString("to","");
-
-                Toast toast = Toast.makeText(getApplication(),res,Toast.LENGTH_LONG);
-                toast.show();
+                String calendar=pref.getString("calendar","");
+                String fromSourceMode=pref.getString("fromsourcemode","");
+                String fromDestinationMode=pref.getString("fromdestinationmode","");
+                String money=pref.getString("money","");
+                String to=pref.getString("to","");
+                String details=pref.getString("details","");
                 int actionCode=pref.getInt("actionCode",1);
-                SharedPreferences.Editor preferences = pref.edit();
-                preferences.clear();
-                preferences.apply();
-                switch (actionCode){
-                    case 1:cost();break;
-                    case 2:income();break;
-                    case 3:movement();break;
+
+                if (actionCode==1){
+                    if (!calendar.equals("")&&!fromSourceMode.equals("")&&!money.equals("")&&!to.equals("")){
+                        Transactions transaction= new Transactions(0,calendar,money,fromSourceMode,to,details,actionCode);
+                        TransactionsViewM trvm = new ViewModelProvider(MainActivity.this).get(TransactionsViewM.class);
+                        trvm.createNew(transaction);
+                        SharedPreferences.Editor preferences = pref.edit();
+                        preferences.clear();
+                        preferences.apply();
+                        cost();
+                        Toast toast = Toast.makeText(getApplication(), "Az adatok rögzítve", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    else {
+                        Toast toast = Toast.makeText(getApplication(), "Nincs minden kitöltve", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
-
-
+                if (actionCode==2){
+                    if (!calendar.equals("")&&!money.equals("")&&!fromDestinationMode.equals("")){
+                        Transactions transaction= new Transactions(0,calendar,money,fromSourceMode,fromDestinationMode,details,actionCode);
+                        TransactionsViewM trvm = new ViewModelProvider(MainActivity.this).get(TransactionsViewM.class);
+                        trvm.createNew(transaction);
+                        SharedPreferences.Editor preferences = pref.edit();
+                        preferences.clear();
+                        preferences.apply();
+                        income();
+                        Toast toast = Toast.makeText(getApplication(), "Az adatok rögzítve", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    else {
+                        Toast toast = Toast.makeText(getApplication(), "Nincs minden kitöltve", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+                if (actionCode==3){
+                    if (!calendar.equals("")&&!fromSourceMode.equals("")&&!fromDestinationMode.equals("")&&!money.equals("")){
+                            Transactions transaction= new Transactions(0,calendar,money,fromSourceMode,fromDestinationMode,details,actionCode);
+                            TransactionsViewM trvm = new ViewModelProvider(MainActivity.this).get(TransactionsViewM.class);
+                            trvm.createNew(transaction);
+                            SharedPreferences.Editor preferences = pref.edit();
+                            preferences.clear();
+                            preferences.apply();
+                            movement();
+                            Toast toast = Toast.makeText(getApplication(), "Az adatok rögzítve", Toast.LENGTH_SHORT);
+                            toast.show();
+                    }
+                    else{
+                        Toast toast = Toast.makeText(getApplication(), "Nincs minden kitöltve", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
             }
         });
-        Button syn=findViewById(R.id.syn);
-        syn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pr.syncFundsToServer();
-            }
-        });
+
 
 
 
@@ -205,6 +256,24 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+    Button syn=findViewById(R.id.syn);
+    syn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        String family=null;
+        try {
+            family=uAndPVM.getFamilyByOwnerFromUsersInString(loggedUser);
+            pr.syncFundsToServer(family);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+});
     }
     void cost(){
         SharedPreferences.Editor actionCode = pref.edit();
@@ -217,6 +286,18 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.actionFragmentView, Actions.class,bundle)
                 .commit();
+        TextView actionCategory=findViewById(R.id.actioncategory);
+        actionCategory.setText("Kiadás");
+        RelativeLayout actionCategoryLayout = findViewById(R.id.actioncategorylayout);
+        actionCategoryLayout.setBackgroundColor(0xffece4db);
+        FragmentContainerView actionFragmentView=findViewById(R.id.actionFragmentView);
+        actionFragmentView.setBackgroundColor(0xffece4db);
+        RelativeLayout storeButtonHolder = findViewById(R.id.storeButtonHolder);
+        storeButtonHolder.setBackgroundColor(0xffece4db);
+
+
+
+
     }
 
 
@@ -231,6 +312,16 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
                 .commit();
+        TextView actionCategory=findViewById(R.id.actioncategory);
+        actionCategory.setText("Bevétel");
+        RelativeLayout actionCategoryLayout = findViewById(R.id.actioncategorylayout);
+        actionCategoryLayout.setBackgroundColor(0xfff9c74f);
+        FragmentContainerView actionFragmentView=findViewById(R.id.actionFragmentView);
+        actionFragmentView.setBackgroundColor(0xfff9c74f);
+        RelativeLayout storeButtonHolder = findViewById(R.id.storeButtonHolder);
+        storeButtonHolder.setBackgroundColor(0xfff9c74f);
+
+
     }
     void movement(){
         SharedPreferences.Editor actionCode = pref.edit();
@@ -243,6 +334,15 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.actionFragmentView, Actions.class,bundle)
                 .commit();
+        TextView actionCategory=findViewById(R.id.actioncategory);
+        actionCategory.setText("Pénzmozgás");
+        RelativeLayout actionCategoryLayout = findViewById(R.id.actioncategorylayout);
+        actionCategoryLayout.setBackgroundColor(0xffdab6fc);
+        FragmentContainerView actionFragmentView=findViewById(R.id.actionFragmentView);
+        actionFragmentView.setBackgroundColor(0xffdab6fc);
+        RelativeLayout storeButtonHolder = findViewById(R.id.storeButtonHolder);
+        storeButtonHolder.setBackgroundColor(0xffdab6fc);
+
     }
 }
 

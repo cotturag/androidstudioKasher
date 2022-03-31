@@ -119,10 +119,9 @@ public interface FundsDao {
     LiveData<List<FundsForList>> getCostCategories(String owner);
 
     @Query("SELECT * FROM funds")
-    LiveData<List<Funds>> getAll();
+    ListenableFuture<List<Funds>> getAll();
 
-    @Query("SELECT COUNT(*) FROM funds")
-    LiveData<Integer> countItems();
+
 
     /*
     String queryMyPrivateCostCategorys= " WHERE owner= :owner AND (funds.type='A') AND funds.type=privileges.type AND funds.owner=users.id  ";

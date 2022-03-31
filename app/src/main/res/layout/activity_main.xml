@@ -83,6 +83,20 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <RelativeLayout
+        android:id="@+id/actioncategorylayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+        <TextView
+            android:id="@+id/actioncategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            ></TextView>
+    </RelativeLayout>
     <androidx.fragment.app.FragmentContainerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/actionFragmentView"
@@ -92,6 +106,7 @@
 
         />
     <RelativeLayout
+        android:id="@+id/storeButtonHolder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

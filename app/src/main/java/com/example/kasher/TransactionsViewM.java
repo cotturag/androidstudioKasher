@@ -15,9 +15,12 @@ public class TransactionsViewM extends AndroidViewModel {
     public TransactionsViewM(@NonNull Application app){
         super(app);
         repo=new TransactionsRepo(app);
-        transactions=repo.getTransaction();
+      //  transactions=repo.getTransaction();
 
     }
-    public void createNew(Transactions transactions){repo.insert(transactions);  }
+    public void createNew(Transactions transactions){
+        repo.insert(transactions);
+
+    }
 
 }
