@@ -2,7 +2,6 @@ package com.example.kasher;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -29,7 +28,7 @@ public class FundsRepo {
     private ListenableFuture<List<Funds>> all;
 
 
-    boolean onLocalNetwork=true;
+    boolean onLocalNetwork=false;
     String localNetwork="192.168.1.2";
     String remoteNetwork="cotturag.ddns.net";
 
@@ -72,7 +71,7 @@ public class FundsRepo {
     public void insertRemote(Funds fund,String family) throws ExecutionException, InterruptedException {
 
 
-        String operateType="insert";
+        String operateType="insertFund";
 
         //String family=dao.getFundFromUsersByOwnerExtendsFamily(owner).get().getFamilyInUsers();
 
@@ -87,18 +86,18 @@ public class FundsRepo {
         fundsForRemote.setOtherOwner(fund.getOtherOwner());
         fundsForRemote.setHookedTo(fund.getHookedTo());
 
-        new RemoteObjectSenderAsyncTask(operateType).execute(fundsForRemote);
+        new RemoteFundsForRemoteSenderAsyncTask(operateType).execute(fundsForRemote);
         //TODO itt jó lenne lemásolni az objektumot
     }
     public void updateRemote(Funds fund) throws ExecutionException, InterruptedException {
-        String operateType="update";
+        String operateType="updateFund";
         FundsForRemote fundsForRemote=dao.getFromUsersIdExtendsFamily(fund.getId()).get();
         fundsForRemote.setOtherOwner(fund.getOtherOwner());
-        new RemoteObjectSenderAsyncTask(operateType).execute(fundsForRemote);
+        new RemoteFundsForRemoteSenderAsyncTask(operateType).execute(fundsForRemote);
         //FundsPage.fundsPageLabelTwo.setText(fundsForRemote.getOtherOwner());
     }
     public void deleteRemote(Funds fund,String family) throws ExecutionException, InterruptedException {
-        String operateType="delete";
+        String operateType="deleteFund";
         //FundsForRemote fundsForRemote=dao.getFromUsersIdExtendsFamily(fund.getId()).get();
         FundsForRemote fundsForRemote = new FundsForRemote(family);
 
@@ -112,7 +111,7 @@ public class FundsRepo {
         fundsForRemote.setName(fund.getName());
         fundsForRemote.setOtherOwner(fund.getOtherOwner());
         fundsForRemote.setHookedTo(fund.getHookedTo());
-        new RemoteObjectSenderAsyncTask(operateType).execute(fundsForRemote);
+        new RemoteFundsForRemoteSenderAsyncTask(operateType).execute(fundsForRemote);
     }
     public void synchronizeToServer(String what,String family) throws ExecutionException, InterruptedException {
          new RemoteMessageSenderAsyncTask().execute(what,family);
@@ -125,11 +124,11 @@ public class FundsRepo {
        }
 
     }
-    private class RemoteObjectSenderAsyncTask extends AsyncTask<FundsForRemote, String, String> {
+    private class RemoteFundsForRemoteSenderAsyncTask extends AsyncTask<FundsForRemote, String, String> {
         String szovege;
         HttpURLConnection connection;
         String operateType;
-        public RemoteObjectSenderAsyncTask(String operateType){
+        public RemoteFundsForRemoteSenderAsyncTask(String operateType){
             this.operateType=operateType;
         }
 
@@ -213,6 +212,7 @@ public class FundsRepo {
 
         }
     }
+
     private class RemoteMessageSenderAsyncTask extends AsyncTask<String,String,String>{
         String szovege;
         HttpURLConnection connection;

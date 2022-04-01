@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     String loggedUser ="cotturag@gmail.com";
     SharedPreferences pref;
     static FundsViewM pr;
-    boolean syncRemote=false;
+   // boolean syncRemote=false;
 
 
     @Override
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 pr.createNew(fund7).get();
                 pr.createNew(fund8).get();
                 pr.createNew(fund9).get();
-                if (syncRemote){
+               /* if (syncRemote){
                     String family=null;
                     try {
                         family=uAndPVM.getFamilyByOwnerFromUsersInString(loggedUser);
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-
+*/
             }
         } catch (ExecutionException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
 
@@ -175,7 +175,13 @@ public class MainActivity extends AppCompatActivity {
                     if (!calendar.equals("")&&!fromSourceMode.equals("")&&!money.equals("")&&!to.equals("")){
                         Transactions transaction= new Transactions(0,calendar,money,fromSourceMode,to,details,actionCode);
                         TransactionsViewM trvm = new ViewModelProvider(MainActivity.this).get(TransactionsViewM.class);
-                        trvm.createNew(transaction);
+                        try {
+                            trvm.createNew(transaction);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         SharedPreferences.Editor preferences = pref.edit();
                         preferences.clear();
                         preferences.apply();
@@ -192,7 +198,13 @@ public class MainActivity extends AppCompatActivity {
                     if (!calendar.equals("")&&!money.equals("")&&!fromDestinationMode.equals("")){
                         Transactions transaction= new Transactions(0,calendar,money,fromSourceMode,fromDestinationMode,details,actionCode);
                         TransactionsViewM trvm = new ViewModelProvider(MainActivity.this).get(TransactionsViewM.class);
-                        trvm.createNew(transaction);
+                        try {
+                            trvm.createNew(transaction);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         SharedPreferences.Editor preferences = pref.edit();
                         preferences.clear();
                         preferences.apply();
@@ -209,8 +221,14 @@ public class MainActivity extends AppCompatActivity {
                     if (!calendar.equals("")&&!fromSourceMode.equals("")&&!fromDestinationMode.equals("")&&!money.equals("")){
                             Transactions transaction= new Transactions(0,calendar,money,fromSourceMode,fromDestinationMode,details,actionCode);
                             TransactionsViewM trvm = new ViewModelProvider(MainActivity.this).get(TransactionsViewM.class);
+                        try {
                             trvm.createNew(transaction);
-                            SharedPreferences.Editor preferences = pref.edit();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences.Editor preferences = pref.edit();
                             preferences.clear();
                             preferences.apply();
                             movement();

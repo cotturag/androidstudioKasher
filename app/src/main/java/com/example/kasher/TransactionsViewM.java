@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class TransactionsViewM extends AndroidViewModel {
     private TransactionsRepo repo;
@@ -18,8 +19,12 @@ public class TransactionsViewM extends AndroidViewModel {
       //  transactions=repo.getTransaction();
 
     }
-    public void createNew(Transactions transactions){
-        repo.insert(transactions);
+    public void createNew(Transactions transaction) throws ExecutionException, InterruptedException {
+        Long position = repo.insert(transaction);
+        String positionString=String.valueOf(position);
+        int positionInt=Integer.valueOf(positionString);
+        transaction.setId(positionInt);
+        repo.insertRemote(transaction);
 
     }
 

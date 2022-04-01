@@ -12,7 +12,9 @@ import java.util.List;
 @Dao
 public interface TransactionsDao {
     @Query("SELECT * FROM transactions")
-    LiveData<List<Transactions>> getAll();
+    ListenableFuture<List<Transactions>> getAll();
+
     @Insert
     ListenableFuture<Long> insert(Transactions transaction);
+
 }
