@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,10 +19,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.google.android.material.navigation.NavigationView;
@@ -37,12 +37,15 @@ public class MainActivity extends AppCompatActivity {
     URL urlc = null;
     DrawerLayout main;
     Toolbar toolbar;
-    ImageButton imageButtonLeft;
-    ImageButton imageButtonCenter;
-    ImageButton imageButtonRight;
+    Button costButton;
+    Button incomeButton;
+    Button movementButton;
     String loggedUser ="cotturag@gmail.com";
     SharedPreferences pref;
     static FundsViewM pr;
+
+
+
    // boolean syncRemote=false;
 
 
@@ -128,35 +131,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (ExecutionException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
 
 
-        imageButtonLeft=findViewById(R.id.imageButtonLeft);
-        imageButtonLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (savedInstanceState == null) {
-                    cost();
-                }
-            }
-        });
 
-        imageButtonCenter=findViewById(R.id.imageButtonCenter);
-        imageButtonCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (savedInstanceState == null) {
-                    income();
-                }
-            }
-        });
 
-        imageButtonRight=findViewById(R.id.imageButtonRight);
-        imageButtonRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (savedInstanceState == null) {
-                   movement();
-                }
-            }
-        });
+
+
         cost();
 
         Button store = findViewById(R.id.store);
@@ -275,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+/*
     Button syn=findViewById(R.id.syn);
     syn.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -292,6 +270,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 });
+
+ */
+    costButton=findViewById(R.id.costButton);
+    incomeButton=findViewById(R.id.incomeButton);
+    movementButton=findViewById(R.id.movementButton);
+
+
+
+
+
+
+
+
+    costButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            cost();
+        }
+    });
+    incomeButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            income();
+        }
+    });
+    movementButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            movement();
+        }
+    });
     }
     void cost(){
         SharedPreferences.Editor actionCode = pref.edit();
@@ -304,14 +313,17 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.actionFragmentView, Actions.class,bundle)
                 .commit();
-        TextView actionCategory=findViewById(R.id.actioncategory);
-        actionCategory.setText("Kiadás");
         RelativeLayout actionCategoryLayout = findViewById(R.id.actioncategorylayout);
-        actionCategoryLayout.setBackgroundColor(0xffece4db);
+        actionCategoryLayout.setBackgroundColor(0xffEAEA7F);
         FragmentContainerView actionFragmentView=findViewById(R.id.actionFragmentView);
-        actionFragmentView.setBackgroundColor(0xffece4db);
+        actionFragmentView.setBackgroundColor(0xffEAEA7F);
         RelativeLayout storeButtonHolder = findViewById(R.id.storeButtonHolder);
-        storeButtonHolder.setBackgroundColor(0xffece4db);
+        storeButtonHolder.setBackgroundColor(0xffEAEA7F);
+        ImageView transactionTypeImage =findViewById(R.id.transactionTypeImage);
+        transactionTypeImage.setImageResource(R.drawable.cost);
+        RelativeLayout actionTypeImageBack=findViewById(R.id.actionTypeImageBack);
+        actionTypeImageBack.setBackgroundColor(0xffEAEA7F);
+
 
 
 
@@ -330,14 +342,17 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.actionFragmentView, Actions.class, new Bundle(bundle))
                 .commit();
-        TextView actionCategory=findViewById(R.id.actioncategory);
-        actionCategory.setText("Bevétel");
         RelativeLayout actionCategoryLayout = findViewById(R.id.actioncategorylayout);
-        actionCategoryLayout.setBackgroundColor(0xfff9c74f);
+        actionCategoryLayout.setBackgroundColor(0xff95D1CC);
         FragmentContainerView actionFragmentView=findViewById(R.id.actionFragmentView);
-        actionFragmentView.setBackgroundColor(0xfff9c74f);
+        actionFragmentView.setBackgroundColor(0xff95D1CC);
         RelativeLayout storeButtonHolder = findViewById(R.id.storeButtonHolder);
-        storeButtonHolder.setBackgroundColor(0xfff9c74f);
+        storeButtonHolder.setBackgroundColor(0xff95D1CC);
+        ImageView transactionTypeImage =findViewById(R.id.transactionTypeImage);
+        transactionTypeImage.setImageResource(R.drawable.income);
+        RelativeLayout actionTypeImageBack=findViewById(R.id.actionTypeImageBack);
+        actionTypeImageBack.setBackgroundColor(0xff95D1CC);
+
 
 
     }
@@ -352,14 +367,16 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.actionFragmentView, Actions.class,bundle)
                 .commit();
-        TextView actionCategory=findViewById(R.id.actioncategory);
-        actionCategory.setText("Pénzmozgás");
         RelativeLayout actionCategoryLayout = findViewById(R.id.actioncategorylayout);
-        actionCategoryLayout.setBackgroundColor(0xffdab6fc);
+        actionCategoryLayout.setBackgroundColor(0xffF7CCAC);
         FragmentContainerView actionFragmentView=findViewById(R.id.actionFragmentView);
-        actionFragmentView.setBackgroundColor(0xffdab6fc);
+        actionFragmentView.setBackgroundColor(0xffF7CCAC);
         RelativeLayout storeButtonHolder = findViewById(R.id.storeButtonHolder);
-        storeButtonHolder.setBackgroundColor(0xffdab6fc);
+        storeButtonHolder.setBackgroundColor(0xffF7CCAC);
+        ImageView transactionTypeImage =findViewById(R.id.transactionTypeImage);
+        transactionTypeImage.setImageResource(R.drawable.movement);
+        RelativeLayout actionTypeImageBack=findViewById(R.id.actionTypeImageBack);
+        actionTypeImageBack.setBackgroundColor(0xffF7CCAC);
 
     }
 }

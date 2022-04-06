@@ -8,125 +8,101 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context=".MainActivity"
-
     >
     <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:id="@+id/appBarLayout"
     >
-
     <include layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
     </include>
 </com.google.android.material.appbar.AppBarLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/navheader"
-        android:layout_weight="4"
-        >
+<RelativeLayout
+    android:id="@+id/actionTypeImageBack"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="6"
+    >
+    <ImageView
+       android:id="@+id/transactionTypeImage"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_alignParentTop="true"
 
 
-        <ImageButton
-            android:id="@+id/imageButtonLeft"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButtonCenter"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:srcCompat="@drawable/m8photo"
-            android:src="@drawable/m8photo"
-            android:layout_margin="1dp"
-
-            />
-
-        <ImageButton
-            android:id="@+id/imageButtonCenter"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButtonRight"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toEndOf="@+id/imageButtonLeft"
-            tools:srcCompat="@drawable/m11photo"
-            android:src="@drawable/m11photo"
-            android:layout_margin="1dp"
-
-            />
-
-        <ImageButton
-            android:id="@+id/imageButtonRight"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButtonCenter"
-            tools:srcCompat="@drawable/m8photo"
-            android:src="@drawable/m8photo"
-            android:layout_margin="1dp"
-
-            />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="top"
-            app:constraint_referenced_ids="imageButtonLeft,imageButtonCenter,imageButtonRight" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/actioncategorylayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-        <TextView
-            android:id="@+id/actioncategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            ></TextView>
-    </RelativeLayout>
-    <androidx.fragment.app.FragmentContainerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/actionFragmentView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-
+    ></ImageView>
+  <!--  <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+    />-->
+</RelativeLayout>
+        <androidx.fragment.app.FragmentContainerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/actionFragmentView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
         />
-    <RelativeLayout
-        android:id="@+id/storeButtonHolder"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        <RelativeLayout
+            android:id="@+id/actioncategorylayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
         >
-        <Button
-            android:id="@+id/store"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-
-            android:text="Tárol"
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/storeButtonHolder"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+        >
+            <Button
+                android:id="@+id/costButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_toLeftOf="@+id/incomeButton"
+                android:text="Kiadás"
+                android:textSize="12dp"
+                android:background="#EAEA7F"
             ></Button>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/syn"
+            <Button
+                android:id="@+id/incomeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_toLeftOf="@+id/movementButton"
+                android:textSize="12dp"
+                android:background="#95D1CC"
+                android:text="Bevétel"
             ></Button>
+            <Button
+                android:id="@+id/movementButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/store"
+                android:layout_centerInParent="true"
+                android:background="#F7CCAC"
+                android:text="Pénzmozgás"
+                android:textSize="12dp"
+            ></Button>
+            <Button
+                android:id="@+id/store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:background="#E83A14"
+                android:textColor="@color/white"
+                android:text="Tárol"
+                android:textSize="12dp"
+                ></Button>
     </RelativeLayout>
-
-
-
 </LinearLayout>
