@@ -78,9 +78,6 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                 holder.money.setTextColor(0xffffffff);
                 holder.moneylabel.setTextColor(0xffffffff);
                 holder.owner.setTextColor(0xffffffff);
-
-
-                //TODO ezeket összekéne fogni
             }
             //ha privát költségkategória
             if (fund.getType().equals("A")){
@@ -90,7 +87,6 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
                 holder.name.setTextColor(0xffffffff);
                 holder.type.setTextColor(0xffffffff);
                 holder.owner.setTextColor(0xffffffff);
-
             }
 
         }
