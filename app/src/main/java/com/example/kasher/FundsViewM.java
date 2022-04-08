@@ -104,6 +104,7 @@ public class FundsViewM extends AndroidViewModel {
         return repo.checkIfTableEmpty();
     }
 
+
     public LiveData<List<FundsForList>> getActualFunds() {
         return this.actualFunds;
     }

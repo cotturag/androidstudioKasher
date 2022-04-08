@@ -23,4 +23,6 @@ public interface UsersDao {
     ListenableFuture<Integer> checkIfTableEmpty();
     @Insert
     ListenableFuture<Long> insert(Users user);
+    @Query("SELECT password FROM users WHERE id=:user")
+    ListenableFuture<String> getPassByUser(String user);
 }

@@ -84,6 +84,8 @@ public class FundsRepo {
     }
 
 
+
+
     public ListenableFuture<Long> insert(Funds fund){return dao.insert(fund);}
     public void update(Funds fund) {dao.update(fund);}
     public void delete(Funds fund){dao.delete(fund);}

@@ -13,12 +13,14 @@ public class Users {
     private String family;
     private String name;
     private String privilege;
+    private String password;
 
-    public Users(String id,String family, String name, String privilege) {
+    public Users(String id,String family, String name, String privilege,String password) {
         this.id=id;
         this.family = family;
         this.name = name;
         this.privilege = privilege;
+        this.password=password;
     }
 
     public String getId() {return this.id;}
@@ -29,4 +31,6 @@ public class Users {
     public void setName(String name) {this.name = name;}
     public String getPrivilege() {return this.privilege;}
     public void setPrivilege(String privilege) {this.privilege = privilege;}
+    public String getPassword(){return this.password;}
+    public void setPassword(String password){this.password=password;}
 }

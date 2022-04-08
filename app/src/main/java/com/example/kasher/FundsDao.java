@@ -161,6 +161,8 @@ public interface FundsDao {
 
 
 
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public ListenableFuture<Long> insert(Funds fund);
 

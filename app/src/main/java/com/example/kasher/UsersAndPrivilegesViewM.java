@@ -41,5 +41,9 @@ public class UsersAndPrivilegesViewM extends AndroidViewModel {
     public boolean checkIfPrivilegesTableEmpty() throws ExecutionException, InterruptedException {
         return repo.checkIfPrivilegesTableEmpty();
     }
+    public boolean checkLoginCredentials(String user,String pass) throws ExecutionException, InterruptedException {
+        return repo.checkLoginCredentials(user,pass);
+    }
+
 
 }

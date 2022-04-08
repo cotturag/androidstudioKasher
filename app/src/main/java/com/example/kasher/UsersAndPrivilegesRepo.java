@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -39,4 +40,8 @@ public class UsersAndPrivilegesRepo {
     public void insertToPrivileges(Codes codes){
         codesDao.insert(codes);}
     public void insertToUsers(Users users){usersDao.insert(users);}
+    public boolean checkLoginCredentials(String user, String pass) throws ExecutionException, InterruptedException {
+
+        return  (usersDao.getPassByUser(user).get().equals(pass));
+    }
 }
