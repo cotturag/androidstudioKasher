@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 public class UsersAndPrivilegesViewM extends AndroidViewModel {
     private UsersAndPrivilegesRepo repo;
-    private LiveData<List<Privileges>> privileges;
+    private LiveData<List<Codes>> privileges;
     private LiveData<List<Users>> users;
     public UsersAndPrivilegesViewM(@NonNull Application app){
         super(app);
@@ -19,10 +19,10 @@ public class UsersAndPrivilegesViewM extends AndroidViewModel {
         privileges=repo.getPrivileges();
         users=repo.getUsers();
     }
-    public void createNewPrivileges(Privileges privileges){
-        repo.insertToPrivileges(privileges);
+    public void createNewPrivileges(Codes codes){
+        repo.insertToPrivileges(codes);
     }
-    public LiveData<List<Privileges>> getPrivileges(){return this.privileges;}
+    public LiveData<List<Codes>> getPrivileges(){return this.privileges;}
 
     public void createNewUsers(Users user){
         repo.insertToUsers(user);

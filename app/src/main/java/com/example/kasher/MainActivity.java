@@ -12,14 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
     Button costButton;
     Button incomeButton;
     Button movementButton;
-    String loggedUser ="cotturag@gmail.com";
+    //String loggedUser ="cotturag@gmail.com";
+    String loggedUser ="kissmartina0821@gmail.com";
+    //String loggedUser ="fuldugo@fuldugo.hu";
+    //String loggedUser ="doroszlai@gmail.com";
     SharedPreferences pref;
     static FundsViewM pr;
 
@@ -58,24 +59,26 @@ public class MainActivity extends AppCompatActivity {
 
         pref=this.getSharedPreferences("action", Context.MODE_PRIVATE);
 
-        // MainActivity.this.deleteDatabase("kasherD");
+      //   MainActivity.this.deleteDatabase("kasherD");
         UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
         try {
             if (uAndPVM.checkIfUsersTableEmpty()){
-                Users u1 = new Users("cotturag@gmail.com","cotturag@gmail.com","Szuklics Gellért","A");
+                Users u1 = new Users("cotturag@gmail.com","cotturag@gmail.com","Szuklics Gellért","P");
                 Users u2 = new Users("kissmartina0821@gmail.com","cotturag@gmail.com","Kiss Martina","P");
                 Users u3 = new Users("fuldugo@fuldugo.hu","cotturag@gmail.com","Füldugó","C");
+                Users u4 = new Users("doroszlai@gmail.com","cotturag@gmail.com","Doroszlai László","P");
                 uAndPVM.createNewUsers(u1);
                 uAndPVM.createNewUsers(u2);
                 uAndPVM.createNewUsers(u3);
+                uAndPVM.createNewUsers(u4);
             }
             if (uAndPVM.checkIfPrivilegesTableEmpty()){
-                Privileges p1=new Privileges("1","Privát számla","W","X","");
-                Privileges p2=new Privileges("2","Közös számla","W","RX","");
-                Privileges p3=new Privileges("3","Gyermek számla","W","R","X");
-                Privileges p4=new Privileges("A","Privát költéskategória","W","X","");
-                Privileges p5=new Privileges("B","Közös költéskategória","W","RX","");
-                Privileges p6=new Privileges("C","Gyermek költéskategória","W","R","X");
+                Codes p1=new Codes("1","Privát számla");
+                Codes p2=new Codes("2","Közös számla");
+                Codes p3=new Codes("3","Gyermek számla");
+                Codes p4=new Codes("A","Privát költéskategória");
+                Codes p5=new Codes("B","Közös költéskategória");
+                Codes p6=new Codes("C","Gyermek költéskategória");
                 uAndPVM.createNewPrivileges(p1);
                 uAndPVM.createNewPrivileges(p2);
                 uAndPVM.createNewPrivileges(p3);
@@ -106,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
                 Funds fund7=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","kissmartina0821@gmail.com",6);
                 Funds fund8=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","Csoki","kissmartina0821@gmail.com",0);
                 Funds fund9=new Funds("0","fuldugo@fuldugo.hu","C",1,"0","Csoki","cotturag@gmail.com",8);
+                Funds fund10=new Funds("0","kissmartina0821@gmail.com","1",1,"0","Otp","",0);
+                Funds fund11=new Funds("0","kissmartina0821@gmail.com","A",1,"0","Pipere","",0);
+                Funds fund12=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","doroszlai@gmail.com",6);
+                Funds fund13=new Funds("0","doroszlai@gmail.com","1",1,"0","Unicredit","",0);
                 pr.createNew(fund1).get();
                 pr.createNew(fund2).get();
                 pr.createNew(fund3).get();
@@ -115,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
                 pr.createNew(fund7).get();
                 pr.createNew(fund8).get();
                 pr.createNew(fund9).get();
+                pr.createNew(fund10).get();
+                pr.createNew(fund11).get();
+                pr.createNew(fund12).get();
+                pr.createNew(fund13).get();
                /* if (syncRemote){
                     String family=null;
                     try {
@@ -148,6 +159,48 @@ public class MainActivity extends AppCompatActivity {
                 String to=pref.getString("to","");
                 String details=pref.getString("details","");
                 int actionCode=pref.getInt("actionCode",1);
+//lehet hogy négy tranzakció lesz egy tranzakcióra ha a számla, és a costcategory is hookedtos
+                List<Integer> toList = new ArrayList<Integer>();
+                List<Integer> fromSourceModeList = new ArrayList<Integer>();
+                List<Integer> fromDestinationModeList = new ArrayList<Integer>();
+                toList.clear();
+                fromSourceModeList.clear();
+                fromDestinationModeList.clear();
+                try {
+                    if (!to.equals("")) toList=pr.getHookedFunds(Integer.valueOf(to));
+             //      if (fromSourceMode.equals("")) fromSourceMode="0";
+              //      if (fromDestinationMode.equals("")) fromDestinationMode="0";
+                    if (!fromSourceMode.equals("")) fromSourceModeList=pr.getHookedFunds(Integer.valueOf(fromSourceMode));
+                    if (!fromDestinationMode.equals("")) fromDestinationModeList=pr.getHookedFunds(Integer.valueOf(fromDestinationMode));
+
+                    if (toList.size()==0) {
+
+                        if (!to.equals("")) toList.add(Integer.valueOf(to));
+                    }
+                    if (fromSourceModeList.size()==0){
+                        if (!fromSourceMode.equals("")) fromSourceModeList.add(Integer.valueOf(fromSourceMode));
+                    }
+                    if (fromDestinationModeList.size()==0){
+                        if (!fromDestinationMode.equals("")) fromDestinationModeList.add(Integer.valueOf(fromDestinationMode));
+                    }
+
+
+
+                    for (int id : fromSourceModeList){
+                        System.out.println("sourcemode: "+id);
+                    }
+
+                    for (int id : fromDestinationModeList){
+                        System.out.println("destinationmode: "+id);
+                    }
+                    for (int id : toList){
+                        System.out.println("to: "+id);
+                    }
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 if (actionCode==1){
                     if (!calendar.equals("")&&!fromSourceMode.equals("")&&!money.equals("")&&!to.equals("")){

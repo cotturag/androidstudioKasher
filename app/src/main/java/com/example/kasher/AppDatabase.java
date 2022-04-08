@@ -9,10 +9,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Funds.class,Privileges.class,Transactions.class,Users.class}, version = 1)
+@Database(entities = {Funds.class, Codes.class,Transactions.class,Users.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract FundsDao fundsDao();
-    public abstract PrivilegesDao privilegesDao();
+    public abstract CodesDao privilegesDao();
     public abstract TransactionsDao transactionsDao();
     public abstract UsersDao usersDao();
     private static AppDatabase instance;
@@ -33,7 +33,8 @@ public abstract class AppDatabase extends RoomDatabase {
     };
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void>{
-        PopulateDbAsyncTask(AppDatabase instance) {FundsDao dao=instance.fundsDao();PrivilegesDao privilegesDao= instance.privilegesDao();TransactionsDao transactionsDao= instance.transactionsDao();UsersDao usersDao= instance.usersDao();}
+        PopulateDbAsyncTask(AppDatabase instance) {FundsDao dao=instance.fundsDao();
+            CodesDao codesDao = instance.privilegesDao();TransactionsDao transactionsDao= instance.transactionsDao();UsersDao usersDao= instance.usersDao();}
 
         @Override
         protected Void doInBackground(Void... voids){

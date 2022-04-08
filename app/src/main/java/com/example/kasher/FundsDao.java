@@ -15,15 +15,15 @@ import java.util.List;
 public interface FundsDao {
     String querySelectFrom ="" +
             "SELECT funds.id,funds.money,funds.owner,funds.otherowner,funds.type,funds.activity,funds.inactivity,funds.name," +
-            "privileges.type AS typeInPrivileges," +
-            "privileges.name AS nameInPrivileges," +
+            "codes.type AS typeInCodes," +
+            "codes.name AS nameInCodes," +
             "users.name AS ownerinusers," +
             "funds.hookedTo " +
-            "FROM funds,privileges,users";
+            "FROM funds,codes,users";
     String queryMyPrivateFunds=" " +
             "WHERE owner= :owner " +
             "AND (funds.type='1' OR funds.type='A') " +
-            "AND funds.type=privileges.type " +
+            "AND funds.type=codes.type " +
             "AND funds.owner=users.id ";
     //a queryMyPickedupPublicAndSupervisedFundsInsertedben
     //azokat a felvett közös és felügyelt fundokat kéri,
@@ -31,7 +31,7 @@ public interface FundsDao {
     String queryMyPickedupPublicAndSupervisedFundsInserted =" " +
             "WHERE otherOwner= :owner " +
             "AND hookedTo>0 " +
-            "AND funds.type=privileges.type " +
+            "AND funds.type=codes.type " +
             "AND funds.owner=users.id";
     //a queryMyPickeddownPublicAndSupervisedFundsAndPickedupUpdateben
     //a leadott közös és felügyelt fundokat kéri,
@@ -44,7 +44,7 @@ public interface FundsDao {
             " OR funds.type='B'" +
             " OR funds.type='C')" +
             " AND (SELECT COUNT(*) FROM funds "+ queryMyPickedupPublicAndSupervisedFundsInserted +")=0" +
-            " AND funds.type=privileges.type" +
+            " AND funds.type=codes.type" +
             " AND funds.owner=users.id";
     String unionAll=" UNION ALL ";
     String orderBy=" ORDER BY funds.type ASC";
@@ -62,16 +62,11 @@ public interface FundsDao {
     @Query(querySelectFrom+ queryMyPrivateFunds)
     LiveData<List<FundsForList>> getPrivates(String owner);
 
-    /*
-    String where=" WHERE owner= :owner ";
-    String tableConnections="AND funds.type=privileges.type AND funds.owner=users.id ";
 
-
-     */
     String queryMyPrivateAccounts = " " +
             "WHERE owner= :owner " +
             "AND (funds.type='1') " +
-            "AND funds.type=privileges.type " +
+            "AND funds.type=codes.type " +
             "AND funds.owner=users.id  ";
     //a queryMyPublicAccountsInsertedben azokat felvett közös számlákat kéri,
     //ahol a felvételnél új példányt kellett beszúrni
@@ -79,7 +74,7 @@ public interface FundsDao {
             "WHERE otherOwner= :owner " +
             "AND hookedTo>0  " +
             "AND (funds.type='2') " +
-            "AND funds.type=privileges.type " +
+            "AND funds.type=codes.type " +
             "AND funds.owner=users.id";
     //a queryMyPublicAccountsUpdatedben azokat a felvett közös számlákat kéri,
     //ahol a felvételnél az owner lett beupdatelve az otherownerhez
@@ -89,7 +84,7 @@ public interface FundsDao {
             "AND" +
             " (funds.type='2') " +
             "AND (SELECT COUNT(*) FROM funds "+ queryMyPublicAccountsInserted +")=0 " +
-            "AND funds.type=privileges.type " +
+            "AND funds.type=codes.type " +
             "AND funds.owner=users.id ";
     @Query(querySelectFrom+
             queryMyPrivateAccounts+
@@ -105,7 +100,7 @@ public interface FundsDao {
     String queryMyPrivateCostCategorys= " " +
             "WHERE owner= :owner " +
             "AND (funds.type='A') " +
-            "AND funds.type=privileges.type " +
+            "AND funds.type=codes.type " +
             "AND funds.owner=users.id  ";
     //a queryMypublicCostCategoriesInserted a queryMyPublicAccountsInsertedben lévő logika
     //alapján kérdez, csak költségkategóriákat
@@ -113,7 +108,7 @@ public interface FundsDao {
             "WHERE otherOwner= :owner " +
             "AND hookedTo>0  " +
             "AND (funds.type='B') " +
-            "AND funds.type=privileges.type " +
+            "AND funds.type=codes.type " +
             "AND funds.owner=users.id";
     //a queryMyPublicCostCategoriesUpdated a queryMyPublicAccountsUpdateben lévő logika
     //alapján kérdez, csak költségkategóriákat
@@ -123,7 +118,7 @@ public interface FundsDao {
             "AND" +
             " (funds.type='B') " +
             "AND (SELECT COUNT(*) FROM funds "+ queryMyPublicCostCategoriesInserted +")=0 " +
-            "AND funds.type=privileges.type " +
+            "AND funds.type=codes.type " +
             "AND funds.owner=users.id ";
     @Query(querySelectFrom+
             queryMyPrivateCostCategorys+
@@ -141,25 +136,24 @@ public interface FundsDao {
 
 
 
-    /*
-    String queryMyPrivateCostCategorys= " WHERE owner= :owner AND (funds.type='A') AND funds.type=privileges.type AND funds.owner=users.id  ";
-    String queryMySharedCostCategory=" ";
-    String queryMyPublicCostCategory=" ";
-    @Query(querySelectFrom+where+queryMyPrivateCostCategorys+tableConnections)
-    LiveData<List<FundsForList>> getCostCategories(String owner);
 
-*/
 
 
     @Query("SELECT funds.id,users.family AS familyinusers,money,owner,otherOwner,type,activity,inactivity,funds.name,hookedTo FROM funds,users WHERE funds.owner=users.id AND funds.id=:fundId")
     ListenableFuture<FundsForRemote> getFromUsersIdExtendsFamily(int fundId);
 
-    /*@Query("SELECT funds.id,users.family AS familyInUsers,money,owner,otherOwner,type,activity,inactivity,funds.name,hookedTo FROM funds,users WHERE funds.owner=users.id AND funds.owner=:fundOwner ")
-    ListenableFuture<FundsForRemote> getFundFromUsersByOwnerExtendsFamily(String fundOwner);
-*/
     @Query("SELECT COUNT(*) FROM funds")
     ListenableFuture<Integer> checkIfTableEmpty();
 
+
+    @Query("SELECT hookedTo FROM funds WHERE id=:otherid")
+    ListenableFuture<Integer> getHooked(int otherid);
+
+    @Query("SELECT id FROM funds WHERE hookedto=:hooked")
+    ListenableFuture<List<Integer>> getIdsByHooked(int hooked);
+
+    @Query("SELECT id FROM funds WHERE hookedto=:id")
+    ListenableFuture<List<Integer>> getIdsById(int id);
 
 
 

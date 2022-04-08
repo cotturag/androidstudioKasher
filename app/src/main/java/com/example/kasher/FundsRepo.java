@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -50,6 +51,25 @@ public class FundsRepo {
     public LiveData<List<FundsForList>> getAccounts(){return this.accounts;}
     public LiveData<List<FundsForList>> getCostCategories(){return this.costCategories;}
     public ListenableFuture<List<Funds>> getAll(){return this.all;}
+    public List<Integer> getHookedFundById(int id) throws ExecutionException, InterruptedException {
+        int hooked=dao.getHooked(id).get().intValue();
+        List<Integer> idlist= new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
+        if (hooked!=0) {
+            idlist =dao.getIdsByHooked(hooked).get();
+            idlist.add(hooked);
+        }
+        else {
+            list=dao.getIdsById(id).get();
+            if (list.size()>0) {
+                for (int item : list){
+                    idlist.add(item);
+                }
+                idlist.add(id);
+            }
+        }
+        return idlist;
+    }
 
 
 

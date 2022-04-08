@@ -48,7 +48,7 @@ public class ActionsFundsListAdapter extends ListAdapter<FundsForList,ActionsFun
     public void onBindViewHolder(@NonNull ActionsFundsListAdapter.ViewHolder holder, int position) {
         FundsForList fund = getFundAt(position);
         holder.name.setText(fund.getName());
-        holder.type.setText(String.valueOf(fund.getNameInPrivileges()));
+        holder.type.setText(String.valueOf(fund.getNameInCodes()));
     }
     private FundsForList getFundAt(int position){
         return getItem(position);

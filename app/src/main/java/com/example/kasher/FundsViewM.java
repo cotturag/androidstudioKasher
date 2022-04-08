@@ -59,7 +59,7 @@ public class FundsViewM extends AndroidViewModel {
 
             Long location=repo.insert(fund).get().longValue();
 
-            //TODO azér ez így fura, rendesen kéne kasztolni
+
             String stringLocation=String.valueOf(location);
             int intLocation=Integer.valueOf(stringLocation);
             fund.setId(intLocation);
@@ -109,7 +109,7 @@ public class FundsViewM extends AndroidViewModel {
     }
     public LiveData<List<FundsForList>> getAccounts(){return this.accounts;}
     public LiveData<List<FundsForList>> getCostCategories(){return this.costCategories;}
-
+    public List<Integer> getHookedFunds(int id) throws ExecutionException, InterruptedException {return repo.getHookedFundById(id);}
 
 
     public static class FundsViewMFactory implements ViewModelProvider.Factory {

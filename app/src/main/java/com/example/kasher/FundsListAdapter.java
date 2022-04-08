@@ -1,22 +1,16 @@
 package com.example.kasher;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
 
 public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.ViewHolder> {
     private OnItemClickListener listener;
@@ -53,7 +47,7 @@ public class FundsListAdapter extends ListAdapter<FundsForList,FundsListAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder,int position) {
         FundsForList fund = getFundAt(position);
         holder.name.setText(fund.getName());
-        holder.type.setText(String.valueOf(fund.getNameInPrivileges()));
+        holder.type.setText(String.valueOf(fund.getNameInCodes()));
         //ha számla
        /*
         if (fund.getType().equals("1")||fund.getType().equals("2")||fund.getType().equals("3")){

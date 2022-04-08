@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class UsersAndPrivilegesRepo {
-    private PrivilegesDao privilegesDao;
+    private CodesDao codesDao;
     private UsersDao usersDao;
-    private LiveData<List<Privileges>> privileges;
+    private LiveData<List<Codes>> privileges;
     private LiveData<List<Users>> users;
 
     UsersAndPrivilegesRepo(Application app) {
         AppDatabase db = AppDatabase.getInstance(app);
-        privilegesDao=db.privilegesDao();
-        privileges=privilegesDao.getAll();
+        codesDao =db.privilegesDao();
+        privileges= codesDao.getAll();
         usersDao =db.usersDao();
         users=usersDao.getAll();
     }
@@ -30,12 +30,13 @@ public class UsersAndPrivilegesRepo {
         return usersDao.checkIfTableEmpty().get()==0;
     }
     public boolean checkIfPrivilegesTableEmpty() throws ExecutionException, InterruptedException {
-        return privilegesDao.checkIfTableEmpty().get()==0;
+        return codesDao.checkIfTableEmpty().get()==0;
     }
 
-    public LiveData<List<Privileges>> getPrivileges(){return this.privileges;}
+    public LiveData<List<Codes>> getPrivileges(){return this.privileges;}
     public LiveData<List<Users>> getUsers(){return this.users;}
 
-    public void insertToPrivileges(Privileges privileges){privilegesDao.insert(privileges);}
+    public void insertToPrivileges(Codes codes){
+        codesDao.insert(codes);}
     public void insertToUsers(Users users){usersDao.insert(users);}
 }

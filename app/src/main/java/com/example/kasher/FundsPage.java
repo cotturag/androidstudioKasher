@@ -21,9 +21,10 @@ import java.util.concurrent.ExecutionException;
 
 public class FundsPage extends AppCompatActivity {
     private RecyclerView fundsRec;
-    private String loggedUser="cotturag@gmail.com";
-  //  private String loggedUser="kissmartina0821@gmail.com";
+   // private String loggedUser="cotturag@gmail.com";
+    private String loggedUser="kissmartina0821@gmail.com";//TODO két helyen van megadva a felhasználó
    // private String loggedUser="fuldugo@fuldugo.hu";
+   // private String loggedUser ="doroszlai@gmail.com";
     static TextView fundsPageLabel;
     static FundsViewM pr;
     static TextView fundsPageLabelTwo;

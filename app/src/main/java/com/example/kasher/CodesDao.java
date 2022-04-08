@@ -10,11 +10,11 @@ import com.google.common.util.concurrent.ListenableFuture;
 import java.util.List;
 
 @Dao
-public interface PrivilegesDao {
-    @Query("SELECT * FROM privileges")
-    LiveData<List<Privileges>> getAll();
+public interface CodesDao {
+    @Query("SELECT * FROM Codes")
+    LiveData<List<Codes>> getAll();
     @Insert
-    ListenableFuture<Long> insert(Privileges privileges);
-    @Query("SELECT COUNT(*) FROM privileges")
+    ListenableFuture<Long> insert(Codes codes);
+    @Query("SELECT COUNT(*) FROM Codes")
     ListenableFuture<Integer> checkIfTableEmpty();
 }
