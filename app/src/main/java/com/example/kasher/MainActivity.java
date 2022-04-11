@@ -308,6 +308,16 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(getIntent());
                         }
                         break;
+                        case R.id.sync: {
+                         /*   try {
+                                pr.syncFundsToServer(loggedUser);
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        */}
+                        break;
                     }
                     return false;
                 }

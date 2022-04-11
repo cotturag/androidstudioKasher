@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class TransactionsRepo {
-    boolean onLocalNetwork=true;
+    boolean onLocalNetwork=false;
     String localNetwork="192.168.1.2";
     String remoteNetwork="cotturag.ddns.net";
     private TransactionsDao dao;

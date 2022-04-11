@@ -13,5 +13,12 @@
         android:orderInCategory="2"
         >
     </item>
+    <item
+        android:id="@+id/sync"
+        android:title="Szinkronizálás"
+        android:orderInCategory="2"
+        >
+    </item>
+
 
 </menu>
