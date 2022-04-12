@@ -3,31 +3,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <EditText
-        android:id="@+id/loginUser"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-
+        android:layout_above="@+id/loginHolder"
+        android:background="#EAEA7F"
         >
-
-    </EditText>
-    <EditText
-        android:id="@+id/loginPass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:layout_below="@+id/loginUser"
-        >
-
-    </EditText>
-    <Button
-        android:id="@+id/loginButton"
+    <TextView
+        android:text="Kasher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginPass"
+        android:textSize="15pt"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         >
 
-    </Button>
+    </TextView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/loginHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="#EAEA7F"
+        >
+
+        <TextView
+            android:id="@+id/loginUserText"
+            android:text="Felhasználónév:"
+            android:textSize="7pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            >
+        </TextView>
+        <EditText
+            android:id="@+id/loginUser"
+            android:text="cotturag@gmail.com"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:layout_toRightOf="@+id/loginUserText"
+            >
+        </EditText>
+        <TextView
+
+            android:id="@+id/loginPassText"
+            android:text="Jelszó: "
+            android:textSize="7pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/loginUserText"
+            android:padding="10dp"
+            >
+        </TextView>
+        <EditText
+            android:id="@+id/loginPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_below="@+id/loginUser"
+            android:layout_toRightOf="@+id/loginPassText"
+            >
+
+        </EditText>
+        <Button
+            android:id="@+id/loginButton"
+            android:text="Bejelentkezés"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/loginPass"
+            >
+
+        </Button>
+    </RelativeLayout>
 
 </RelativeLayout>
