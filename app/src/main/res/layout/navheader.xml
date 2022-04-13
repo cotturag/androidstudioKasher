@@ -5,10 +5,13 @@
     android:background="@color/navheader"
     android:orientation="vertical"
     >
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+  <TextView
 
-        ></ImageView>
+
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      >
+
+  </TextView>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
    // boolean syncRemote=false;
 
 
@@ -57,7 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
         pref=this.getSharedPreferences("action", Context.MODE_PRIVATE);
         loggedUser=pref.getString("loggedowner","");
+
+
+
+
+
         // MainActivity.this.deleteDatabase("kasherD");
+
         UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
         try {
             if (uAndPVM.checkIfUsersTableEmpty()){
@@ -89,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         if (!loggedUser.equals("")){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.main);
+
 
 
 
@@ -291,6 +300,8 @@ public class MainActivity extends AppCompatActivity {
             abdt.syncState();
             NavigationView navw = findViewById(R.id.nav);
 
+
+
             navw.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -309,21 +320,25 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                         case R.id.sync: {
-                         /*   try {
-                                pr.syncFundsToServer(loggedUser);
+                            try {
+                                String family=uAndPVM.getFamilyByOwnerFromUsersInString(loggedUser);
+                                pr.syncFundsToServer(family);
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                        */}
+                        }
                         break;
                     }
                     return false;
                 }
             });
-
-/*
+            if (!loggedUser.equals("")) {
+                TextView headerText = findViewById(R.id.hText);
+                headerText.setText(loggedUser);
+            }
+     /*
     Button syn=findViewById(R.id.syn);
     syn.setOnClickListener(new View.OnClickListener() {
     @Override

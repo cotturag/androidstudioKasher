@@ -2,6 +2,7 @@ package com.example.kasher;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -105,8 +106,11 @@ public class TransactionsRepo {
                 int responseCode = connection.getResponseCode();
                 if (responseCode==HttpURLConnection.HTTP_OK){
                     szovege="ok";
+
                 }
-                else szovege="nemok";
+                else {
+
+                }
 
                 connection.disconnect();
             } catch (IOException e) {
@@ -118,8 +122,9 @@ public class TransactionsRepo {
         @Override
         protected void onPostExecute(String szove) {
             super.onPostExecute(szove);
-
-
+/*
+            Toast toast = Toast.makeText(MainActivity.pr.getApplication(), szove, Toast.LENGTH_SHORT);
+            toast.show();*/
 //            FundsPage.fundsPageLabel.setText(szove);
 
 
