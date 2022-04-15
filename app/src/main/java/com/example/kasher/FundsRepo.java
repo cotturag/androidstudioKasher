@@ -2,6 +2,7 @@ package com.example.kasher;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -136,7 +137,7 @@ public class FundsRepo {
         new RemoteFundsForRemoteSenderAsyncTask(operateType).execute(fundsForRemote);
     }
     public void synchronizeToServer(String what,String family) throws ExecutionException, InterruptedException {
-         new RemoteMessageSenderAsyncTask().execute(what,family);
+       //  new RemoteMessageSenderAsyncTask().execute(what,family);
          copyAllFundToServer(family);
     }
     void copyAllFundToServer(String family) throws ExecutionException, InterruptedException {
@@ -150,12 +151,13 @@ public class FundsRepo {
         String szovege;
         HttpURLConnection connection;
         String operateType;
+        HttpURLConnection conn=null;
         public RemoteFundsForRemoteSenderAsyncTask(String operateType){
             this.operateType=operateType;
         }
 
         private HttpURLConnection connectToServer(String url){
-            HttpURLConnection conn=null;
+
             try{
                 URL urlc = null;
                 urlc = new URL(url);
@@ -221,6 +223,7 @@ public class FundsRepo {
                 e.printStackTrace();
                 szovege=e.toString();
             }
+         //  conn.disconnect();
             return szovege;
         }
         @Override
@@ -229,18 +232,25 @@ public class FundsRepo {
 
 
 //            FundsPage.fundsPageLabel.setText(szove);
-
+          /*
+            Toast toast = Toast.makeText(MainActivity.pr.getApplication(), szove, Toast.LENGTH_SHORT);
+            toast.show();
+*/
 
 
         }
+
+
     }
 
     private class RemoteMessageSenderAsyncTask extends AsyncTask<String,String,String>{
         String szovege;
         HttpURLConnection connection;
+
         private HttpURLConnection connectToServer(String url){
             HttpURLConnection conn=null;
             try{
+            //    conn.disconnect();
                 URL urlc = null;
                 urlc = new URL(url);
                 conn = (HttpURLConnection) urlc.openConnection();
@@ -267,7 +277,9 @@ public class FundsRepo {
         @Override
         protected String doInBackground(String... strings) {
             //  ArrayList<String> urls=new ArrayList<String>();
+            connection=connectToServer("192.168.1.2/acces.php");
             try {
+
                 if (onLocalNetwork) connection=connectToServer("192.168.1.2/acces.php");
                 if (!onLocalNetwork) connection=connectToServer("http://cotturag.ddns.net/access.php");
 
@@ -297,7 +309,9 @@ public class FundsRepo {
 
 
 //            FundsPage.fundsPageLabel.setText(szove);
-
+        /*    Toast toast = Toast.makeText(MainActivity.pr.getApplication(), szove, Toast.LENGTH_SHORT);
+            toast.show();
+*/
 
 
         }

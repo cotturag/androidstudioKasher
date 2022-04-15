@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+
         android:id="@+id/funds"
-        android:title="Számlák és kölcségkategóriák"
+        android:title="Számlák és költségkategóriák"
         android:orderInCategory="1"
+
         >
     </item>
 
@@ -15,7 +17,7 @@
     </item>
     <item
         android:id="@+id/sync"
-        android:title="Szinkronizálás"
+        android:title="Számlák szinkronizálása"
         android:orderInCategory="2"
         >
     </item>
