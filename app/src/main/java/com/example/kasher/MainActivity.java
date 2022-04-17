@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         // MainActivity.this.deleteDatabase("kasherD");
 
         UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
