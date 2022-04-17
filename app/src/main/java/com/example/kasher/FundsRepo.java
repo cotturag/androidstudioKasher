@@ -30,7 +30,7 @@ public class FundsRepo {
     private ListenableFuture<List<Funds>> all;
 
 
-    boolean onLocalNetwork=false;
+    boolean onLocalNetwork=true;
     String localNetwork="192.168.1.2";
     String remoteNetwork="cotturag.ddns.net";
 
@@ -46,6 +46,13 @@ public class FundsRepo {
 
 
     }
+    public FundsForList getInsertedFundById(int id, String loggedUser) throws ExecutionException, InterruptedException {
+        return dao.getInsertedFundById(id,loggedUser).get();
+    }
+    public boolean insertedAlready(int id, String loggedUser) throws ExecutionException, InterruptedException {
+        return dao.checkInsertedAlready(id,loggedUser).get()>0;
+    }
+
     public LiveData<List<FundsForList>> getActualFunds(){
         return this.actualFunds;
     }

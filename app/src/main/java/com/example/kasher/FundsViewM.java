@@ -53,17 +53,30 @@ public class FundsViewM extends AndroidViewModel {
             repo.updateRemote(fund);
         }
         else {
-            fund.setOtherOwner(owner);
-            fund.setHookedTo(fund.getId());
-            fund.setId(0);
+            System.out.println("id:"+fund.getId());
+            if (repo.insertedAlready(fund.getId(),loggedUser)){
+                fund=repo.getInsertedFundById(fund.getId(),loggedUser);
+                fund.setActivity(1);
+                repo.update(fund);
+                repo.updateRemote(fund);
+            }
+            else {
+                fund.setOtherOwner(owner);
+                fund.setHookedTo(fund.getId());
+                fund.setId(0);
+                Long location=repo.insert(fund).get().longValue();
+                String stringLocation=String.valueOf(location);
+                int intLocation=Integer.valueOf(stringLocation);
+                fund.setId(intLocation);
+                repo.insertRemote(fund,family);
+            }
 
-            Long location=repo.insert(fund).get().longValue();
 
 
-            String stringLocation=String.valueOf(location);
-            int intLocation=Integer.valueOf(stringLocation);
-            fund.setId(intLocation);
-            repo.insertRemote(fund,family);
+
+
+
+
         }
     }
     public void pickDown(Funds fund,String family) throws ExecutionException, InterruptedException {
@@ -73,8 +86,9 @@ public class FundsViewM extends AndroidViewModel {
             repo.updateRemote(fund);
         }
         else {
-            repo.delete(fund);
-            repo.deleteRemote(fund,family);
+            fund.setActivity(0);
+            repo.update(fund);
+            repo.updateRemote(fund);
         }
     }
 

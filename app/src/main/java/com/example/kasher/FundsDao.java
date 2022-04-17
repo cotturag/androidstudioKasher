@@ -24,7 +24,8 @@ public interface FundsDao {
             "WHERE owner= :owner " +
             "AND (funds.type='1' OR funds.type='A') " +
             "AND funds.type=codes.type " +
-            "AND funds.owner=users.id ";
+            "AND funds.owner=users.id " +
+            "AND funds.activity!=0 ";
     //a queryMyPickedupPublicAndSupervisedFundsInsertedben
     //azokat a felvett közös és felügyelt fundokat kéri,
     //ahol a felvételnél új példányt kellett beszúrni
@@ -32,7 +33,8 @@ public interface FundsDao {
             "WHERE otherOwner= :owner " +
             "AND hookedTo>0 " +
             "AND funds.type=codes.type " +
-            "AND funds.owner=users.id";
+            "AND funds.owner=users.id " +
+            "AND funds.activity!=0 ";
     //a queryMyPickeddownPublicAndSupervisedFundsAndPickedupUpdateben
     //a leadott közös és felügyelt fundokat kéri,
     //és a felvett közös és felügyelteket,
@@ -45,7 +47,8 @@ public interface FundsDao {
             " OR funds.type='C')" +
             " AND (SELECT COUNT(*) FROM funds "+ queryMyPickedupPublicAndSupervisedFundsInserted +")=0" +
             " AND funds.type=codes.type" +
-            " AND funds.owner=users.id";
+            " AND funds.owner=users.id " +
+            "AND funds.activity!=0 ";
     String unionAll=" UNION ALL ";
     String orderBy=" ORDER BY funds.type ASC";
 
@@ -67,7 +70,8 @@ public interface FundsDao {
             "WHERE owner= :owner " +
             "AND (funds.type='1') " +
             "AND funds.type=codes.type " +
-            "AND funds.owner=users.id  ";
+            "AND funds.owner=users.id  " +
+            "AND funds.activity!=0 ";
     //a queryMyPublicAccountsInsertedben azokat felvett közös számlákat kéri,
     //ahol a felvételnél új példányt kellett beszúrni
     String queryMyPublicAccountsInserted =" " +
@@ -75,7 +79,8 @@ public interface FundsDao {
             "AND hookedTo>0  " +
             "AND (funds.type='2') " +
             "AND funds.type=codes.type " +
-            "AND funds.owner=users.id";
+            "AND funds.owner=users.id " +
+            "AND funds.activity!=0 ";
     //a queryMyPublicAccountsUpdatedben azokat a felvett közös számlákat kéri,
     //ahol a felvételnél az owner lett beupdatelve az otherownerhez
     String queryMyPublicAccountsUpdated =" " +
@@ -85,7 +90,8 @@ public interface FundsDao {
             " (funds.type='2') " +
             "AND (SELECT COUNT(*) FROM funds "+ queryMyPublicAccountsInserted +")=0 " +
             "AND funds.type=codes.type " +
-            "AND funds.owner=users.id ";
+            "AND funds.owner=users.id " +
+            "AND funds.activity!=0 ";
     @Query(querySelectFrom+
             queryMyPrivateAccounts+
             unionAll+
@@ -101,7 +107,8 @@ public interface FundsDao {
             "WHERE owner= :owner " +
             "AND (funds.type='A') " +
             "AND funds.type=codes.type " +
-            "AND funds.owner=users.id  ";
+            "AND funds.owner=users.id " +
+            "AND funds.activity!=0 ";
     //a queryMypublicCostCategoriesInserted a queryMyPublicAccountsInsertedben lévő logika
     //alapján kérdez, csak költségkategóriákat
     String queryMyPublicCostCategoriesInserted =" " +
@@ -109,7 +116,8 @@ public interface FundsDao {
             "AND hookedTo>0  " +
             "AND (funds.type='B') " +
             "AND funds.type=codes.type " +
-            "AND funds.owner=users.id";
+            "AND funds.owner=users.id " +
+            "AND funds.activity!=0 ";
     //a queryMyPublicCostCategoriesUpdated a queryMyPublicAccountsUpdateben lévő logika
     //alapján kérdez, csak költségkategóriákat
     String queryMyPublicCostCategoriesUpdated =" " +
@@ -119,7 +127,8 @@ public interface FundsDao {
             " (funds.type='B') " +
             "AND (SELECT COUNT(*) FROM funds "+ queryMyPublicCostCategoriesInserted +")=0 " +
             "AND funds.type=codes.type " +
-            "AND funds.owner=users.id ";
+            "AND funds.owner=users.id " +
+            "AND funds.activity!=0 ";
     @Query(querySelectFrom+
             queryMyPrivateCostCategorys+
             unionAll+
@@ -145,7 +154,6 @@ public interface FundsDao {
     @Query("SELECT COUNT(*) FROM funds")
     ListenableFuture<Integer> checkIfTableEmpty();
 
-
     @Query("SELECT hookedTo FROM funds WHERE id=:otherid")
     ListenableFuture<Integer> getHooked(int otherid);
 
@@ -155,7 +163,11 @@ public interface FundsDao {
     @Query("SELECT id FROM funds WHERE hookedto=:id")
     ListenableFuture<List<Integer>> getIdsById(int id);
 
+    @Query("SELECT * FROM funds WHERE hookedto=:id AND otherowner=:loggedUser" )
+    ListenableFuture<FundsForList> getInsertedFundById(int id, String loggedUser);
 
+    @Query("SELECT COUNT(*) FROM funds WHERE hookedto=:id AND otherowner=:loggedUser")
+    ListenableFuture<Integer> checkInsertedAlready(int id, String loggedUser);
 
 
 
