@@ -70,13 +70,6 @@ public class FundsViewM extends AndroidViewModel {
                 fund.setId(intLocation);
                 repo.insertRemote(fund,family);
             }
-
-
-
-
-
-
-
         }
     }
     public void pickDown(Funds fund,String family) throws ExecutionException, InterruptedException {

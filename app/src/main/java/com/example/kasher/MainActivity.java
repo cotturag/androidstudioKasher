@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         // MainActivity.this.deleteDatabase("kasherD");
 
-        UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
+        UsersAndCodesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndCodesViewM.class);
         try {
             if (uAndPVM.checkIfUsersTableEmpty()){
                 Users u1 = new Users("cotturag@gmail.com","cotturag@gmail.com","Szuklics Gellért","P","cotturag");
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     Funds fund11=new Funds("0","kissmartina0821@gmail.com","A",1,"0","Pipere","",0);
                     Funds fund12=new Funds("0","cotturag@gmail.com","B",1,"0","Közös áram","doroszlai@gmail.com",6);
                     Funds fund13=new Funds("0","doroszlai@gmail.com","1",1,"0","Unicredit","",0);
+                    Funds fund14=new Funds("0","doroszlai@gmail.com","A",1,"0","Parkolás","",0);
                     pr.createNew(fund1).get();
                     pr.createNew(fund2).get();
                     pr.createNew(fund3).get();
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     pr.createNew(fund11).get();
                     pr.createNew(fund12).get();
                     pr.createNew(fund13).get();
+                    pr.createNew(fund14).get();
                /* if (syncRemote){
                     String family=null;
                     try {
@@ -337,25 +339,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView headerText = findViewById(R.id.hText);
                 headerText.setText(loggedUser);
             }
-     /*
-    Button syn=findViewById(R.id.syn);
-    syn.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        String family=null;
-        try {
-            family=uAndPVM.getFamilyByOwnerFromUsersInString(loggedUser);
-            pr.syncFundsToServer(family);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-    }
-});
-
- */
             costButton=findViewById(R.id.costButton);
             incomeButton=findViewById(R.id.incomeButton);
             movementButton=findViewById(R.id.movementButton);

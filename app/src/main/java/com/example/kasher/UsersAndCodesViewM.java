@@ -9,13 +9,13 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class UsersAndPrivilegesViewM extends AndroidViewModel {
-    private UsersAndPrivilegesRepo repo;
+public class UsersAndCodesViewM extends AndroidViewModel {
+    private UsersAndCodesRepo repo;
     private LiveData<List<Codes>> privileges;
     private LiveData<List<Users>> users;
-    public UsersAndPrivilegesViewM(@NonNull Application app){
+    public UsersAndCodesViewM(@NonNull Application app){
         super(app);
-        repo=new UsersAndPrivilegesRepo(app);
+        repo=new UsersAndCodesRepo(app);
         privileges=repo.getPrivileges();
         users=repo.getUsers();
     }

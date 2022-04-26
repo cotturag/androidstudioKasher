@@ -3,10 +3,6 @@ package com.example.kasher;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -15,22 +11,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.common.util.concurrent.ListenableFuture;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class FundsPage extends AppCompatActivity {
     private RecyclerView fundsRec;
-   // private String loggedUser="cotturag@gmail.com";
-    //private String loggedUser="kissmartina0821@gmail.com";
-   // private String loggedUser="fuldugo@fuldugo.hu";
-   // private String loggedUser ="doroszlai@gmail.com";
     private String loggedUser;
-    static TextView fundsPageLabel;
     static FundsViewM pr;
-    static TextView fundsPageLabelTwo;
     SharedPreferences pref;
 
     @Override
@@ -49,7 +37,7 @@ public class FundsPage extends AppCompatActivity {
       //  fundsPageLabelTwo=findViewById(R.id.fundspagelabeltwo);
 
 
-        UsersAndPrivilegesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndPrivilegesViewM.class);
+        UsersAndCodesViewM uAndPVM = new ViewModelProvider(this).get(UsersAndCodesViewM.class);
 
 
         String privilege= "";

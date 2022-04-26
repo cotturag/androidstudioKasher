@@ -27,10 +27,10 @@ public class FundsRepo {
     private LiveData<List<FundsForList>> actualFunds;
     private LiveData<List<FundsForList>> accounts;
     private LiveData<List<FundsForList>> costCategories;
-    private ListenableFuture<List<Funds>> all;
 
 
-    boolean onLocalNetwork=true;
+
+    boolean onLocalNetwork=false;
     String localNetwork="192.168.1.2";
     String remoteNetwork="cotturag.ddns.net";
 
@@ -41,7 +41,7 @@ public class FundsRepo {
         else actualFunds= dao.getAll(owner);
         accounts=dao.getAccounts(owner);
         costCategories=dao.getCostCategories(owner);
-        all=dao.getAll();
+
 
 
 
@@ -58,7 +58,7 @@ public class FundsRepo {
     }
     public LiveData<List<FundsForList>> getAccounts(){return this.accounts;}
     public LiveData<List<FundsForList>> getCostCategories(){return this.costCategories;}
-    public ListenableFuture<List<Funds>> getAll(){return this.all;}
+
     public List<Integer> getHookedFundById(int id) throws ExecutionException, InterruptedException {
         int hooked=dao.getHooked(id).get().intValue();
         List<Integer> idlist= new ArrayList<Integer>();
@@ -84,6 +84,13 @@ public class FundsRepo {
 
 
 
+
+
+
+
+
+
+
     public LiveData<List<FundsForList>> getActualPrivateFundsOnly(String owner){
         return dao.getPrivates(owner);
     }
@@ -99,12 +106,7 @@ public class FundsRepo {
     public void delete(Funds fund){dao.delete(fund);}
 
     public void insertRemote(Funds fund,String family) throws ExecutionException, InterruptedException {
-
-
         String operateType="insertFund";
-
-        //String family=dao.getFundFromUsersByOwnerExtendsFamily(owner).get().getFamilyInUsers();
-
         FundsForRemote fundsForRemote=new FundsForRemote(family);
         fundsForRemote.setId(fund.getId());
         fundsForRemote.setMoney(fund.getMoney());
@@ -128,10 +130,7 @@ public class FundsRepo {
     }
     public void deleteRemote(Funds fund,String family) throws ExecutionException, InterruptedException {
         String operateType="deleteFund";
-        //FundsForRemote fundsForRemote=dao.getFromUsersIdExtendsFamily(fund.getId()).get();
         FundsForRemote fundsForRemote = new FundsForRemote(family);
-
-        //fundsForRemote.setOtherOwner(fund.getOtherOwner());
         fundsForRemote.setId(fund.getId());
         fundsForRemote.setMoney(fund.getMoney());
         fundsForRemote.setOwner(fund.getOwner());
@@ -144,13 +143,13 @@ public class FundsRepo {
         new RemoteFundsForRemoteSenderAsyncTask(operateType).execute(fundsForRemote);
     }
     public void synchronizeToServer(String what,String family) throws ExecutionException, InterruptedException {
-       //  new RemoteMessageSenderAsyncTask().execute(what,family);
+         new RemoteMessageSenderAsyncTask().execute(what,family);
          copyAllFundToServer(family);
     }
     void copyAllFundToServer(String family) throws ExecutionException, InterruptedException {
-
-       for (Funds fund:this.getAll().get()){
-           insertRemote(fund,family);
+        List<Funds> allFunds=dao.getAll().get();
+        for (Funds oneFund : allFunds){
+           insertRemote(oneFund,family);
        }
 
     }

@@ -8,13 +8,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class UsersAndPrivilegesRepo {
+public class UsersAndCodesRepo {
     private CodesDao codesDao;
     private UsersDao usersDao;
     private LiveData<List<Codes>> privileges;
     private LiveData<List<Users>> users;
 
-    UsersAndPrivilegesRepo(Application app) {
+    UsersAndCodesRepo(Application app) {
         AppDatabase db = AppDatabase.getInstance(app);
         codesDao =db.privilegesDao();
         privileges= codesDao.getAll();
